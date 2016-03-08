@@ -1,0 +1,6 @@
+Create all classes with class diagrams. Including methods and propertys.
+
+Propertys and methods: Which classes store what. What methods takes and returns.
+
+Roleplay with the classes to see that everything works together.
+
