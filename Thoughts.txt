@@ -14,3 +14,4 @@ King = 10
 
 If one piece can take the king. i.e. 10 points. And the opposing player can't move the game is over.
 
+2D array of pieces.
