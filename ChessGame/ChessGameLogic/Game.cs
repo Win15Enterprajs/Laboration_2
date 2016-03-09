@@ -10,5 +10,10 @@ namespace ChessGameLogic
     public class Game
     {
         Dictionary<Point, Pieces> Gameboard = new Dictionary<Point, Pieces>();
+
+        public Game()
+        {
+
+        }
     }
 }
