@@ -41,8 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
-    <Compile Include="Packages\Move.cs" />
-    <Compile Include="Packages\Point.cs" />
+    <Compile Include="PackageClasses\Move.cs" />
+    <Compile Include="PackageClasses\Point.cs" />
     <Compile Include="Pieces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
