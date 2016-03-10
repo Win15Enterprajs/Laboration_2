@@ -7,9 +7,9 @@ using ChessGameLogic.Packages;
 
 namespace ChessGameLogic
 {
-    public class Game
+     class Game
     {
-        Dictionary<Point, Pieces> Gameboard = new Dictionary<Point, Pieces>();
+       Dictionary<Point, Pieces> Gameboard = new Dictionary<Point, Pieces>();
 
         public Game()
         {
