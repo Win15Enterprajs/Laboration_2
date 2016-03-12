@@ -9,35 +9,20 @@ namespace ChessGameLogic
 {
     abstract class Pieces
     {
-        public double _PieceValue { get; set; }
-        public Point _CurrentPosition { get; set; }
-        public Move _BestPossibleMove { get; set; }
-        public List<Move> ListOfPossibleMoves;
+        public double Value { get; set; }
+        public string Color { get; set; }
+        public Point CurrentPosition { get; set; }
+        public List<Move> ListOfMoves;
 
-        public Pieces(double PieceValue, Point CurrentPosition)
+        public Pieces(string color, Point CurrentPosition)
         {
-            _PieceValue = PieceValue;
-            _CurrentPosition = CurrentPosition;
+            this.Color = color;
+            this.CurrentPosition = CurrentPosition;
         }
 
-        public virtual void CalculateMove()
+        public List<Move> ReturnMoveList()
         {
-
+            return ListOfMoves;
         }
-
-        private void WithinBoard()
-        {
-
-        }
-        private void Encounter()
-        {
-
-        }
-        private void ValidMoves()
-        {
-
-        }
-
-
     }
 }
