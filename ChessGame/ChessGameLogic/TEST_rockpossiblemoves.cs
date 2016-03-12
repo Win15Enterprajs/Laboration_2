@@ -133,7 +133,7 @@ namespace ChessGameLogic
                 }
 
             }
-            possibleMoves = templist; //replaces the old or empty list with the new list with all possible moves the the rock.
+            possibleMoves = templist; //replaces the old or empty list with the new list with all possible moves the rock can do this turn.
         }
     }
 }
