@@ -38,6 +38,24 @@ namespace ChessGameLogic
         }
         private void PawnMovement(Pieces pawn)
         {
+            var positionX = pawn.CurrentPosition._PosX;
+            var positionY = pawn.CurrentPosition._PosY;
+            List<Point> possibleMoves = new List<Point>();
+
+            int direction = 1;
+
+            if (pawn.Color == "BLACK")
+                direction = -1;
+
+            if(positionX > 0 && positionY > 0 && positionX < 7 && positionY < 7)
+            {
+
+
+            }
+
+
+
+
         }
         private void RookMovement(Pieces rook)
         {
