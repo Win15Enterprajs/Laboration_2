@@ -102,7 +102,7 @@ namespace ChessGameLogic
             List<Move> kingMoveList = new List<Move>();
             kingMoveList.Add(new Move((x), (y + 1), 0));
             kingMoveList.Add(new Move((x + 1), (y + 1), 0));
-            kingMoveList.Add(new Move((x + 1, (y), 0));
+            kingMoveList.Add(new Move((x + 1), (y), 0));
             kingMoveList.Add(new Move((x + 1), (y - 1), 0));
             kingMoveList.Add(new Move((x - 1), (y - 1), 0));
             kingMoveList.Add(new Move((x), (y - 1), 0));
@@ -176,7 +176,7 @@ namespace ChessGameLogic
             while (posx != 0 || posy != 0)
             {
 
-                for (int y = positionY + direction; y >= 0; y += direction)
+                for (int y = positionY; y >= 0; y += direction)
 
                 {
                     if (EncounterEnemy(posx, y))
