@@ -12,6 +12,9 @@ namespace ConsoleGUI
         static void Main(string[] args)
         {
             Game Chess = new Game();
+            Draw DD = new Draw();
+
+            DD.PrintGameBoard(Chess);
         }
     }
 }

@@ -7,7 +7,7 @@ using ChessGameLogic.Packages;
 
 namespace ChessGameLogic
 {
-    abstract class Pieces
+    public abstract class Pieces
     {
         public double Value { get; set; }
         public string Color { get; set; }

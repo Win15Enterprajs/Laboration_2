@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChessGameLogic.Packages
 {
-    class Point
+    public class Point
     {
         public int _PosX { get; set; }
         public int _PosY { get; set; }
