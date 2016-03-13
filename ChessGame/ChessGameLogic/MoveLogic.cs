@@ -10,8 +10,10 @@ namespace ChessGameLogic
     class MoveLogic
     {
         private List<Move> templist = new List<Move>();
-        public void ReturnMovementList(Pieces piece)
+        public List<Move> ReturnMovementList(Pieces piece)
         {
+            templist.Clear();
+
             if (piece is Pawn)
                 PawnMovement(piece);
 
@@ -29,8 +31,9 @@ namespace ChessGameLogic
 
             else if (piece is Bishop)
                 BishopMovement(piece);
-            else 
-                // something went horribly wrong
+
+            return templist;
+                
 
         }
         private void PawnMovement(Pieces pawn)
