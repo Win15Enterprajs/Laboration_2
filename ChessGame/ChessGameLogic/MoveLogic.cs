@@ -73,12 +73,37 @@ namespace ChessGameLogic
         }
         private void KingMovement(Pieces king)
         {
+            var x = king.CurrentPosition._PosX;
+            var y = king.CurrentPosition._PosY;
+            List<Move> kingMoveList = new List<Move>();
+            kingMoveList.Add(new Move((x), (y + 1), 0));
+            kingMoveList.Add(new Move((x + 1), (y + 1), 0));
+            kingMoveList.Add(new Move((x + 1, (y), 0));
+            kingMoveList.Add(new Move((x + 1), (y - 1), 0));
+            kingMoveList.Add(new Move((x - 1), (y - 1), 0));
+            kingMoveList.Add(new Move((x), (y - 1), 0));
+            kingMoveList.Add(new Move((x - 1), (y - 1), 0));
+            kingMoveList.Add(new Move((x - 1), (y), 0));
+            kingMoveList.Add(new Move((x - 1), (y + 1), 0));
 
+            foreach (var item in kingMoveList)
+            {
+                if (item.endPositions._PosX > 7 || item.endPositions._PosX < 0)
+                    kingMoveList.Remove(item);
+                else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
+                    kingMoveList.Remove(item);
+                else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY))
+                    kingMoveList.Remove(item);
+            }
+            foreach (var item in kingMoveList)
+            {
+                templist.Add(item);
+            }
         }
         private void HorseMovement(Pieces horse)
         {
-            var y = horse.CurrentPosition._PosY;
             var x = horse.CurrentPosition._PosX;
+            var y = horse.CurrentPosition._PosY;
             List<Move> horseMoveList = new List<Move>();
             horseMoveList.Add(new Move((x + 1),(y + 2), 0));
             horseMoveList.Add(new Move((x - 1), (y + 2), 0));
