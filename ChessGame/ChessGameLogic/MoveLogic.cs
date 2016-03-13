@@ -59,15 +59,17 @@ namespace ChessGameLogic
         }
         private void HorseMovement(Pieces horse)
         {
+            var y = horse.CurrentPosition._PosY;
+            var x = horse.CurrentPosition._PosX;
             List<Move> temporaryMoveList = new List<Move>();
-            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX + 1, y + 2), 0);
-            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX - 1, y + 2), 0);
-            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX + 2, y + 1), 0);
-            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX + 2, y - 2), 0);
-            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX + 1, y - 2), 0);
-            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX - 1, y - 2), 0);
-            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX - 2, y - 1), 0);
-            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX - 2, y + 1), 0);
+            temporaryMoveList.Add(new Move((x + 1),(y + 2), 0));
+            temporaryMoveList.Add(new Move((x - 1), (y + 2), 0));
+            temporaryMoveList.Add(new Move((x + 2), (y + 1), 0));
+            temporaryMoveList.Add(new Move((x + 2), (y - 2), 0));
+            temporaryMoveList.Add(new Move((x + 1), (y - 2), 0));
+            temporaryMoveList.Add(new Move((x - 1), (y - 2), 0));
+            temporaryMoveList.Add(new Move((x - 2), (y - 1), 0));
+            temporaryMoveList.Add(new Move((x - 2), (y + 1), 0));
 
             foreach (var item in temporaryMoveList)
             {
