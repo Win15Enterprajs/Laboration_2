@@ -8,5 +8,9 @@ namespace ChessGameLogic
 {
     class AI
     {
+        public List<Move> GiveValuetoMoves()
+        {
+
+        }
     }
 }

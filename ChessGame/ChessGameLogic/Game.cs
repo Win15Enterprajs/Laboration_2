@@ -15,5 +15,9 @@ namespace ChessGameLogic
         {
 
         }
+        private void MakeTurn()
+        {
+
+        }
     }
 }
