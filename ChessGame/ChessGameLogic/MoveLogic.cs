@@ -10,26 +10,36 @@ namespace ChessGameLogic
     class MoveLogic
     {
         private List<Move> templist = new List<Move>();
-        public void ReturnMovementList(Pieces piece)
+        public List<Move> ReturnMovementList(Pieces piece)
         {
+            templist.Clear();
+
             if (piece is Pawn)
                 PawnMovement(piece);
-            if (piece is Rook)
+
+            else if (piece is Rook)
                 RookMovement(piece);
-            if (piece is Queen)
+
+            else if (piece is Queen)
                 QueenMovement(piece);
-            if (piece is King)
+
+            else if (piece is King)
                 KingMovement(piece);
-            if (piece is Horse)
+
+            else if (piece is Horse)
                 HorseMovement(piece);
-            if (piece is Bishop)
+
+            else if (piece is Bishop)
                 BishopMovement(piece);
 
+            return templist;
+                
+
         }
-        public void PawnMovement(Pieces pawn)
+        private void PawnMovement(Pieces pawn)
         {
         }
-        public void RookMovement(Pieces rook)
+        private void RookMovement(Pieces rook)
         {
         
             templist.AddRange(AddHorizontalMove(rook));
@@ -38,19 +48,19 @@ namespace ChessGameLogic
             rook.ListOfMoves = templist;
 
         }
-        public void QueenMovement(Pieces queen)
+        private void QueenMovement(Pieces queen)
         {
 
         }
-        public void KingMovement(Pieces king)
+        private void KingMovement(Pieces king)
         {
 
         }
-        public void HorseMovement(Pieces horse)
+        private void HorseMovement(Pieces horse)
         {
 
         }
-        public void BishopMovement(Pieces bishop)
+        private void BishopMovement(Pieces bishop)
         {
 
         }
