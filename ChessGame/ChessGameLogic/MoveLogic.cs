@@ -14,39 +14,46 @@ namespace ChessGameLogic
         {
             if (piece is Pawn)
                 PawnMovement(piece);
-            if (piece is Rook)
+
+            else if (piece is Rook)
                 RookMovement(piece);
-            if (piece is Queen)
+
+            else if (piece is Queen)
                 QueenMovement(piece);
-            if (piece is King)
+
+            else if (piece is King)
                 KingMovement(piece);
-            if (piece is Horse)
+
+            else if (piece is Horse)
                 HorseMovement(piece);
-            if (piece is Bishop)
+
+            else if (piece is Bishop)
                 BishopMovement(piece);
+            else 
+                // something went horribly wrong
 
         }
-        public void PawnMovement(Pieces pawn)
+        private void PawnMovement(Pieces pawn)
         {
 
         }
-        public void RookMovement(Pieces rook)
+        private void RookMovement(Pieces rook)
         {
 
         }
-        public void QueenMovement(Pieces queen)
+        private void QueenMovement(Pieces queen)
         {
 
         }
-        public void KingMovement(Pieces king)
+        private void KingMovement(Pieces king)
         {
 
         }
-        public void HorseMovement(Pieces horse)
+        private void HorseMovement(Pieces horse)
         {
 
         }
-        public void BishopMovement(Pieces bishop)
+        private void BishopMovement(Pieces bishop)
         {
 
         }
