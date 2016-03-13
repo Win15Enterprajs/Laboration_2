@@ -47,8 +47,11 @@ namespace ChessGameLogic
             if (pawn.Color == "BLACK")
                 direction = -1;
 
-            if(positionX > 0 && positionY > 0 && positionX < 7 && positionY < 7)
+
+
+            if(positionX > 0 && positionY > 0 && positionX < 7 && positionY < 7)  // adds possible move patterns to a list.
             {
+
                 possibleMoves.Add(new Point(positionX, (positionY + direction)));
                 possibleMoves.Add(new Point((positionX - 1), (positionY + direction)));
                 possibleMoves.Add(new Point((positionX + 1), (positionY + direction)));
@@ -60,16 +63,16 @@ namespace ChessGameLogic
 
             }
 
-            foreach(var possibleMove in possibleMoves)
+            foreach(var possibleMove in possibleMoves)   // Logic for if the move is valid.
             {
                 int posX = possibleMove._PosX;
                 int posY = possibleMove._PosY;
 
-                if(positionX != posX && EncounterEnemy(posX, posY))
+                if(posX != positionX && EncounterEnemy(posX, posY))
                 {
                     templist.Add(new Move(possibleMove, 0));
                 }
-                if(positionX == possibleMove._PosX && !EncounterAlly(posX, posY))
+                if(posX == positionX && !EncounterAlly(posX, posY))
                 {
                     templist.Add(new Move(possibleMove, 0));
                 }
