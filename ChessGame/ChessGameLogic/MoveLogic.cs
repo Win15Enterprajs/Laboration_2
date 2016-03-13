@@ -41,11 +41,12 @@ namespace ChessGameLogic
         }
         private void RookMovement(Pieces rook)
         {
-        
-            templist.AddRange(AddHorizontalMove(rook));
-            templist.AddRange(AddVerticalMove(rook));
+            var tempMoveList = new List<Move>();
 
-            rook.ListOfMoves = templist;
+            tempMoveList.AddRange(AddHorizontalMove(rook));
+            tempMoveList.AddRange(AddVerticalMove(rook));
+
+            rook.ListOfMoves = tempMoveList;
 
         }
         private void QueenMovement(Pieces queen)
@@ -74,25 +75,20 @@ namespace ChessGameLogic
                     temporaryMoveList.Remove(item);
                 else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
                     temporaryMoveList.Remove(item);
-                else if (EncounterAlly())
+                else if (EncounterAlly(item.endPositions._PosX,item.endPositions._PosY))
                     temporaryMoveList.Remove(item);
+            }
+            foreach (var item in temporaryMoveList)
+            {
+                templist.Add(item);
             }
         }
         private void BishopMovement(Pieces bishop)
         {
 
         }
-        private void AddDiagonalMove(Pieces piece)
+        private void AddDiagonalMove()
         {
-
-            var positionY = piece.CurrentPosition._PosY;
-            var positionX = piece.CurrentPosition._PosX;
-
-            for (int y = positionY; y >= 0; y++)
-            {
-                
-            }
-
 
         }
         private List<Move> AddHorizontalMove(Pieces piece)
@@ -103,15 +99,15 @@ namespace ChessGameLogic
             int direction = 1;
             List<Move> horizontalMoves = new List<Move>();
 
-            for (int x = positionX+1; x >= 0; x += direction)
+            for (int x = positionX; x >= 0; x += direction)
             {
                 if (EncounterEnemy(positionY, x))
                 {
-                    horizontalMoves.Add(new Move(x, positionY, 0));
+                    horizontalMoves.Add(new Move(positionY, x, 0));
 
                     if (x >= positionX)
                     {
-                        x = positionX-1;
+                        x = positionX;
                         direction = -1;
                     }
                     else
@@ -122,7 +118,7 @@ namespace ChessGameLogic
                 {
                     if (x >= positionX)
                     {
-                        x = positionX-1;
+                        x = positionX;
                         direction = -1;
                     }
                     else
@@ -131,14 +127,14 @@ namespace ChessGameLogic
 
                 else if (x == 7)
                 {
-                    horizontalMoves.Add(new Move(x, positionY, 0));
-                    x = positionX-1;
+                    horizontalMoves.Add(new Move(positionY, x, 0));
+                    x = positionX;
                     direction = -1;
                 }
 
                 else
                 {
-                    horizontalMoves.Add(new Move(x, positionY, 0));
+                    horizontalMoves.Add(new Move(x, positionX, 0));
                 }
 
             }
@@ -153,7 +149,7 @@ namespace ChessGameLogic
 
             int direction = 1;
 
-            for (int y = positionY+1; y >= 0; y += direction)
+            for (int y = positionY; y >= 0; y += direction)
             {
                 if (EncounterEnemy(y, positionX))
                 {
@@ -161,18 +157,18 @@ namespace ChessGameLogic
 
                     if (y >= positionY)
                     {
-                        y = positionY-1;
+                        y = positionY;
                         direction = -1;
                     }
                     else
                         break;
                 }
                 else if (EncounterAlly(y, positionX))
-               
+                {
 
                     if (y >= positionY)
                     {
-                        y = positionY-1;
+                        y = positionY;
                         direction = -1;
                     }
                     else
@@ -182,7 +178,7 @@ namespace ChessGameLogic
                 else if (y == 7)
                 {
                     verticalMoves.Add(new Move(positionX, y, 0));
-                    y = positionY-1;
+                    y = positionY;
                     direction = -1;
                 }
 
@@ -195,8 +191,6 @@ namespace ChessGameLogic
             return verticalMoves;
         }
 
-       
-
         public bool EncounterEnemy(int y, int x)
         {
             // logik goes here
@@ -208,4 +202,4 @@ namespace ChessGameLogic
             return false;
         }
     }
-
+}
