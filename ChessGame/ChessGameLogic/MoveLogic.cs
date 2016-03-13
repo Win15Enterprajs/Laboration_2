@@ -79,26 +79,26 @@ namespace ChessGameLogic
         {
             var y = horse.CurrentPosition._PosY;
             var x = horse.CurrentPosition._PosX;
-            List<Move> temporaryMoveList = new List<Move>();
-            temporaryMoveList.Add(new Move((x + 1),(y + 2), 0));
-            temporaryMoveList.Add(new Move((x - 1), (y + 2), 0));
-            temporaryMoveList.Add(new Move((x + 2), (y + 1), 0));
-            temporaryMoveList.Add(new Move((x + 2), (y - 2), 0));
-            temporaryMoveList.Add(new Move((x + 1), (y - 2), 0));
-            temporaryMoveList.Add(new Move((x - 1), (y - 2), 0));
-            temporaryMoveList.Add(new Move((x - 2), (y - 1), 0));
-            temporaryMoveList.Add(new Move((x - 2), (y + 1), 0));
+            List<Move> horseMoveList = new List<Move>();
+            horseMoveList.Add(new Move((x + 1),(y + 2), 0));
+            horseMoveList.Add(new Move((x - 1), (y + 2), 0));
+            horseMoveList.Add(new Move((x + 2), (y + 1), 0));
+            horseMoveList.Add(new Move((x + 2), (y - 2), 0));
+            horseMoveList.Add(new Move((x + 1), (y - 2), 0));
+            horseMoveList.Add(new Move((x - 1), (y - 2), 0));
+            horseMoveList.Add(new Move((x - 2), (y - 1), 0));
+            horseMoveList.Add(new Move((x - 2), (y + 1), 0));
 
-            foreach (var item in temporaryMoveList)
+            foreach (var item in horseMoveList)
             {
                 if (item.endPositions._PosX > 7 || item.endPositions._PosX < 0)
-                    temporaryMoveList.Remove(item);
+                    horseMoveList.Remove(item);
                 else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
-                    temporaryMoveList.Remove(item);
+                    horseMoveList.Remove(item);
                 else if (EncounterAlly(item.endPositions._PosX,item.endPositions._PosY))
-                    temporaryMoveList.Remove(item);
+                    horseMoveList.Remove(item);
             }
-            foreach (var item in temporaryMoveList)
+            foreach (var item in horseMoveList)
             {
                 templist.Add(item);
             }
