@@ -92,7 +92,11 @@ namespace ChessGameLogic
 
         private void QueenMovement(Pieces queen)
         {
+            templist.AddRange(AddHorizontalMove(queen));
+            templist.AddRange(AddVerticalMove(queen));
+            templist.AddRange(AddDiagonalMove(queen));
 
+            queen.ListOfMoves = templist;
         }
 
         private void KingMovement(Pieces king)
@@ -159,7 +163,7 @@ namespace ChessGameLogic
 
         }
 
-        private List<Move> AddDiagonalMove(Pieces piece)
+        private List<Move> AddDiagonalMove_zero_zero(Pieces piece)
         {
             var positionY = piece.CurrentPosition._PosY;
             var positionX = piece.CurrentPosition._PosX;
@@ -228,9 +232,6 @@ namespace ChessGameLogic
             }
             return diagonalMoves;
         }
-
-
-
         private List<Move> AddHorizontalMove(Pieces piece)
         {
             var positionY = piece.CurrentPosition._PosY;
