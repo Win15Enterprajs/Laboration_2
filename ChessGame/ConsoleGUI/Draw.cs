@@ -9,7 +9,7 @@ namespace ConsoleGUI
 {
     class Draw
     {
-        public void PrintGameBoard(Game game )
+        public void PrintGameBoard(Game game)
         {
             int startPosX = 8;
             int startPosY = 8;

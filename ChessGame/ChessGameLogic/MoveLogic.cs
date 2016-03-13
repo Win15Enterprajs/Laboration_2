@@ -47,22 +47,30 @@ namespace ChessGameLogic
             int direction = 1;
 
             if (pawn.Color == "BLACK")
-                direction = -1;
-
-            if (positionX > 0 && positionY > 0 && positionX < 7 && positionY < 7)
             {
-                possibleMoves.Add(new Point(positionX, (positionY + direction)));
-                possibleMoves.Add(new Point((positionX - 1), (positionY + direction)));
-                possibleMoves.Add(new Point((positionX + 1), (positionY + direction)));
-
-                if(pawn.hasBeenMoved == false)
-                {
-                    possibleMoves.Add(new Point((positionX - 1), (positionY + direction + 1)));
-                }
-
+                direction = -1;
             }
 
-            foreach(var possibleMove in possibleMoves)
+            if ((positionY + direction) < 7 && (positionY + direction) > 0)
+            {
+                possibleMoves.Add(new Point(positionX, (positionY + direction)));
+            }
+            if ((positionX - 1) >= 0 && EncounterEnemy((positionX - 1), (positionY + direction)))
+            {
+                possibleMoves.Add(new Point((positionX - 1), (positionY + direction)));
+            }
+            if ((positionX + 1) <= 7 && EncounterEnemy((positionX - 1), (positionY + direction)))
+            {
+                possibleMoves.Add(new Point((positionX + 1), (positionY + direction)));
+            }
+
+            if (pawn.hasBeenMoved == false)
+            {
+                possibleMoves.Add(new Point((positionX - 1), (positionY + direction + 1)));
+            }
+
+
+            foreach(var possibleMove in possibleMoves)  /// ev. integrera detta i if satserna ovanför.
             {
                 int posX = possibleMove._PosX;
                 int posY = possibleMove._PosY;
