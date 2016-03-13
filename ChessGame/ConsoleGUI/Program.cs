@@ -11,6 +11,7 @@ namespace ConsoleGUI
     {
         static void Main(string[] args)
         {
+            Game Chess = new Game();
         }
     }
 }

@@ -9,7 +9,9 @@ namespace ChessGameLogic
 {
      public class Game
     {
-       Dictionary<Point, Pieces> Gameboard = new Dictionary<Point, Pieces>();
+        Dictionary<Point, Pieces> Gameboard = new Dictionary<Point, Pieces>();
+        Player Player1;
+        Player Player2; 
 
         public Game()
         {
