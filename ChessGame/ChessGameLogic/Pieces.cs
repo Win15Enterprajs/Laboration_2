@@ -29,7 +29,28 @@ namespace ChessGameLogic
         {
 
         }
-        private void Encounter()
+        private void Encounter(Point position, List<moves> moves, List<Board> gameplan)
+        {
+            int x = 0;
+            int y = 0;
+            foreach (var Point in moves)
+            {
+                if (moves.Point == Occupied)
+                {
+                    x = position._PosX - moves.point.x;
+                    y = position._PosY - moves.point.y;
+                    foreach (var item in collection)
+                    {
+                        if (x == 0 && y > 0)
+                        {
+
+                        }
+                    }
+                        
+                }
+            }
+        }
+        private bool Occupied()
         {
 
         }
