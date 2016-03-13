@@ -18,8 +18,14 @@ namespace ChessGameLogic
         {
 
         }
-        public void RookMovement()
+        public void RookMovement(Pieces rook)
         {
+            var tempMoveList = new List<Move>();
+
+            tempMoveList.AddRange(AddHorizontalMove(rook));
+            tempMoveList.AddRange(AddVerticalMove(rook));
+
+            rook.ListOfMoves = tempMoveList;
 
         }
         public void QueenMovement()
@@ -42,9 +48,54 @@ namespace ChessGameLogic
         {
 
         }
-        private void AddHorizontalMove()
+        private List<Move> AddHorizontalMove(Pieces piece)
         {
+            var positionY = piece.CurrentPosition._PosY;
+            var positionX = piece.CurrentPosition._PosX;
 
+            int direction = 1;
+            List<Move> horizontalMoves = new List<Move>();
+
+            for (int x = positionX; x >= 0; x += direction)
+            {
+                if (EncounterEnemy(positionY, x))
+                {
+                    horizontalMoves.Add(new Move(positionY, x, 0));
+
+                    if (x >= positionX)
+                    {
+                        x = positionX;
+                        direction = -1;
+                    }
+                    else
+                        break;
+                }
+
+                else if (EncounterAlly(positionY, x))
+                {
+                    if (x >= positionX)
+                    {
+                        x = positionX;
+                        direction = -1;
+                    }
+                    else
+                        break;
+                }
+
+                else if (x == 7)
+                {
+                    horizontalMoves.Add(new Move(positionY, x, 0));
+                    x = positionX;
+                    direction = -1;
+                }
+
+                else
+                {
+                    horizontalMoves.Add(new Move(x, positionX, 0));
+                }
+
+            }
+            return horizontalMoves;
         }
         private List<Move> AddVerticalMove(Pieces piece)
         {
