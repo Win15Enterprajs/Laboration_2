@@ -9,7 +9,12 @@ namespace ChessGameLogic
 {
     class MoveLogic
     {
-        public void PawnMovement()
+        public void ReturnMovementList(Pieces piece)
+        {
+            if (piece == Pawn)
+                PawnMovement(piece);
+        }
+        public void PawnMovement(Pawn pawn)
         {
 
         }
