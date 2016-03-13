@@ -164,19 +164,20 @@ namespace ChessGameLogic
             var positionY = piece.CurrentPosition._PosY;
             var positionX = piece.CurrentPosition._PosX;
 
-            var posx = positionX + 1;
-            var posy = positionY + 1;
+            var posx = positionX+1;
+            var posy = positionY;
 
 
             List<Move> diagonalMoves = new List<Move>();
 
             var direction = 1;
+            var end = 7;
 
 
             while (posx != 0 || posy != 0)
             {
 
-                for (int y = positionY; y >= 0; y += direction)
+                for (int y = positionY + direction; y >= end; y += direction)
 
                 {
                     if (EncounterEnemy(posx, y))
@@ -211,6 +212,7 @@ namespace ChessGameLogic
                         y = positionY - 1;
                         posx = positionX - 1;
                         direction = -1;
+                        end = 0;
                     }
 
                     else
@@ -221,7 +223,8 @@ namespace ChessGameLogic
                     posy = y;
                 }
                 
-               
+
+
             }
             return diagonalMoves;
         }
