@@ -7,9 +7,10 @@ using ChessGameLogic.Packages;
 
 namespace ChessGameLogic
 {
-    class MoveLogic
+    internal class MoveLogic
     {
         private List<Move> templist = new List<Move>();
+
         public List<Move> ReturnMovementList(Pieces piece)
         {
             templist.Clear();
@@ -33,9 +34,10 @@ namespace ChessGameLogic
                 BishopMovement(piece);
 
             return templist;
-                
+
 
         }
+
         private void PawnMovement(Pieces pawn)
         {
             var positionX = pawn.CurrentPosition._PosX;
@@ -47,7 +49,7 @@ namespace ChessGameLogic
             if (pawn.Color == "BLACK")
                 direction = -1;
 
-            if(positionX > 0 && positionY > 0 && positionX < 7 && positionY < 7)
+            if (positionX > 0 && positionY > 0 && positionX < 7 && positionY < 7)
             {
                 possibleMoves.Add(new Point(positionX, (positionY + direction)));
                 possibleMoves.Add(new Point((positionX - 1), (positionY + direction)));
@@ -79,20 +81,24 @@ namespace ChessGameLogic
 
 
         }
+
         private void RookMovement(Pieces rook)
         {
-            var tempMoveList = new List<Move>();
+            templist.AddRange(AddHorizontalMove(rook));
+            templist.AddRange(AddVerticalMove(rook));
 
-            tempMoveList.AddRange(AddHorizontalMove(rook));
-            tempMoveList.AddRange(AddVerticalMove(rook));
-
-            rook.ListOfMoves = tempMoveList;
-
+            rook.ListOfMoves = templist;
         }
+
         private void QueenMovement(Pieces queen)
         {
+            templist.AddRange(AddHorizontalMove(queen));
+            templist.AddRange(AddVerticalMove(queen));
+            templist.AddRange(AddDiagonalMove(queen));
 
+            queen.ListOfMoves = templist;
         }
+
         private void KingMovement(Pieces king)
         {
             var x = king.CurrentPosition._PosX;
@@ -100,7 +106,7 @@ namespace ChessGameLogic
             List<Move> kingMoveList = new List<Move>();
             kingMoveList.Add(new Move((x), (y + 1), 0));
             kingMoveList.Add(new Move((x + 1), (y + 1), 0));
-            kingMoveList.Add(new Move((x + 1, (y), 0));
+            kingMoveList.Add(new Move((x + 1), (y), 0));
             kingMoveList.Add(new Move((x + 1), (y - 1), 0));
             kingMoveList.Add(new Move((x - 1), (y - 1), 0));
             kingMoveList.Add(new Move((x), (y - 1), 0));
@@ -122,12 +128,13 @@ namespace ChessGameLogic
                 templist.Add(item);
             }
         }
+
         private void HorseMovement(Pieces horse)
         {
             var x = horse.CurrentPosition._PosX;
             var y = horse.CurrentPosition._PosY;
             List<Move> horseMoveList = new List<Move>();
-            horseMoveList.Add(new Move((x + 1),(y + 2), 0));
+            horseMoveList.Add(new Move((x + 1), (y + 2), 0));
             horseMoveList.Add(new Move((x - 1), (y + 2), 0));
             horseMoveList.Add(new Move((x + 2), (y + 1), 0));
             horseMoveList.Add(new Move((x + 2), (y - 2), 0));
@@ -142,7 +149,7 @@ namespace ChessGameLogic
                     horseMoveList.Remove(item);
                 else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
                     horseMoveList.Remove(item);
-                else if (EncounterAlly(item.endPositions._PosX,item.endPositions._PosY))
+                else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY))
                     horseMoveList.Remove(item);
             }
             foreach (var item in horseMoveList)
@@ -150,16 +157,80 @@ namespace ChessGameLogic
                 templist.Add(item);
             }
         }
+
         private void BishopMovement(Pieces bishop)
         {
 
         }
-        private void AddDiagonalMove()
+
+        private List<Move> AddDiagonalMove_zero_zero(Pieces piece)
         {
+            var positionY = piece.CurrentPosition._PosY;
+            var positionX = piece.CurrentPosition._PosX;
+
+            var posx = positionX+1;
+            var posy = positionY;
 
 
+            List<Move> diagonalMoves = new List<Move>();
+
+            var direction = 1;
+            var end = 7;
 
 
+            while (posx != 0 || posy != 0)
+            {
+
+                for (int y = positionY + direction; y >= end; y += direction)
+
+                {
+                    if (EncounterEnemy(posx, y))
+                    {
+                        diagonalMoves.Add(new Move(posx, y, 0));
+
+                        if (y >= positionY)
+                        {
+                            y = positionY - 1;
+                            posx = positionX - 1;
+                            direction = -1;
+                        }
+                        else
+                            break;
+                    }
+
+                    else if (EncounterAlly(posx, y))
+                    {
+                        if (y >= positionY)
+                        {
+                            y = positionY - 1;
+                            posx = positionX - 1;
+                            direction = -1;
+                        }
+                        else
+                            break;
+                    }
+
+                    else if (y == 7 || posx == 7)
+                    {
+                        diagonalMoves.Add(new Move(posx, y, 0));
+                        y = positionY - 1;
+                        posx = positionX - 1;
+                        direction = -1;
+                        end = 0;
+                    }
+
+                    else
+                    {
+                        diagonalMoves.Add(new Move(posx, positionX, 0));
+                    }
+                    posx += direction;
+                    posy = y;
+                }
+                
+
+
+            }
+            return diagonalMoves;
         }
         private List<Move> AddHorizontalMove(Pieces piece)
         {
