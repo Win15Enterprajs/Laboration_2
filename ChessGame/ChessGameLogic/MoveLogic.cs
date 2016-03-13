@@ -49,8 +49,30 @@ namespace ChessGameLogic
 
             if(positionX > 0 && positionY > 0 && positionX < 7 && positionY < 7)
             {
+                possibleMoves.Add(new Point(positionX, (positionY + direction)));
+                possibleMoves.Add(new Point((positionX - 1), (positionY + direction)));
+                possibleMoves.Add(new Point((positionX + 1), (positionY + direction)));
 
+                if(pawn.hasBeenMoved == false)
+                {
+                    possibleMoves.Add(new Point((positionX - 1), (positionY + direction + 1)));
+                }
 
+            }
+
+            foreach(var possibleMove in possibleMoves)
+            {
+                int posX = possibleMove._PosX;
+                int posY = possibleMove._PosY;
+
+                if(positionX != posX && EncounterEnemy(posX, posY))
+                {
+                    templist.Add(new Move(possibleMove, 0));
+                }
+                if(positionX == possibleMove._PosX && !EncounterAlly(posX, posY))
+                {
+                    templist.Add(new Move(possibleMove, 0));
+                }
             }
 
 
@@ -135,6 +157,9 @@ namespace ChessGameLogic
         private void AddDiagonalMove()
         {
 
+
+
+
         }
         private List<Move> AddHorizontalMove(Pieces piece)
         {
@@ -146,24 +171,24 @@ namespace ChessGameLogic
 
             for (int x = positionX; x >= 0; x += direction)
             {
-                if (EncounterEnemy(positionY, x))
+                if (EncounterEnemy(x, positionY))
                 {
-                    horizontalMoves.Add(new Move(positionY, x, 0));
+                    horizontalMoves.Add(new Move(x, positionY, 0));
 
                     if (x >= positionX)
                     {
-                        x = positionX;
+                        x = positionX-1;
                         direction = -1;
                     }
                     else
                         break;
                 }
 
-                else if (EncounterAlly(positionY, x))
+                else if (EncounterAlly(x, positionY))
                 {
                     if (x >= positionX)
                     {
-                        x = positionX;
+                        x = positionX-1;
                         direction = -1;
                     }
                     else
@@ -172,8 +197,8 @@ namespace ChessGameLogic
 
                 else if (x == 7)
                 {
-                    horizontalMoves.Add(new Move(positionY, x, 0));
-                    x = positionX;
+                    horizontalMoves.Add(new Move(x, positionY, 0));
+                    x = positionX-1;
                     direction = -1;
                 }
 
@@ -194,26 +219,26 @@ namespace ChessGameLogic
 
             int direction = 1;
 
-            for (int y = positionY; y >= 0; y += direction)
+            for (int y = positionY+1; y >= 0; y += direction)
             {
-                if (EncounterEnemy(y, positionX))
+                if (EncounterEnemy(positionX, y))
                 {
                     verticalMoves.Add(new Move(positionX, y, 0));
 
                     if (y >= positionY)
                     {
-                        y = positionY;
+                        y = positionY-1;
                         direction = -1;
                     }
                     else
                         break;
                 }
-                else if (EncounterAlly(y, positionX))
+                else if (EncounterAlly(positionX, y))
                 {
 
                     if (y >= positionY)
                     {
-                        y = positionY;
+                        y = positionY-1;
                         direction = -1;
                     }
                     else
@@ -223,7 +248,7 @@ namespace ChessGameLogic
                 else if (y == 7)
                 {
                     verticalMoves.Add(new Move(positionX, y, 0));
-                    y = positionY;
+                    y = positionY-1;
                     direction = -1;
                 }
 
