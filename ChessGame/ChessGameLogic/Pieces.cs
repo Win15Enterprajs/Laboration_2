@@ -14,6 +14,7 @@ namespace ChessGameLogic
         public Point CurrentPosition { get; set; }
         public List<Move> ListOfMoves;
         public bool hasBeenMoved = false;
+        public ChessPieceSymbol PieceType;
 
         public Pieces(string color, Point CurrentPosition)
         {
