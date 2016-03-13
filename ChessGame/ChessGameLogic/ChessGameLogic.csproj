@@ -40,13 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Kevinshittepåklass.cs" />
     <Compile Include="PackageClasses\Move.cs" />
     <Compile Include="PackageClasses\Point.cs" />
     <Compile Include="Pieces.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TEST_rockpossiblemoves.cs" />
+    <Compile Include="TestClasses\TEST_rockpossiblemoves.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
