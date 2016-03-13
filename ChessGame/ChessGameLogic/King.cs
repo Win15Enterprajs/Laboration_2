@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessGameLogic.Packages;
 
 namespace ChessGameLogic
 {
-    class King
+    class King : Pieces
     {
+        public King(string color, Point CurrentPosition): base ( color, CurrentPosition)
+        {
+
+        }
     }
 }
