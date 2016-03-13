@@ -10,23 +10,33 @@ namespace ChessGameLogic
     class MoveLogic
     {
         private List<Move> templist = new List<Move>();
-        public void ReturnMovementList(Pieces piece)
+        public List<Move> ReturnMovementList(Pieces piece)
         {
+            templist.Clear();
+
             if (piece is Pawn)
                 PawnMovement(piece);
-            if (piece is Rook)
+
+            else if (piece is Rook)
                 RookMovement(piece);
-            if (piece is Queen)
+
+            else if (piece is Queen)
                 QueenMovement(piece);
-            if (piece is King)
+
+            else if (piece is King)
                 KingMovement(piece);
-            if (piece is Horse)
+
+            else if (piece is Horse)
                 HorseMovement(piece);
-            if (piece is Bishop)
+
+            else if (piece is Bishop)
                 BishopMovement(piece);
 
+            return templist;
+                
+
         }
-        public void PawnMovement(Pieces pawn)
+        private void PawnMovement(Pieces pawn)
         {
             var positionX = pawn.CurrentPosition._PosX;
             var positionY = pawn.CurrentPosition._PosY;
@@ -47,7 +57,7 @@ namespace ChessGameLogic
 
 
         }
-        public void RookMovement(Pieces rook)
+        private void RookMovement(Pieces rook)
         {
             var tempMoveList = new List<Move>();
 
@@ -57,19 +67,41 @@ namespace ChessGameLogic
             rook.ListOfMoves = tempMoveList;
 
         }
-        public void QueenMovement(Pieces queen)
+        private void QueenMovement(Pieces queen)
         {
 
         }
-        public void KingMovement(Pieces king)
+        private void KingMovement(Pieces king)
         {
 
         }
-        public void HorseMovement(Pieces horse)
+        private void HorseMovement(Pieces horse)
         {
+            List<Move> temporaryMoveList = new List<Move>();
+            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX + 1, y + 2), 0);
+            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX - 1, y + 2), 0);
+            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX + 2, y + 1), 0);
+            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX + 2, y - 2), 0);
+            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX + 1, y - 2), 0);
+            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX - 1, y - 2), 0);
+            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX - 2, y - 1), 0);
+            temporaryMoveList.Add(new Move(horse.CurrentPosition._PosX - 2, y + 1), 0);
 
+            foreach (var item in temporaryMoveList)
+            {
+                if (item.endPositions._PosX > 7 || item.endPositions._PosX < 0)
+                    temporaryMoveList.Remove(item);
+                else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
+                    temporaryMoveList.Remove(item);
+                else if (EncounterAlly(item.endPositions._PosX,item.endPositions._PosY))
+                    temporaryMoveList.Remove(item);
+            }
+            foreach (var item in temporaryMoveList)
+            {
+                templist.Add(item);
+            }
         }
-        public void BishopMovement(Pieces bishop)
+        private void BishopMovement(Pieces bishop)
         {
 
         }
