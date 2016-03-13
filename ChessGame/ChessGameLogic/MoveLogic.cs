@@ -49,8 +49,30 @@ namespace ChessGameLogic
 
             if(positionX > 0 && positionY > 0 && positionX < 7 && positionY < 7)
             {
+                possibleMoves.Add(new Point(positionX, (positionY + direction)));
+                possibleMoves.Add(new Point((positionX - 1), (positionY + direction)));
+                possibleMoves.Add(new Point((positionX + 1), (positionY + direction)));
 
+                if(pawn.hasBeenMoved == false)
+                {
+                    possibleMoves.Add(new Point((positionX - 1), (positionY + direction + 1)));
+                }
 
+            }
+
+            foreach(var possibleMove in possibleMoves)
+            {
+                int posX = possibleMove._PosX;
+                int posY = possibleMove._PosY;
+
+                if(positionX != posX && EncounterEnemy(posX, posY))
+                {
+                    templist.Add(new Move(possibleMove, 0));
+                }
+                if(positionX == possibleMove._PosX && !EncounterAlly(posX, posY))
+                {
+                    templist.Add(new Move(possibleMove, 0));
+                }
             }
 
 
