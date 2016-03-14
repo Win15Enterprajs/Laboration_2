@@ -55,7 +55,7 @@ namespace ChessGameLogic
                 possibleMoves.Add(new Point((positionX - 1), (positionY + direction)));
                 possibleMoves.Add(new Point((positionX + 1), (positionY + direction)));
 
-                if(pawn.hasBeenMoved == false)
+                if(pawn.HasBeenMoved == false)
                 {
                     possibleMoves.Add(new Point((positionX - 1), (positionY + direction + 1)));
                 }
@@ -94,11 +94,12 @@ namespace ChessGameLogic
         {
             templist.AddRange(AddHorizontalMove(queen));
             templist.AddRange(AddVerticalMove(queen));
-            templist.AddRange(AddDiagonalMove(queen));
+            templist.AddRange(AddDiagonalMove_zero_zero(queen));
+            templist.AddRange(AddDiagonalMove_zero_seven(queen));
 
             queen.ListOfMoves = templist;
         }
-
+      
         private void KingMovement(Pieces king)
         {
             var x = king.CurrentPosition._PosX;
@@ -160,8 +161,13 @@ namespace ChessGameLogic
 
         private void BishopMovement(Pieces bishop)
         {
+            
+            templist.AddRange(AddDiagonalMove_zero_zero(bishop));
+            templist.AddRange(AddDiagonalMove_zero_seven(bishop));
 
+            bishop.ListOfMoves = templist;
         }
+
 
         private List<Move> AddDiagonalMove_zero_zero(Pieces piece)
         {
@@ -193,6 +199,7 @@ namespace ChessGameLogic
                             y = positionY - 1;
                             posx = positionX - 1;
                             direction = -1;
+                            end = 0;
                         }
                         else
                             break;
@@ -205,6 +212,7 @@ namespace ChessGameLogic
                             y = positionY - 1;
                             posx = positionX - 1;
                             direction = -1;
+                            end = 0;
                         }
                         else
                             break;
@@ -230,6 +238,13 @@ namespace ChessGameLogic
 
 
             }
+            return diagonalMoves;
+        }
+        private List<Move> AddDiagonalMove_zero_seven(Pieces piece)
+        {
+            List<Move> diagonalMoves = new List<Move>();
+
+            //logic goes here
             return diagonalMoves;
         }
         private List<Move> AddHorizontalMove(Pieces piece)
@@ -331,6 +346,7 @@ namespace ChessGameLogic
             }
             return verticalMoves;
         }
+        
 
         public bool EncounterEnemy(int y, int x)
         {
