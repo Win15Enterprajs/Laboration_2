@@ -42,6 +42,8 @@ namespace ChessGameLogic
         {
             var positionX = pawn.CurrentPosition._PosX;
             var positionY = pawn.CurrentPosition._PosY;
+            bool noEncounterOnFirstMove = false;
+
             List<Move> pawnMoveList = new List<Move>(); // Move = Xcoord, Ycoord and for now default value of 0.
 
             int direction = 1;
@@ -55,7 +57,8 @@ namespace ChessGameLogic
             {
                 if (!EncounterAlly(positionX, positionY + direction) && !EncounterEnemy(positionX, positionY +direction)) // Pawns movement along the Y-axis if it haven't moved before.
                 {
-                    pawnMoveList.Add(new Move(positionX, (positionY + direction), 0)); 
+                    pawnMoveList.Add(new Move(positionX, (positionY + direction), 0));
+                    noEncounterOnFirstMove = true;
                 }
             }
             if ((positionX - 1) >= 0 && EncounterEnemy((positionX - 1), (positionY + direction))) // Pawns AttackDirection along the X-axis.
@@ -68,12 +71,12 @@ namespace ChessGameLogic
             }
 
 
-            if (pawn.hasBeenMoved == false && !EncounterAlly(positionX, (positionY + direction))) // Pawns movement along the Y-axis if it haven't moved before.
+            if (pawn.hasBeenMoved == false && noEncounterOnFirstMove) // Pawns movement along the Y-axis if it haven't moved before.
             {
                 if (!EncounterAlly(positionX, (positionY + direction + direction)) && !EncounterEnemy(positionX, (positionY + direction + direction))) // Checks if there is an ally or enemy in the path.
                 {
                     pawnMoveList.Add(new Move(positionX, (positionY + direction + direction), 0));
-                    pawn.hasBeenMoved = true; 
+                    pawn.hasBeenMoved = true;
                 }
             }
 
