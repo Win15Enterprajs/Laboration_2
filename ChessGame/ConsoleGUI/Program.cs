@@ -14,6 +14,7 @@ namespace ChessGameLogic
             Game Chess = new Game();
             Draw DrawStuff = new Draw();            
             DrawStuff.PrintGameBoard(Chess);
+            Console.ReadKey();
         }
     }
 }

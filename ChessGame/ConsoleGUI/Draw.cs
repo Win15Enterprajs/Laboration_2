@@ -11,7 +11,9 @@ namespace ChessGameLogic
     {
         public void PrintGameBoard(Game game)
         {
-            int startPosX = 1;
+            Console.CursorVisible = false;
+
+            int startPosX = 8;
             int startPosY = 8;
 
             foreach(var piece in game.GetGameBoard())
@@ -19,12 +21,12 @@ namespace ChessGameLogic
                 int posXtoPrint = startPosX - piece.CurrentPosition._PosX;
                 int posYtoPrint = startPosY - piece.CurrentPosition._PosY;
 
-                Console.SetCursorPosition(posYtoPrint, posXtoPrint);
-                if ((posXtoPrint % 2) == 0)
+                Console.SetCursorPosition(posXtoPrint, posYtoPrint);
+                if ((posXtoPrint % 2) != 0 && (posYtoPrint % 2) != 0)
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                 }
-                else
+                else if ((posXtoPrint % 2) != 1 && (posYtoPrint % 2) != 0)
                 {
                     Console.BackgroundColor = ConsoleColor.Gray;
                 }
@@ -36,8 +38,8 @@ namespace ChessGameLogic
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-
-                Console.Write(piece.PieceType.ToString());
+                var charToPrint = (char)piece.PieceType;
+                Console.Write(charToPrint);
             }
 
         }
