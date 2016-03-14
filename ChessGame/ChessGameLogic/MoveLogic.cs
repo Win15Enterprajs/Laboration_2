@@ -102,6 +102,7 @@ namespace ChessGameLogic
         {
             templist.AddRange(AddHorizontalMove(queen));
             templist.AddRange(AddVerticalMove(queen));
+
             templist.AddRange(AddDiagonalMove_zero_zero(queen));
             templist.AddRange(AddDiagonalMove_zero_seven(queen));
 
@@ -237,7 +238,7 @@ namespace ChessGameLogic
         {
             List<Move> diagonalMoves = new List<Move>();
 
-           
+
             var posX = piece.CurrentPosition._PosX;
             var posY = piece.CurrentPosition._PosY;
 
@@ -286,7 +287,7 @@ namespace ChessGameLogic
 
             } while (x != 0 || y != 7);
 
-           return diagonalMoves;
+            return diagonalMoves;
         }
 
         private List<Move> AddHorizontalMove(Pieces piece)

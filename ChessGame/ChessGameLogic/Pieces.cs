@@ -23,8 +23,9 @@ namespace ChessGameLogic
             this.CurrentPosition = currentPosition;
         }
 
-        public Pieces(Point currentPosition, string color, bool hasBennMoved)
+        public Pieces(Point currentPosition, string color, bool hasBennMoved, ChessPieceSymbol type)
         {
+            this.PieceType = type;
             this.Color = color;
             this.CurrentPosition = currentPosition;
             this.hasBeenMoved = false;
