@@ -13,19 +13,12 @@ namespace ChessGameLogic
         public string Color { get; set; }
         public Point CurrentPosition { get; set; }
         public List<Move> ListOfMoves;
-        public bool HasBeenMoved = false;
+        public bool hasBeenMoved = false;
 
-        public Pieces(string color, Point currentPosition)
+        public Pieces(string color, Point CurrentPosition)
         {
             this.Color = color;
-            this.CurrentPosition = currentPosition;
-        }
-
-        public Pieces(Point currentPosition, string color, bool hasBennMoved)
-        {
-            this.Color = color;
-            this.CurrentPosition = currentPosition;
-            this.HasBeenMoved = false;
+            this.CurrentPosition = CurrentPosition;
         }
 
         public List<Move> ReturnMoveList()
