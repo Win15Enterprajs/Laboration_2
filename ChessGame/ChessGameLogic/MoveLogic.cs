@@ -65,33 +65,28 @@ namespace ChessGameLogic
             }
 
 
-                if(pawn.hasBeenMoved == false)
-                {
-                    possibleMoves.Add(new Point((positionX - 1), (positionY + direction + 1)));
-                }
-
-
-          if (pawn.hasBeenMoved == false)
+            if (pawn.hasBeenMoved == false && !EncounterAlly(positionX, positionY + direction + direction))
             {
-                possibleMoves.Add(new Point((positionX - 1), (positionY + direction + 1)));
-
+                possibleMoves.Add(new Point((positionX - 1), (positionY + direction + direction)));
+                pawn.hasBeenMoved = true;
             }
 
 
-            foreach(var possibleMove in possibleMoves)  /// ev. integrera detta i if satserna ovanför.
-            {
-                int posX = possibleMove._PosX;
-                int posY = possibleMove._PosY;
 
-                if(positionX != posX && EncounterEnemy(posX, posY))
-                {
-                    templist.Add(new Move(possibleMove, 0));
-                }
-                if(positionX == possibleMove._PosX && !EncounterAlly(posX, posY))
-                {
-                    templist.Add(new Move(possibleMove, 0));
-                }
-            }
+            //foreach(var possibleMove in possibleMoves)  /// ev. integrera detta i if satserna ovanför.
+            //{
+            //    int posX = possibleMove._PosX;
+            //    int posY = possibleMove._PosY;
+
+            //    if(positionX != posX && EncounterEnemy(posX, posY))
+            //    {
+            //        templist.Add(new Move(possibleMove, 0));
+            //    }
+            //    if(positionX == possibleMove._PosX && !EncounterAlly(posX, posY))
+            //    {
+            //        templist.Add(new Move(possibleMove, 0));
+            //    }
+            //}
 
 
 
