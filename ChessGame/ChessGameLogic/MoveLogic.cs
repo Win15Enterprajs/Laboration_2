@@ -50,12 +50,12 @@ namespace ChessGameLogic
 
             if (pawn.Color == "BLACK")
             {
-                direction = -1;  
+                direction = -1;
             }
 
             if ((positionY + direction) < 7 && (positionY + direction) > 0) // The pawns movement along the Y-axis
             {
-                if (!EncounterAlly(positionX, positionY + direction) && !EncounterEnemy(positionX, positionY +direction)) // Pawns movement along the Y-axis if it haven't moved before.
+                if (!EncounterAlly(positionX, positionY + direction) && !EncounterEnemy(positionX, positionY + direction)) // Pawns movement along the Y-axis if it haven't moved before.
                 {
                     pawnMoveList.Add(new Move(positionX, (positionY + direction), 0));
                     noEncounterOnFirstMove = true;
@@ -107,7 +107,7 @@ namespace ChessGameLogic
 
             queen.ListOfMoves = templist;
         }
-      
+
         private void KingMovement(Pieces king)
         {
             var x = king.CurrentPosition._PosX;
@@ -169,7 +169,7 @@ namespace ChessGameLogic
 
         private void BishopMovement(Pieces bishop)
         {
-            
+
             templist.AddRange(AddDiagonalMove_zero_zero(bishop));
             templist.AddRange(AddDiagonalMove_zero_seven(bishop));
 
@@ -179,82 +179,116 @@ namespace ChessGameLogic
 
         private List<Move> AddDiagonalMove_zero_zero(Pieces piece)
         {
-            var positionY = piece.CurrentPosition._PosY;
-            var positionX = piece.CurrentPosition._PosX;
-
-            var posx = positionX+1;
-            var posy = positionY;
-
-
             List<Move> diagonalMoves = new List<Move>();
 
+
+            var posX = piece.CurrentPosition._PosX;
+            var posY = piece.CurrentPosition._PosY;
+
+            var x = posX;
+            var y = posY;
             var direction = 1;
-            var end = 7;
 
-
-            while (posx != 0 || posy != 0)
+            do
             {
+                x += direction;
+                y += direction;
 
-                for (int y = positionY + direction; y >= end; y += direction)
-
+                if (EncounterAlly(x, y))
                 {
-                    if (EncounterEnemy(posx, y))
+                    if (x >= posX)
                     {
-                        diagonalMoves.Add(new Move(posx, y, 0));
-
-                        if (y >= positionY)
-                        {
-                            y = positionY - 1;
-                            posx = positionX - 1;
-                            direction = -1;
-                            end = 0;
-                        }
-                        else
-                            break;
-                    }
-
-                    else if (EncounterAlly(posx, y))
-                    {
-                        if (y >= positionY)
-                        {
-                            y = positionY - 1;
-                            posx = positionX - 1;
-                            direction = -1;
-                            end = 0;
-                        }
-                        else
-                            break;
-                    }
-
-                    else if (y == 7 || posx == 7)
-                    {
-                        diagonalMoves.Add(new Move(posx, y, 0));
-                        y = positionY - 1;
-                        posx = positionX - 1;
                         direction = -1;
-                        end = 0;
+                        x = posX;
+                        y = posY;
                     }
-
                     else
-                    {
-                        diagonalMoves.Add(new Move(posx, positionX, 0));
-                    }
-                    posx += direction;
-                    posy = y;
+                        break;
                 }
-                
 
+                else if (EncounterAlly(x, y))
+                {
 
-            }
+                    diagonalMoves.Add(new Move(x, y, 0));
+                    if (x >= posX || y >= posY)
+                    {
+                        direction = -1;
+                        x = posX;
+                        y = posY;
+                    }
+                    else
+                        break;
+                }
+
+                else if (x == 7 || y == 7)
+                {
+                    diagonalMoves.Add(new Move(x, y, 0));
+                    direction = -1;
+                    x = posX;
+                    y = posY;
+                }
+
+            } while (x != 0 || y != 0);
+
             return diagonalMoves;
         }
+
         private List<Move> AddDiagonalMove_zero_seven(Pieces piece)
         {
             List<Move> diagonalMoves = new List<Move>();
 
-            //logic goes here
-            return diagonalMoves;
+           
+            var posX = piece.CurrentPosition._PosX;
+            var posY = piece.CurrentPosition._PosY;
+
+            var x = posX;
+            var y = posY;
+            var direction = 1;
+
+            do
+            {
+                x += direction;
+                y -= direction;
+
+                if (EncounterAlly(x, y))
+                {
+                    if (x >= posX)
+                    {
+                        direction = -1;
+                        x = posX;
+                        y = posY;
+                    }
+                    else
+                        break;
+                }
+
+                else if (EncounterAlly(x, y))
+                {
+
+                    diagonalMoves.Add(new Move(x, y, 0));
+                    if (x >= posX || y >= posY)
+                    {
+                        direction = -1;
+                        x = posX;
+                        y = posY;
+                    }
+                    else
+                        break;
+                }
+
+                else if (x == 7 || y == 0)
+                {
+                    diagonalMoves.Add(new Move(x, y, 0));
+                    direction = -1;
+                    x = posX;
+                    y = posY;
+                }
+
+            } while (x != 0 || y != 7);
+
+           return diagonalMoves;
         }
+
         private List<Move> AddHorizontalMove(Pieces piece)
         {
             var positionY = piece.CurrentPosition._PosY;
@@ -271,7 +305,7 @@ namespace ChessGameLogic
 
                     if (x >= positionX)
                     {
-                        x = positionX-1;
+                        x = positionX - 1;
                         direction = -1;
                     }
                     else
@@ -282,7 +316,7 @@ namespace ChessGameLogic
                 {
                     if (x >= positionX)
                     {
-                        x = positionX-1;
+                        x = positionX - 1;
                         direction = -1;
                     }
                     else
@@ -292,7 +326,7 @@ namespace ChessGameLogic
                 else if (x == 7)
                 {
                     horizontalMoves.Add(new Move(x, positionY, 0));
-                    x = positionX-1;
+                    x = positionX - 1;
                     direction = -1;
                 }
 
@@ -313,7 +347,7 @@ namespace ChessGameLogic
 
             int direction = 1;
 
-            for (int y = positionY+1; y >= 0; y += direction)
+            for (int y = positionY + 1; y >= 0; y += direction)
             {
                 if (EncounterEnemy(positionX, y))
                 {
@@ -321,7 +355,7 @@ namespace ChessGameLogic
 
                     if (y >= positionY)
                     {
-                        y = positionY-1;
+                        y = positionY - 1;
                         direction = -1;
                     }
                     else
@@ -332,7 +366,7 @@ namespace ChessGameLogic
 
                     if (y >= positionY)
                     {
-                        y = positionY-1;
+                        y = positionY - 1;
                         direction = -1;
                     }
                     else
@@ -342,7 +376,7 @@ namespace ChessGameLogic
                 else if (y == 7)
                 {
                     verticalMoves.Add(new Move(positionX, y, 0));
-                    y = positionY-1;
+                    y = positionY - 1;
                     direction = -1;
                 }
 
@@ -354,7 +388,7 @@ namespace ChessGameLogic
             }
             return verticalMoves;
         }
-        
+
 
         public bool EncounterEnemy(int y, int x)
         {
