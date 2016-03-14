@@ -4,3 +4,5 @@ Propertys and methods: Which classes store what. What methods takes and returns.
 
 Roleplay with the classes to see that everything works together.
 
+
+Array will use normal math coordinates
