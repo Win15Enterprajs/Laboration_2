@@ -15,7 +15,7 @@ namespace ChessGameLogic.TestClasses
 
         public int[,] Board { get; set; }
         List<Move> testList = new List<Move>();
-        Rook testRook = new  Rook("black", new Point(4,4));
+        Rook testRook = new  Rook("black", new Point(4,4), false);
 
 
         private void PrintBoard()

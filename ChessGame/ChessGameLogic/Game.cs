@@ -9,14 +9,25 @@ namespace ChessGameLogic
 {
      public class Game
     {
-        List<Pieces> GameBoard = new List<Pieces>();
+        List<Pieces> GameBoard;
         Player Player1;
         Player Player2;
 
 
         public Game()
         {
+            GameBoard = new List<Pieces>()
+            {
+                new Pawn("WHITE", new Point(0,1), false),
+                new Pawn("WHITE", new Point(1,1), false),
+                new Pawn("WHITE", new Point(2,1), false),
+                new Pawn("WHITE", new Point(3,1), false),
+                new Pawn("WHITE", new Point(4,1), false),
+                new Pawn("WHITE", new Point(5,1), false),
+                new Pawn("WHITE", new Point(6,1), false),
+                new Pawn("WHITE", new Point(7,1), false),
 
+            };
         }
         public List<Pieces> GetGameBoard()
         {
