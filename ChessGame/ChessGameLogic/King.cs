@@ -9,7 +9,8 @@ namespace ChessGameLogic
 {
     class King : Pieces
     {
-        public King(string color, Point CurrentPosition): base ( color, CurrentPosition)
+        public King(string color, Point CurrentPosition, ChessPieceSymbol type = ChessPieceSymbol.King )
+            : base ( color, CurrentPosition, type)
         {
 
         }

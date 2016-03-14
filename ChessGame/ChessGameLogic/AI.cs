@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessGameLogic.Packages;
 
 namespace ChessGameLogic
 {
     class AI
     {
-        public List<Move> GiveValuetoMoves()
-        {
+        //public List<Move> GiveValuetoMoves()
+        //{
 
-        }
+        //}
     }
 }
