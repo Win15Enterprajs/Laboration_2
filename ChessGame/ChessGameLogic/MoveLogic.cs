@@ -108,7 +108,7 @@ namespace ChessGameLogic
             kingMoveList.Add(new Move((x), (y + 1), 0));
             kingMoveList.Add(new Move((x + 1), (y + 1), 0));
             kingMoveList.Add(new Move((x + 1), (y), 0));
-            kingMoveList.Add(new Move((x + 1), (y - 1), 0));
+            kingMoveList.Add(new Move((x + 1, (y - 1), 0));
             kingMoveList.Add(new Move((x - 1), (y - 1), 0));
             kingMoveList.Add(new Move((x), (y - 1), 0));
             kingMoveList.Add(new Move((x - 1), (y - 1), 0));
