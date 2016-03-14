@@ -48,7 +48,7 @@ namespace ChessGameLogic
 
             if (pawn.Color == "BLACK")
             {
-                direction = -1;
+                direction = -1;  
             }
 
             if ((positionY + direction) < 7 && (positionY + direction) > 0)
