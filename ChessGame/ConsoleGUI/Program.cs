@@ -12,9 +12,8 @@ namespace ChessGameLogic
         static void Main(string[] args)
         {
             Game Chess = new Game();
-            Draw DD = new Draw();            
-
-            DD.PrintGameBoard(Chess);
+            Draw DrawStuff = new Draw();            
+            DrawStuff.PrintGameBoard(Chess);
         }
     }
 }
