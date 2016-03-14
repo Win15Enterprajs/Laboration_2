@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChessGameLogic.Packages
 {
-    class Move
+    public class Move
     {
         public Point endPositions { get; set; }
         public double value { get; set; }

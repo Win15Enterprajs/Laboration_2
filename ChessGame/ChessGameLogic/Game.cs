@@ -9,17 +9,23 @@ namespace ChessGameLogic
 {
      public class Game
     {
-        Dictionary<Point, Pieces> Gameboard = new Dictionary<Point, Pieces>();
+        List<Pieces> GameBoard = new List<Pieces>();
         Player Player1;
-        Player Player2; 
+        Player Player2;
+
 
         public Game()
         {
 
         }
+        public List<Pieces> GetGameBoard()
+        {
+            return GameBoard;
+        }
         private void MakeTurn()
         {
 
         }
+
     }
 }

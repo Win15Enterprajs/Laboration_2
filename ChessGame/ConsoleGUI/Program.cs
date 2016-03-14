@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using ChessGameLogic;
 
-namespace ConsoleGUI
+namespace ChessGameLogic
 {
     class Program
     {
         static void Main(string[] args)
         {
             Game Chess = new Game();
+            Draw DD = new Draw();            
+
+            DD.PrintGameBoard(Chess);
         }
     }
 }

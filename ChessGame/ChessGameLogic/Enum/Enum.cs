@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ChessGameLogic.Packages;
 
 namespace ChessGameLogic
 {
-    class King : Pieces
+    public enum ChessPieceSymbol
     {
-        public King(string color, Point CurrentPosition): base ( color, CurrentPosition)
-        {
-
-        }
+        Pawn = 'P',
+        Horse = 'K',
+        Bishop = 'B',
+        Rook = 'R',
+        Queen = 'Q',
+        King = 'K'
     }
 }
