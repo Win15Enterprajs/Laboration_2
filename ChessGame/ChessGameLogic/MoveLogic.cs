@@ -252,7 +252,7 @@ namespace ChessGameLogic
 
                 if (EncounterAlly(x, y))
                 {
-                    if (x >= posX)
+                    if (x >= posX || y <= posY)
                     {
                         direction = -1;
                         x = posX;
@@ -266,7 +266,7 @@ namespace ChessGameLogic
                 {
 
                     diagonalMoves.Add(new Move(x, y, 0));
-                    if (x >= posX || y >= posY)
+                    if (x >= posX || y <= posY)
                     {
                         direction = -1;
                         x = posX;
