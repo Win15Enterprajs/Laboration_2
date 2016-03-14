@@ -15,4 +15,9 @@ namespace ChessGameLogic
         Queen = 'Q',
         King = 'K'
     }
+    public enum Color
+    {
+        White,
+        Black
+    }
 }
