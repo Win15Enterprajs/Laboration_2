@@ -13,7 +13,9 @@ namespace ChessGameLogic
         public string Color { get; set; }
         public Point CurrentPosition { get; set; }
         public List<Move> ListOfMoves;
-        public bool HasBeenMoved = false;
+        public bool hasBeenMoved = false;
+        public ChessPieceSymbol PieceType;
+
 
         public Pieces(string color, Point currentPosition)
         {
@@ -25,7 +27,7 @@ namespace ChessGameLogic
         {
             this.Color = color;
             this.CurrentPosition = currentPosition;
-            this.HasBeenMoved = false;
+            this.hasBeenMoved = false;
         }
 
         public List<Move> ReturnMoveList()

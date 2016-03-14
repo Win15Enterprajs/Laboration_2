@@ -9,7 +9,7 @@ namespace ChessGameLogic
 {
      public class Game
     {
-        List<Pieces> GameBoard { get; set; }
+        List<Pieces> GameBoard = new List<Pieces>();
         Player Player1;
         Player Player2;
 
