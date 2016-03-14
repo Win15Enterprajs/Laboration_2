@@ -10,7 +10,8 @@ namespace ChessGameLogic
     class Pawn : Pieces
     {
         
-        public Pawn(string color, Point CurrentPosition, bool HasbeenMoved, ChessPieceSymbol type = ChessPieceSymbol.Pawn): base ( CurrentPosition, color, HasbeenMoved, type)
+        public Pawn(string color, Point CurrentPosition, bool HasbeenMoved, ChessPieceSymbol type = ChessPieceSymbol.Pawn)
+            : base ( CurrentPosition, color, HasbeenMoved, type)
         {
            
         }

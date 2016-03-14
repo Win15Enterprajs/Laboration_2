@@ -9,7 +9,8 @@ namespace ChessGameLogic
 {
     class Queen : Pieces
     {
-        public Queen(string color, Point CurrentPosition): base ( color, CurrentPosition)
+        public Queen(string color, Point CurrentPosition, ChessPieceSymbol type = ChessPieceSymbol.Queen) 
+            : base ( color, CurrentPosition,type)
         {
 
         }

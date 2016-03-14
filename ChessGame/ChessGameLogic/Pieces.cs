@@ -17,8 +17,9 @@ namespace ChessGameLogic
         public ChessPieceSymbol PieceType;
 
 
-        public Pieces(string color, Point currentPosition)
+        public Pieces(string color, Point currentPosition, ChessPieceSymbol type)
         {
+            this.PieceType = type;
             this.Color = color;
             this.CurrentPosition = currentPosition;
         }
