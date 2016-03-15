@@ -403,6 +403,17 @@ namespace ChessGameLogic
                 }
             }
             return false;
+            
+        }
+        public bool EncounterEnemy2(Pieces piece, int x, int y)
+        {
+            foreach (var item in SnapShotOfGameboard)
+            {
+                if (item.CurrentPosition._PosX == x && item.CurrentPosition._PosY == y)
+                    if (item.PieceColor != piece.PieceColor)
+                        return true;
+            }
+            return false;
         }
         public bool EncounterAlly(int inputX, int inputY, Color color)
         {
@@ -416,5 +427,16 @@ namespace ChessGameLogic
             }
             return false;
         }
+        public bool EncounterAlly2(Pieces piece, int x, int y)
+        {
+            foreach (var item in SnapShotOfGameboard)
+            {
+                if (item.CurrentPosition._PosX == x && item.CurrentPosition._PosY == y)
+                    if (item.PieceColor == piece.PieceColor)
+                        return true;
+            }
+            return false;
+        }
+
     }
 }
