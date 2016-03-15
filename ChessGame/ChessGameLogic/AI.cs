@@ -11,9 +11,9 @@ namespace ChessGameLogic
     {
         // templista för att kunna skriva AI
         List<Pieces> tempgameboard = new List<Pieces>();
-        public List<Move> GiveValuetoMoves(List<Move> movelist, Pieces piece)
+        public List<Move> GiveValuetoMoves(Pieces piece)
         {
-            foreach (var item in movelist)
+            foreach (var item in piece.ListOfMoves)
             {
                 if (CanThisMoveTakeSomething(item))
                 {
