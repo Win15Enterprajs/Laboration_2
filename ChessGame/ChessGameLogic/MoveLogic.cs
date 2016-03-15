@@ -9,10 +9,12 @@ namespace ChessGameLogic
 {
     internal class MoveLogic
     {
+        List<Pieces> SnapShotOfGameboard;
         private List<Move> templist = new List<Move>();
 
-        public List<Move> ReturnMovementList(Pieces piece)
+        public List<Move> ReturnMovementList(Pieces piece, List<Pieces> gameBoard)
         {
+            SnapShotOfGameboard = gameBoard;
             templist.Clear();
 
             if (piece is Pawn)
@@ -48,7 +50,7 @@ namespace ChessGameLogic
 
             int direction = 1;
 
-            if (pawn.Color == "BLACK")
+            if (pawn.PieceColor == Color.Black)
             {
                 direction = -1;
             }
@@ -391,14 +393,27 @@ namespace ChessGameLogic
         }
 
 
-        public bool EncounterEnemy(int y, int x)
+        public bool EncounterEnemy(int inputX, int inputY, Color color) // Denna metoden och encounter ally är exakt samma. Man får bestämma hur man använder dom i de andra metoderna genom färgen.
         {
-            // logik goes here
+            foreach (var piece in SnapShotOfGameboard)
+            {
+                if (piece.CurrentPosition._PosX == inputX && piece.CurrentPosition._PosY == inputY && piece.PieceColor == color )
+                {
+                    return true;
+                }
+            }
             return false;
         }
-        public bool EncounterAlly(int y, int x)
+        public bool EncounterAlly(int inputX, int inputY, Color color)
         {
-            //logik goes here
+
+            foreach (var piece in SnapShotOfGameboard)
+            {
+                if (piece.CurrentPosition._PosX == inputX && piece.CurrentPosition._PosY == inputY && piece.PieceColor == color)
+                {
+                    return true;
+                }
+            }
             return false;
         }
     }

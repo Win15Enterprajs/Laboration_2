@@ -19,13 +19,13 @@ namespace ChessGameLogic
             GameBoard = new List<Pieces>()
             {
                 new Pawn(Color.White, new Point(0,1), false),
-                new Pawn("WHITE", new Point(1,1), false),
-                new Pawn("WHITE", new Point(2,1), false),
-                new Pawn("WHITE", new Point(3,1), false),
-                new Pawn("WHITE", new Point(4,1), false),
-                new Pawn("WHITE", new Point(5,1), false),
-                new Pawn("WHITE", new Point(6,1), false),
-                new Pawn("WHITE", new Point(7,1), false),
+                new Pawn(Color.White, new Point(1,1), false),
+                new Pawn(Color.White, new Point(2,1), false),
+                new Pawn(Color.White, new Point(3,1), false),
+                new Pawn(Color.White, new Point(4,1), false),
+                new Pawn(Color.White, new Point(5,1), false),
+                new Pawn(Color.White, new Point(6,1), false),
+                new Pawn(Color.White, new Point(7,1), false),
 
             };
         }
