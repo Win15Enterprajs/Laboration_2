@@ -13,45 +13,65 @@ namespace ChessGameLogic
         List<Pieces> tempgameboard = new List<Pieces>();
         public List<Move> GiveValuetoMoves(List<Move> movelist, Pieces piece)
         {
-
-        }
-        private void GiveInitialTakeValue(List<Move> movelist, Pieces piece)
-        {
             foreach (var item in movelist)
             {
+                if (CanThisMoveTakeSomething(item))
+                {
+                    GiveInitialTakeValue(item);
+                    RemoveSelfFromValue(item, piece);
+                }
+                else
+                    GiveRandomValueToAMove(item);
+            }
+        }
+        private void GiveInitialTakeValue(Move move)
+        {
                 foreach (var opponent in tempgameboard)
                 {
-                    if (item.endPositions == opponent.CurrentPosition)
-                    {
+
                         if (opponent.PieceType == ChessPieceSymbol.Bishop)
-                            item.value = 3;
+                            move.value = 30;
                         if (opponent.PieceType == ChessPieceSymbol.Horse)
-                            item.value = 3;
+                            move.value = 30;
                         if (opponent.PieceType == ChessPieceSymbol.Pawn)
-                            item.value = 3;
+                            move.value = 30;
                         if (opponent.PieceType == ChessPieceSymbol.Queen)
-                            item.value = 9;
+                            move.value = 90;
                         if (opponent.PieceType == ChessPieceSymbol.Rook)
-                            item.value = 5;
-                    }
+                            move.value = 50;
+
                 }
                 
-            }
         }
         private Move RemoveSelfFromValue(Move move, Pieces piece)
         {
             if (piece.PieceType == ChessPieceSymbol.Bishop)
-                move.value = move.value - (3 * 0.5);
+                move.value = move.value - (30 * 0.5);
             if (piece.PieceType == ChessPieceSymbol.Horse)
-                move.value = move.value - (3 * 0.5);
+                move.value = move.value - (30 * 0.5);
             if (piece.PieceType == ChessPieceSymbol.Queen)
-                move.value = move.value - (9 * 0.5);
+                move.value = move.value - (90 * 0.5);
             if (piece.PieceType == ChessPieceSymbol.Rook)
-                move.value = move.value - (3 * 0.5);
+                move.value = move.value - (30 * 0.5);
             if (piece.PieceType == ChessPieceSymbol.Pawn)
-                    move.value = move.value - (1 * 0.5);
+                    move.value = move.value - (10 * 0.5);
             return move;
             
+        }
+        private bool CanThisMoveTakeSomething(Move move)
+        {
+            foreach (var item in tempgameboard)
+            {
+                if (item.CurrentPosition == move.endPositions)
+                    return true;
+            }
+            return false;
+        }
+        private void GiveRandomValueToAMove(Move move)
+        {
+            Random rnd = new Random();
+            int nr = rnd.Next(0, 2);
+            move.value = nr;
         }
     }
 }
