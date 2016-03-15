@@ -9,7 +9,7 @@ namespace ChessGameLogic
 {
     class Rook : Pieces
     {
-        public Rook(string color, Point CurrentPosition, bool hasBeenMoved, ChessPieceSymbol type = ChessPieceSymbol.Rook) 
+        public Rook(Color color, Point CurrentPosition, bool hasBeenMoved, ChessPieceSymbol type = ChessPieceSymbol.Rook) 
             : base ( color, CurrentPosition, type)
         {
 

@@ -18,7 +18,7 @@ namespace ChessGameLogic
         {
             GameBoard = new List<Pieces>()
             {
-                new Pawn("WHITE", new Point(0,1), false),
+                new Pawn(Color.White, new Point(0,1), false),
                 new Pawn("WHITE", new Point(1,1), false),
                 new Pawn("WHITE", new Point(2,1), false),
                 new Pawn("WHITE", new Point(3,1), false),

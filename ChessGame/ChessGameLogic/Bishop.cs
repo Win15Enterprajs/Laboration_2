@@ -9,7 +9,7 @@ namespace ChessGameLogic
 {
     class Bishop : Pieces
     {
-        public Bishop(string color, Point CurrentPosition, ChessPieceSymbol type = ChessPieceSymbol.Bishop) 
+        public Bishop(Color color, Point CurrentPosition, ChessPieceSymbol type = ChessPieceSymbol.Bishop) 
             : base ( color, CurrentPosition, type)
         {
             

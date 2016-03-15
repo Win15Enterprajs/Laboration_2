@@ -10,24 +10,24 @@ namespace ChessGameLogic
     public abstract class Pieces
     {
         public double Value { get; set; }
-        public string Color { get; set; }
+        public Color PieceColor { get; set; }
         public Point CurrentPosition { get; set; }
         public List<Move> ListOfMoves;
         public bool hasBeenMoved = false;
         public ChessPieceSymbol PieceType;
 
 
-        public Pieces(string color, Point currentPosition, ChessPieceSymbol type)
+        public Pieces(Color color, Point currentPosition, ChessPieceSymbol type)
         {
             this.PieceType = type;
-            this.Color = color;
+            this.PieceColor = color;
             this.CurrentPosition = currentPosition;
         }
 
-        public Pieces(Point currentPosition, string color, bool hasBennMoved, ChessPieceSymbol type)
+        public Pieces(Point currentPosition, Color color, bool hasBennMoved, ChessPieceSymbol type)
         {
             this.PieceType = type;
-            this.Color = color;
+            this.PieceColor = color;
             this.CurrentPosition = currentPosition;
             this.hasBeenMoved = false;
         }
