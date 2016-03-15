@@ -1,16 +1,16 @@
 The gamepieces have values.
 
-Pawn = 1
+Pawn = 10
 
-Bishop = 3
+Bishop = 30
 
-Knight = 3 
+Knight = 30
 
-Tower/Rook = 5
+Tower/Rook = 50
 
-Queen = 9 
+Queen = 90
 
-King = 10
+King = 100
 
 If one piece can take the king. i.e. 10 points. And the opposing player can't move the game is over.
 
