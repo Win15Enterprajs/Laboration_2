@@ -16,7 +16,7 @@ namespace ChessGameLogic
         {
             SnapShotOfGameboard = gameBoard;
             templist.Clear();
-
+                       
             if (piece is Pawn)
                 PawnMovement(piece);
 
@@ -341,6 +341,7 @@ namespace ChessGameLogic
             }
             return horizontalMoves;
         }
+
         private List<Move> AddVerticalMove(Pieces piece)
         {
             List<Move> verticalMoves = new List<Move>();
