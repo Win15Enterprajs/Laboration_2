@@ -12,7 +12,7 @@ namespace ChessGameLogic
         List<Pieces> SnapShotOfGameboard;
         private List<Move> templist = new List<Move>();
 
-        public List<Move> ReturnMovementList(Pieces piece, List<Pieces> gameBoard)
+        public void SetMovementList(Pieces piece, List<Pieces> gameBoard)
         {
             SnapShotOfGameboard = gameBoard;
             templist.Clear();
@@ -35,11 +35,19 @@ namespace ChessGameLogic
             else if (piece is Bishop)
                 BishopMovement(piece);
 
-            return templist;
-
+            for (int i = 0; i < templist.Count; i++)
+            {
+                piece.ListOfMoves[i] = templist[i];
+            }
 
         }
-
+        public void ClearMovementList(List<Pieces> gameboard)
+        {
+            foreach (var item in gameboard)
+            {
+                item.ListOfMoves.Clear();
+            }
+        }
         private void PawnMovement(Pieces pawn)
         {
             var positionX = pawn.CurrentPosition._PosX;
@@ -392,20 +400,7 @@ namespace ChessGameLogic
             return verticalMoves;
         }
 
-
-        public bool EncounterEnemy(int inputX, int inputY, Color color) // Denna metoden och encounter ally är exakt samma. Man får bestämma hur man använder dom i de andra metoderna genom färgen.
-        {
-            foreach (var piece in SnapShotOfGameboard)
-            {
-                if (piece.CurrentPosition._PosX == inputX && piece.CurrentPosition._PosY == inputY && piece.PieceColor == color )
-                {
-                    return true;
-                }
-            }
-            return false;
-            
-        }
-        public bool EncounterEnemy2(Pieces piece, int x, int y)
+        private bool EncounterEnemy(int x, int y,Pieces piece)
         {
             foreach (var item in SnapShotOfGameboard)
             {
@@ -415,19 +410,7 @@ namespace ChessGameLogic
             }
             return false;
         }
-        public bool EncounterAlly(int inputX, int inputY, Color color)
-        {
-
-            foreach (var piece in SnapShotOfGameboard)
-            {
-                if (piece.CurrentPosition._PosX == inputX && piece.CurrentPosition._PosY == inputY && piece.PieceColor == color)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        public bool EncounterAlly2(Pieces piece, int x, int y)
+        private bool EncounterAlly2(int x, int y, Pieces piece)
         {
             foreach (var item in SnapShotOfGameboard)
             {
@@ -437,10 +420,7 @@ namespace ChessGameLogic
             }
             return false;
         }
-        public bool WillItChess()
-        {
-            return true;
-        }
+        
 
     }
 }
