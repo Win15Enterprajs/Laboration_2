@@ -55,7 +55,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queen.cs" />
     <Compile Include="Rook.cs" />
-    <Compile Include="TestClasses\TestBoard.cs" />
     <Compile Include="TestClasses\TEST_rockpossiblemoves.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
