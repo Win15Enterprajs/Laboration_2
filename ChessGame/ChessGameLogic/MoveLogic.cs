@@ -35,13 +35,8 @@ namespace ChessGameLogic
             else if (piece is Bishop)
                 BishopMovement(piece);
 
-            for (int i = 0; i < templist.Count; i++)
-            {
-                piece.ListOfMoves[i] = templist[i];
-            }
 
-            //kan också göra så här.
-            //piece.ListOfMoves = new List<Move>(templist);
+            piece.ListOfMoves = new List<Move>(templist);
 
         }
         public void ClearMovementList(List<Pieces> gameboard)
@@ -423,6 +418,49 @@ namespace ChessGameLogic
                         return true;
             }
             return false;
+        }
+        private bool WillItChess(Pieces piece,List<Pieces> gameboard, Move move, Point kingposition)
+        {
+            var saveCurrentPos = piece.CurrentPosition;
+            var AmazingKing = new Queen(piece.PieceColor, FindMeKing(gameboard,piece));
+            piece.CurrentPosition = move.endPositions;
+
+            QueenMovement(AmazingKing);
+
+            foreach (var item in AmazingKing.ListOfMoves)
+            {
+                foreach (var opponent in gameboard)
+                {
+                    if (opponent.PieceColor != AmazingKing.PieceColor)
+                    {
+                        if (opponent.CurrentPosition == move.endPositions)
+                        {
+                            if (opponent.PieceType == ChessPieceSymbol.Bishop || opponent.PieceType == ChessPieceSymbol.Queen || opponent.PieceType == ChessPieceSymbol.Rook)
+                                return true;
+                        }
+                    }
+                }
+            }
+            piece.CurrentPosition = saveCurrentPos;
+            return false;
+
+
+
+        }
+        private Point FindMeKing(List<Pieces> gameboard, Pieces Piece)
+        {
+            var point = new Point(0,0);
+            foreach (var item in gameboard)
+            {
+                if (item.PieceType == ChessPieceSymbol.King)
+                    if (Piece.PieceColor == item.PieceColor)
+                    {
+                        point._PosX = item.CurrentPosition._PosX;
+                        point._PosY = item.CurrentPosition._PosY;
+                        return point;
+                    }
+            }
+            return point;
         }
         
 
