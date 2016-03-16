@@ -46,9 +46,9 @@ namespace ChessGameLogic
         }
         public void ClearMovementList(List<Pieces> gameboard)
         {
-            foreach (var item in gameboard)
+            foreach (var piece in gameboard)
             {
-                item.ListOfMoves.Clear();
+                piece.ListOfMoves.Clear();
             }
         }
         private void PawnMovement(Pieces pawn)
