@@ -9,6 +9,7 @@ namespace ChessGameLogic
 {
     public class Game
     {
+        int turncouter = 0;
         List<Pieces> GameBoard;
         Pieces BestPiece;
         Player Player1;
@@ -41,6 +42,7 @@ namespace ChessGameLogic
             Pieces PieceToMove = GetBestPiece();
             RemoveKilledPiece(PieceToMove);
             BustAMove(PieceToMove);
+            turncouter++;
 
             Console.WriteLine("OOOOOH YEEEA!!!");
 
@@ -52,13 +54,21 @@ namespace ChessGameLogic
             Move bestMove = new Move(-1, -1, -999);
             foreach (Pieces piece in GameBoard)
             {
-
-
+                if (turncouter % 2 == 0 && piece.PieceColor == Color.White)
                 foreach (var move in piece.ListOfMoves)
                 {
                     if (move.value > bestMove.value)
                         bestMove = move;
 
+                }
+                else if (turncouter % 2 == 1 && piece.PieceColor == Color.Black)
+                {
+                    foreach (var move in piece.ListOfMoves)
+                    {
+                        if (move.value > bestMove.value)
+                            bestMove = move;
+
+                    }
                 }
                 piece.BestMove = bestMove;
             }
