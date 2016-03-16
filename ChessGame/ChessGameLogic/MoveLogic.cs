@@ -41,9 +41,9 @@ namespace ChessGameLogic
         }
         public void ClearMovementList(List<Pieces> gameboard)
         {
-            foreach (var item in gameboard)
+            foreach (var piece in gameboard)
             {
-                item.ListOfMoves.Clear();
+                piece.ListOfMoves.Clear();
             }
         }
         private void PawnMovement(Pieces pawn)
@@ -63,17 +63,17 @@ namespace ChessGameLogic
 
             if ((positionY + direction) < 7 && (positionY + direction) > 0) // The pawns movement along the Y-axis
             {
-                if (!EncounterAlly(positionX, positionY + direction) && !EncounterEnemy(positionX, positionY + direction)) // Pawns movement along the Y-axis if it haven't moved before.
+                if (!EncounterAlly(positionX, positionY + direction,pawn) && !EncounterEnemy(positionX, positionY + direction,pawn)) // Pawns movement along the Y-axis if it haven't moved before.
                 {
                     pawnMoveList.Add(new Move(positionX, (positionY + direction), 0));
                     noEncounterOnFirstMove = true;
                 }
             }
-            if ((positionX - 1) >= 0 && EncounterEnemy((positionX - 1), (positionY + direction))) // Pawns AttackDirection along the X-axis.
+            if ((positionX - 1) >= 0 && EncounterEnemy((positionX - 1), (positionY + direction),pawn)) // Pawns AttackDirection along the X-axis.
             {
                 pawnMoveList.Add(new Move((positionX - 1), (positionY + direction), 0));
             }
-            if ((positionX + 1) <= 7 && EncounterEnemy((positionX - 1), (positionY + direction))) // Pawns AttackDirection along the X-axis.
+            if ((positionX + 1) <= 7 && EncounterEnemy((positionX - 1), (positionY + direction),pawn)) // Pawns AttackDirection along the X-axis.
             {
                 pawnMoveList.Add(new Move((positionX + 1), (positionY + direction), 0));
             }
@@ -81,7 +81,7 @@ namespace ChessGameLogic
 
             if (pawn.hasBeenMoved == false && noEncounterOnFirstMove) // Pawns movement along the Y-axis if it haven't moved before.
             {
-                if (!EncounterAlly(positionX, (positionY + direction + direction)) && !EncounterEnemy(positionX, (positionY + direction + direction))) // Checks if there is an ally or enemy in the path.
+                if (!EncounterAlly(positionX, (positionY + direction + direction),pawn) && !EncounterEnemy(positionX, (positionY + direction + direction),pawn)) // Checks if there is an ally or enemy in the path.
                 {
                     pawnMoveList.Add(new Move(positionX, (positionY + direction + direction), 0));
                     pawn.hasBeenMoved = true;
@@ -138,7 +138,7 @@ namespace ChessGameLogic
                     kingMoveList.Remove(item);
                 else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
                     kingMoveList.Remove(item);
-                else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY))
+                else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY,king))
                     kingMoveList.Remove(item);
             }
             foreach (var item in kingMoveList)
@@ -167,7 +167,7 @@ namespace ChessGameLogic
                     horseMoveList.Remove(item);
                 else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
                     horseMoveList.Remove(item);
-                else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY))
+                else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY,horse))
                     horseMoveList.Remove(item);
             }
             foreach (var item in horseMoveList)
@@ -203,7 +203,7 @@ namespace ChessGameLogic
                 x += direction;
                 y += direction;
 
-                if (EncounterAlly(x, y))
+                if (EncounterAlly(x, y,piece))
                 {
                     if (x >= posX)
                     {
@@ -215,7 +215,7 @@ namespace ChessGameLogic
                         break;
                 }
 
-                else if (EncounterAlly(x, y))
+                else if (EncounterAlly(x, y,piece))
                 {
 
                     diagonalMoves.Add(new Move(x, y, 0));
@@ -259,7 +259,7 @@ namespace ChessGameLogic
                 x += direction;
                 y -= direction;
 
-                if (EncounterAlly(x, y))
+                if (EncounterAlly(x, y,piece))
                 {
                     if (x >= posX || y <= posY)
                     {
@@ -271,7 +271,7 @@ namespace ChessGameLogic
                         break;
                 }
 
-                else if (EncounterAlly(x, y))
+                else if (EncounterAlly(x, y,piece))
                 {
 
                     diagonalMoves.Add(new Move(x, y, 0));
@@ -308,7 +308,7 @@ namespace ChessGameLogic
 
             for (int x = positionX; x >= 0; x += direction)
             {
-                if (EncounterEnemy(x, positionY))
+                if (EncounterEnemy(x, positionY,piece))
                 {
                     horizontalMoves.Add(new Move(x, positionY, 0));
 
@@ -321,7 +321,7 @@ namespace ChessGameLogic
                         break;
                 }
 
-                else if (EncounterAlly(x, positionY))
+                else if (EncounterAlly(x, positionY,piece))
                 {
                     if (x >= positionX)
                     {
@@ -359,7 +359,7 @@ namespace ChessGameLogic
 
             for (int y = positionY + 1; y >= 0; y += direction)
             {
-                if (EncounterEnemy(positionX, y))
+                if (EncounterEnemy(positionX, y,piece))
                 {
                     verticalMoves.Add(new Move(positionX, y, 0));
 
@@ -371,7 +371,7 @@ namespace ChessGameLogic
                     else
                         break;
                 }
-                else if (EncounterAlly(positionX, y))
+                else if (EncounterAlly(positionX, y,piece))
                 {
 
                     if (y >= positionY)
