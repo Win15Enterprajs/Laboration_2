@@ -40,6 +40,9 @@ namespace ChessGameLogic
                 piece.ListOfMoves[i] = templist[i];
             }
 
+            //kan också göra så här.
+            //piece.ListOfMoves = new List<Move>(templist);
+
         }
         public void ClearMovementList(List<Pieces> gameboard)
         {
