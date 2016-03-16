@@ -419,7 +419,7 @@ namespace ChessGameLogic
             }
             return false;
         }
-        private bool WillItChess(Pieces piece,List<Pieces> gameboard, Move move, Point kingposition)
+        private bool WillItChess(Pieces piece,List<Pieces> gameboard, Move move)
         {
             var saveCurrentPos = piece.CurrentPosition;
             var AmazingKing = new Queen(piece.PieceColor, FindMeKing(gameboard,piece));
@@ -436,7 +436,10 @@ namespace ChessGameLogic
                         if (opponent.CurrentPosition == move.endPositions)
                         {
                             if (opponent.PieceType == ChessPieceSymbol.Bishop || opponent.PieceType == ChessPieceSymbol.Queen || opponent.PieceType == ChessPieceSymbol.Rook)
+                            {
+                                piece.CurrentPosition = saveCurrentPos;
                                 return true;
+                            }
                         }
                     }
                 }
