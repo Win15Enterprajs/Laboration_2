@@ -8,7 +8,7 @@ namespace ChessGameLogic
 {
     class Player
     {
-        public string Color { get; set; }
+        public Color Color { get; set; }
         public bool AI { get; set; }
         
     }
