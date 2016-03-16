@@ -40,12 +40,15 @@ namespace ChessGameLogic
                 piece.ListOfMoves[i] = templist[i];
             }
 
+            //kan också göra så här.
+            //piece.ListOfMoves = new List<Move>(templist);
+
         }
         public void ClearMovementList(List<Pieces> gameboard)
         {
-            foreach (var item in gameboard)
+            foreach (var piece in gameboard)
             {
-                item.ListOfMoves.Clear();
+                piece.ListOfMoves.Clear();
             }
         }
         private void PawnMovement(Pieces pawn)
@@ -411,7 +414,7 @@ namespace ChessGameLogic
             }
             return false;
         }
-        private bool EncounterAlly2(int x, int y, Pieces piece)
+        private bool EncounterAlly(int x, int y, Pieces piece)
         {
             foreach (var item in SnapShotOfGameboard)
             {
