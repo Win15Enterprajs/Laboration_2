@@ -21,7 +21,7 @@ namespace ChessGameLogic
         {
             GameBoard = new List<Pieces>()
             {
-                #region White Player Pieces
+                #region Adds White Player Pieces
                 new Pawn(Color.White, new Point(0,1), false),
                 new Pawn(Color.White, new Point(1,1), false),
                 new Pawn(Color.White, new Point(2,1), false),
@@ -39,7 +39,7 @@ namespace ChessGameLogic
                 new Horse(Color.White, new Point(6,0)),
                 new Rook(Color.White, new Point(7,0), false),
                 #endregion
-                #region Black Player Pieces
+                #region Adds Black Player Pieces
                 new Pawn(Color.Black, new Point(0,6), false),
                 new Pawn(Color.Black, new Point(1,6), false),
                 new Pawn(Color.Black, new Point(2,6), false),
