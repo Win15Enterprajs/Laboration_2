@@ -12,6 +12,7 @@ namespace ChessGameLogic
         public double Value { get; set; }
         public Color PieceColor { get; set; }
         public Point CurrentPosition { get; set; }
+        public Move BestMove { get; set; }
         public List<Move> ListOfMoves;
         public bool hasBeenMoved = false;
         public ChessPieceSymbol PieceType;
