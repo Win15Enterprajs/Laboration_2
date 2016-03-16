@@ -65,17 +65,17 @@ namespace ChessGameLogic
 
             if ((positionY + direction) < 7 && (positionY + direction) > 0) // The pawns movement along the Y-axis
             {
-                if (!EncounterAlly(positionX, positionY + direction) && !EncounterEnemy(positionX, positionY + direction)) // Pawns movement along the Y-axis if it haven't moved before.
+                if (!EncounterAlly(positionX, positionY + direction,pawn) && !EncounterEnemy(positionX, positionY + direction,pawn)) // Pawns movement along the Y-axis if it haven't moved before.
                 {
                     pawnMoveList.Add(new Move(positionX, (positionY + direction), 0));
                     noEncounterOnFirstMove = true;
                 }
             }
-            if ((positionX - 1) >= 0 && EncounterEnemy((positionX - 1), (positionY + direction))) // Pawns AttackDirection along the X-axis.
+            if ((positionX - 1) >= 0 && EncounterEnemy((positionX - 1), (positionY + direction),pawn)) // Pawns AttackDirection along the X-axis.
             {
                 pawnMoveList.Add(new Move((positionX - 1), (positionY + direction), 0));
             }
-            if ((positionX + 1) <= 7 && EncounterEnemy((positionX - 1), (positionY + direction))) // Pawns AttackDirection along the X-axis.
+            if ((positionX + 1) <= 7 && EncounterEnemy((positionX - 1), (positionY + direction),pawn)) // Pawns AttackDirection along the X-axis.
             {
                 pawnMoveList.Add(new Move((positionX + 1), (positionY + direction), 0));
             }
