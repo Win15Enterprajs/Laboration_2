@@ -99,7 +99,7 @@ namespace ConsoleGUI
                 count++;
             }
 
-            count = 1;
+            count = 8;
             for (int i = 1; i < 9; i++)
             {
 
@@ -107,7 +107,7 @@ namespace ConsoleGUI
                 Console.Write(count);
                 Console.SetCursorPosition(28, i );
                 Console.Write(count);
-                count++;
+                count--;
             }
 
 
