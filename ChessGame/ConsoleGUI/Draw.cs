@@ -17,7 +17,6 @@ namespace ChessGameLogic
             int startPosX = 0;
             int startPosY = 8;
 
-            int stepover = 3;
 
             foreach(var piece in game.GetGameBoard())
             {
