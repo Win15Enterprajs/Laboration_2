@@ -12,6 +12,7 @@ namespace ChessGameLogic
         public void PrintGameBoard(Game game)
         {
             Console.CursorVisible = false;
+            printBoard();
 
             int startPosX = 8;
             int startPosY = 8;
@@ -30,7 +31,7 @@ namespace ChessGameLogic
                 {
                     Console.BackgroundColor = ConsoleColor.Gray;
                 }
-                if (piece.Color == "BLACK")
+                if (piece.PieceColor == Color.Black)
                 {
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
@@ -39,7 +40,28 @@ namespace ChessGameLogic
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 var charToPrint = (char)piece.PieceType;
-                Console.Write(charToPrint);
+                Console.Write(" " + charToPrint + " ");
+            }
+
+        }
+
+        private void printBoard()
+        {
+            for (int i = 1; i < 9; i++)
+            {
+                for (int j = 1; j < 9; j++)
+                {
+                    Console.SetCursorPosition(i, j);
+                    if ((i % 2) != 0 && (j % 2) != 0)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                    }
+                    else if ((i % 2) != 1 && (j % 2) != 0)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                    }
+                    Console.Write("   ");
+                }
             }
 
         }
