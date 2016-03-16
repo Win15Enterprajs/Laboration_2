@@ -21,6 +21,7 @@ namespace ChessGameLogic
         {
             GameBoard = new List<Pieces>()
             {
+                #region Adds White Player Pieces
                 new Pawn(Color.White, new Point(0,1), false),
                 new Pawn(Color.White, new Point(1,1), false),
                 new Pawn(Color.White, new Point(2,1), false),
@@ -29,8 +30,41 @@ namespace ChessGameLogic
                 new Pawn(Color.White, new Point(5,1), false),
                 new Pawn(Color.White, new Point(6,1), false),
                 new Pawn(Color.White, new Point(7,1), false),
+                new Rook(Color.White, new Point(0,0), false),
+                new Horse(Color.White, new Point(1,0)),
+                new Bishop(Color.White, new Point(2,0)),
+                new Queen(Color.White, new Point(3,0)),
+                new King(Color.White, new Point(4,0)),
+                new Bishop(Color.White, new Point(5,0)),
+                new Horse(Color.White, new Point(6,0)),
+                new Rook(Color.White, new Point(7,0), false),
+                #endregion
+                #region Adds Black Player Pieces
+                new Pawn(Color.Black, new Point(0,6), false),
+                new Pawn(Color.Black, new Point(1,6), false),
+                new Pawn(Color.Black, new Point(2,6), false),
+                new Pawn(Color.Black, new Point(3,6), false),
+                new Pawn(Color.Black, new Point(4,6), false),
+                new Pawn(Color.Black, new Point(5,6), false),
+                new Pawn(Color.Black, new Point(6,6), false),
+                new Pawn(Color.Black, new Point(7,6), false),
+                new Rook(Color.Black, new Point(0,7), false),
+                new Horse(Color.Black, new Point(1,7)),
+                new Bishop(Color.Black, new Point(2,7)),
+                new Queen(Color.Black, new Point(3,7)),
+                new King(Color.Black, new Point(4,7)),
+                new Bishop(Color.Black, new Point(5,7)),
+                new Horse(Color.Black, new Point(6,7)),
+                new Rook(Color.Black, new Point(7,7), false),
+                #endregion
+
+
+
+
 
             };
+
+
         }
         public List<Pieces> GetGameBoard()
         {

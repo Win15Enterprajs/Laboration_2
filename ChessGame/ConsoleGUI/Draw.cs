@@ -5,10 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using ChessGameLogic;
 
-namespace ChessGameLogic
+namespace ConsoleGUI
 {
     class Draw
     {
+        Dictionary<int, char> CoordinateConversionToLetter;
+
+        public Draw()
+        {
+            CoordinateConversionToLetter = new Dictionary<int, char>()
+            {
+                [0] = 'A',
+                [1] = 'B',
+                [2] = 'C',
+                [3] = 'D',
+                [4] = 'E',
+                [5] = 'F',
+                [6] = 'G',
+                [7] = 'H',
+
+            };
+        }
+
+
         public void PrintGameBoard(Game game)
         {
             Console.CursorVisible = false;
@@ -66,9 +85,32 @@ namespace ChessGameLogic
                     Console.Write("   ");
                 }
             }
-   
-        }
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
 
-        //(i % 2) != 0 && (j % 2) != 0 || (i % 2) != 1 && (j % 2) != 1
+            int count = 1;
+            for (int i = 4; i < 26; i += 3)
+            {
+
+                Console.SetCursorPosition(i, 9);
+                Console.Write(count);
+                Console.SetCursorPosition(i, 0);
+                Console.Write(count);
+                count++;
+            }
+
+            count = 0;
+            for (int i = 1; i < 9; i++)
+            {
+
+                Console.SetCursorPosition(1, i );
+                Console.Write(CoordinateConversionToLetter[count]);
+                Console.SetCursorPosition(28, i );
+                Console.Write(CoordinateConversionToLetter[count]);
+                count++;
+            }
+
+
+        }
     }
 }
