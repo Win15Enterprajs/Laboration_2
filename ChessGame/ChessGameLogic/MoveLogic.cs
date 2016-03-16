@@ -414,7 +414,7 @@ namespace ChessGameLogic
             }
             return false;
         }
-        private bool EncounterAlly2(int x, int y, Pieces piece)
+        private bool EncounterAlly(int x, int y, Pieces piece)
         {
             foreach (var item in SnapShotOfGameboard)
             {
