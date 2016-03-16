@@ -437,6 +437,10 @@ namespace ChessGameLogic
             }
             return false;
         }
+        public bool WillItChess()
+        {
+            return true;
+        }
 
     }
 }

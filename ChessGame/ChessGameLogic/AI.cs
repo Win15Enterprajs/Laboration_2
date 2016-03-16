@@ -70,7 +70,7 @@ namespace ChessGameLogic
         private void GiveRandomValueToAMove(Move move)
         {
             Random rnd = new Random();
-            int nr = rnd.Next(0, 2);
+            int nr = rnd.Next(0, 10);
             move.value = nr;
         }
     }
