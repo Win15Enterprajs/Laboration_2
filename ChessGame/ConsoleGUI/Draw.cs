@@ -19,15 +19,15 @@ namespace ChessGameLogic
 
             foreach(var piece in game.GetGameBoard())
             {
-                int posXtoPrint = startPosX - piece.CurrentPosition._PosX;
-                int posYtoPrint = startPosY - piece.CurrentPosition._PosY;
+                int posXtoPrint = (startPosX - piece.CurrentPosition._PosX);
+                int posYtoPrint = (startPosY - piece.CurrentPosition._PosY);
 
                 Console.SetCursorPosition(posXtoPrint, posYtoPrint);
-                if ((posXtoPrint % 2) != 0 && (posYtoPrint % 2) != 0)
+                if ((posXtoPrint % 2) != 1 && (posYtoPrint % 2) != 0 || (posXtoPrint % 2) != 0 && (posYtoPrint % 2) != 1)
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                 }
-                else if ((posXtoPrint % 2) != 1 && (posYtoPrint % 2) != 0)
+                else if ((posXtoPrint % 2) != 0 && (posYtoPrint % 2) != 0 || (posXtoPrint % 2) != 1 && (posYtoPrint % 2) != 1)
                 {
                     Console.BackgroundColor = ConsoleColor.Gray;
                 }
@@ -47,25 +47,25 @@ namespace ChessGameLogic
 
         private void printBoard()
         {
-            for (int i = 1; i < 9; i++)
+            for (int i = 1; i < 25; i +=3)
             {
                 for (int j = 1; j < 9; j++)
                 {
                     Console.SetCursorPosition(i, j);
-                    if ((i % 2) != 0 && (j % 2) != 0)
+                    if ((i % 2) != 1 && (j % 2) != 0 || (i % 2) != 0 && (j % 2) != 1)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkGray;
                     }
-                    else if ((i % 2) != 1 && (j % 2) != 0)
+                    else if ((i % 2) != 0 && (j % 2) != 0 || (i % 2) != 1 && (j % 2) != 1)
                     {
                         Console.BackgroundColor = ConsoleColor.Gray;
                     }
                     Console.Write("   ");
                 }
             }
-
+   
         }
 
-
+        //(i % 2) != 0 && (j % 2) != 0 || (i % 2) != 1 && (j % 2) != 1
     }
 }

@@ -220,7 +220,7 @@ namespace ChessGameLogic
                         break;
                 }
 
-                else if (EncounterAlly(x, y,piece))
+                else if (EncounterEnemy(x, y,piece))
                 {
 
                     diagonalMoves.Add(new Move(x, y, 0));
@@ -276,7 +276,7 @@ namespace ChessGameLogic
                         break;
                 }
 
-                else if (EncounterAlly(x, y,piece))
+                else if (EncounterEnemy(x, y,piece))
                 {
 
                     diagonalMoves.Add(new Move(x, y, 0));
