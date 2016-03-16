@@ -30,6 +30,8 @@ namespace ChessGameLogic
                 new Pawn(Color.White, new Point(7,1), false),
 
             };
+
+
         }
         public List<Pieces> GetGameBoard()
         {
