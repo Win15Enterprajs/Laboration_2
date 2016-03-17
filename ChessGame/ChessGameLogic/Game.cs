@@ -181,7 +181,6 @@ namespace ChessGameLogic
 
             Move bestMove = new Move(-1, -1, -999);
             Pieces bestPiece = null;
-            BestPiece.BestMove.value = 0;
 
             for (int i = 0; i < gameboard.Count; i++)
             {
