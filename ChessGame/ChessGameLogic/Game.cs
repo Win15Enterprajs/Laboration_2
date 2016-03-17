@@ -151,6 +151,7 @@ namespace ChessGameLogic
         {
             do
             {
+                turncounter++;
                 var intelligence = new AI();
                 var Movement = new MoveLogic();
 
@@ -180,9 +181,9 @@ namespace ChessGameLogic
 
                 }
                 GiveBestMoveToPieces();
-                Pieces PieceToMove = GetBestPiece(gameboard);
-                RemoveKilledPiece(PieceToMove);
-                BustAMove(PieceToMove);
+                BestPiece = GetBestPiece(gameboard);
+                RemoveKilledPiece(BestPiece);
+                BustAMove(BestPiece);
                 turncounter++;
             } while (true);
         }
