@@ -185,13 +185,13 @@ namespace ChessGameLogic
             for (int i = 0; i < gameboard.Count; i++)
             {
                 if (turncounter % 2 == 1 && gameboard[i].PieceColor == Color.White)
-                    if (bestPiece.BestMove.value > gameboard[i].BestMove.value)
+                    if (gameboard[i].BestMove.value > bestMove.value)
                     {
-                        bestPiece.BestMove.value = gameboard[i].BestMove.value;
+                        bestPiece = gameboard[i];
                     }
                else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
-                        if (bestPiece.BestMove.value > gameboard[i].BestMove.value)
-                            bestPiece.BestMove.value = gameboard[i].BestMove.value;
+                        if (bestMove.value > gameboard[i].BestMove.value)
+                            bestPiece = gameboard[i];
             }
 
 
