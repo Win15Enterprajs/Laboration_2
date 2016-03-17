@@ -212,7 +212,126 @@ namespace ChessGameLogic
             bishop.ListOfMoves = templist;
         }
 
+        private List<Move> AddDiagonalMove(Pieces piece)
+        {
+            List<Move> diagonalmoves = new List<Move>();
+            bool withinbounds = true;
+            int x = piece.CurrentPosition._PosX;
+            int y = piece.CurrentPosition._PosY;
+            do
+            {
 
+                // Adding spaces up to the right
+                for (int i = 0; i < 7; i++)
+                {
+                    if (x <= 7 && y <= 7)
+                    {
+                        if (EncounterEnemy(x, y, piece))
+                        {
+                            diagonalmoves.Add(new Move(x, y, 0));
+                            break;
+                        }
+                        else if (EncounterAlly(x,y,piece))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            {
+                                diagonalmoves.Add(new Move(x, y, 0));
+                            }
+                            x++;
+                            y++;
+                        }
+                    }
+                    else
+                        break;
+                }
+                // adding moves down left
+                for (int i = 0; i < 7; i++)
+                {
+                    if (x <= 7 && y <= 7)
+                    {
+                        if (EncounterEnemy(x, y, piece))
+                        {
+                            diagonalmoves.Add(new Move(x, y, 0));
+                            break;
+                        }
+                        else if (EncounterAlly(x, y, piece))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            {
+                                diagonalmoves.Add(new Move(x, y, 0));
+                            }
+                            x++;
+                            y--;
+                        }
+                    }
+                    else
+                        break;
+                }
+                // adding moves down to the right
+                for (int i = 0; i < 7; i++)
+                {
+                    if (x <= 7 && y <= 7)
+                    {
+                        if (EncounterEnemy(x, y, piece))
+                        {
+                            diagonalmoves.Add(new Move(x, y, 0));
+                            break;
+                        }
+                        else if (EncounterAlly(x, y, piece))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            {
+                                diagonalmoves.Add(new Move(x, y, 0));
+                            }
+                            x--;
+                            y--;
+                        }
+                    }
+                    else
+                        break;
+                }
+                // adding moves up to the left
+                for (int i = 0; i < 7; i++)
+                {
+                    if (x <= 7 && y <= 7)
+                    {
+                        if (EncounterEnemy(x, y, piece))
+                        {
+                            diagonalmoves.Add(new Move(x, y, 0));
+                            break;
+                        }
+                        else if (EncounterAlly(x, y, piece))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            {
+                                diagonalmoves.Add(new Move(x, y, 0));
+                            }
+                            x--;
+                            y++;
+                        }
+                    }
+                    else
+                        withinbounds = false;
+                }
+            } while (withinbounds);
+            return diagonalmoves;
+        }
         private List<Move> AddDiagonalMove_zero_zero(Pieces piece)
         {
             List<Move> diagonalMoves = new List<Move>();
@@ -270,7 +389,10 @@ namespace ChessGameLogic
                 }
 
             } while (x >= 0 || y >= 0);
-
+            for (int i = 0; i < diagonalMoves.Count; i++)
+            {
+                
+            }
             return diagonalMoves;
         }
 
@@ -330,7 +452,10 @@ namespace ChessGameLogic
                 }
 
             } while (x >= 0 || y <= 7 );
+            for (int i = 0; i < diagonalMoves.Count; i++)
+            {
 
+            }
             return diagonalMoves;
         }
 
