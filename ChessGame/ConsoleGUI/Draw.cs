@@ -64,6 +64,7 @@ namespace ConsoleGUI
                 var charToPrint = (char)piece.PieceType;
                 Console.Write(charToPrint);
             }
+            Console.BackgroundColor = ConsoleColor.Black;
 
         }
 
