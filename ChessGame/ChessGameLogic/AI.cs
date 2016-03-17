@@ -10,24 +10,35 @@ namespace ChessGameLogic
     class AI
     {
         // templista för att kunna skriva AI
-        List<Pieces> tempgameboard = new List<Pieces>();
        
-        public /*List<Move>*/ void GiveValuetoMoves(Pieces piece)
-        {          
-            foreach (var item in piece.ListOfMoves)
+        public /*List<Move>*/ void GiveValuetoMoves(Pieces piece,List<Pieces> tempgameboard)
+        {
+            for (int i = 0; i < piece.ListOfMoves.Count; i++)
             {
-                if (CanThisMoveTakeSomething(item))
+                if (CanThisMoveTakeSomething(piece.ListOfMoves[i], tempgameboard))
                 {
-                    GiveInitialTakeValue(item);
-                    RemoveSelfFromValue(item, piece);
+                    GiveInitialTakeValue(piece.ListOfMoves[i],tempgameboard);
+                    RemoveSelfFromValue(piece.ListOfMoves[i], piece);
                 }
                 else
-                    GiveRandomValueToAMove(item);
+                {
+                    GiveRandomValueToAMove(piece.ListOfMoves[i]);
+                }
+            }   
+            //foreach (var item in piece.ListOfMoves)
+            //{
+            //    if (CanThisMoveTakeSomething(item))
+            //    {
+            //        GiveInitialTakeValue(item);
+            //        RemoveSelfFromValue(item, piece);
+            //    }
+            //    else
+            //        GiveRandomValueToAMove(item);
                
-            }
+            //}
            
         }
-        private void GiveInitialTakeValue(Move move)
+        private void GiveInitialTakeValue(Move move, List<Pieces> tempgameboard)
         {
                 foreach (var opponent in tempgameboard)
                 {
@@ -61,8 +72,13 @@ namespace ChessGameLogic
             return move;
             
         }
-        private bool CanThisMoveTakeSomething(Move move)
+        private bool CanThisMoveTakeSomething(Move move, List<Pieces> tempgameboard)
         {
+            //for (int i = 0; i < tempgameboard.Count; i++)
+            //{
+            //    if (tempgameboard[i].CurrentPosition == move.endPositions)
+            //        return true;
+            //}
             foreach (var item in tempgameboard)
             {
                 if (item.CurrentPosition == move.endPositions)

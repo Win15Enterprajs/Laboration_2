@@ -36,7 +36,11 @@ namespace ChessGameLogic
                 BishopMovement(piece);
 
 
-            piece.ListOfMoves = templist.ToList();
+            //piece.ListOfMoves = new List<Move>(templist);
+            for (int i = 0; i < templist.Count; i++)
+            {
+                piece.ListOfMoves.Add(templist[i]);
+            }
             foreach (var item in piece.ListOfMoves)
             {
                 if (WillItChessYou(piece, item))
@@ -493,7 +497,7 @@ namespace ChessGameLogic
         {
             foreach (var item in piece.ListOfMoves)
             {
-               if (!WillItChessYou(piece, item))
+               if (!WillItChessYou(piece, item));
                 piece.ListOfMoves.Remove(item);
             }
         }
