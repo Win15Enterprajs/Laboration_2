@@ -21,7 +21,6 @@ namespace ChessGameLogic
         {
             GameBoard = new List<Pieces>()
             {
-                // Creating the white pieces
                 new Pawn(Color.White, new Point(0,1), false),
                 new Pawn(Color.White, new Point(1,1), false),
                 new Pawn(Color.White, new Point(2,1), false),
@@ -31,16 +30,6 @@ namespace ChessGameLogic
                 new Pawn(Color.White, new Point(6,1), false),
                 new Pawn(Color.White, new Point(7,1), false),
 
-                // Creating the black pieces
-
-                new Pawn(Color.White, new Point(0,1), false),
-                new Pawn(Color.White, new Point(1,1), false),
-                new Pawn(Color.White, new Point(2,1), false),
-                new Pawn(Color.White, new Point(3,1), false),
-                new Pawn(Color.White, new Point(4,1), false),
-                new Pawn(Color.White, new Point(5,1), false),
-                new Pawn(Color.White, new Point(6,1), false),
-                new Pawn(Color.White, new Point(7,1), false),
             };
         }
         public List<Pieces> GetGameBoard()
@@ -49,12 +38,13 @@ namespace ChessGameLogic
         }
         public void MakeTurn()
         {
-            InitializePiecesForThisTurn(GameBoard);
             GiveBestMoveToPieces();
             Pieces PieceToMove = GetBestPiece();
             RemoveKilledPiece(PieceToMove);
             BustAMove(PieceToMove);
             turncounter++;
+
+            Console.WriteLine("OOOOOH YEEEA!!!");
 
         }
 
@@ -64,14 +54,14 @@ namespace ChessGameLogic
             Move bestMove = new Move(-1, -1, -999);
             foreach (Pieces piece in GameBoard)
             {
-                if (turncounter % 2 == 1 && piece.PieceColor == Color.White)
+                if (turncounter % 2 == 0 && piece.PieceColor == Color.White)
                 foreach (var move in piece.ListOfMoves)
                 {
                     if (move.value > bestMove.value)
                         bestMove = move;
 
                 }
-                else if (turncounter %  2 == 1 && piece.PieceColor == Color.Black)
+                else if (turncounter % 2 == 1 && piece.PieceColor == Color.Black)
                 {
                     foreach (var move in piece.ListOfMoves)
                     {
@@ -108,30 +98,16 @@ namespace ChessGameLogic
         {
             for (int i = 0; i < GameBoard.Count; i++)
             {
-                if (GameBoard[i].CurrentPosition == piece.BestMove.endPositions)
+                if (GameBoard[i].CurrentPosition == piece.CurrentPosition)
                     GameBoard.RemoveAt(i);
             }
         }
 
         private void BustAMove(Pieces piece)
         {
-            piece.CurrentPosition = piece.BestMove.endPositions;
+            GameBoard.Add(piece);
         }
-        private void InitializePiecesForThisTurn(List<Pieces> gameboard)
-        {
-            var Intelligence = new AI();
-            var Movement = new MoveLogic();
-            foreach (var item in gameboard)
-            {
-                Movement.SetMovementList(item, gameboard);
-            }
 
-            foreach (var item in gameboard)
-            {
-                Intelligence.GiveValuetoMoves(item);
-            }
-
-        }
 
 
 
