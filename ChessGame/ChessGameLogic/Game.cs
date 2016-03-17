@@ -147,8 +147,7 @@ namespace ChessGameLogic
         }
         public void PlayAGame(List<Pieces> gameboard)
         {
-            do
-            {
+            
                 turncounter++;
                 var intelligence = new AI();
                 var Movement = new MoveLogic();
@@ -183,7 +182,7 @@ namespace ChessGameLogic
                 RemoveKilledPiece(BestPiece);
                 BustAMove(BestPiece);
                 turncounter++;
-            } while (true);
+             
         }
         private Pieces GetBestPiece(List<Pieces> gameboard)
         {
