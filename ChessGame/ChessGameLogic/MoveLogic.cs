@@ -223,6 +223,11 @@ namespace ChessGameLogic
 
             var x = posX;
             var y = posY;
+            if (x == 7)
+                x = 6;
+            if (y == 7)
+                y = 6;
+             
             var direction = 1;
 
             do
@@ -279,6 +284,10 @@ namespace ChessGameLogic
 
             var x = posX;
             var y = posY;
+            if (x == 7)
+                x = 6;
+            if (y == 7)
+                y = 6;
             var direction = 1;
 
             do
