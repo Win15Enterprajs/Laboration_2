@@ -11,7 +11,6 @@ namespace ChessGameLogic
     {
         int turncouter = 0;
         List<Pieces> GameBoard;
-        Pieces BestPiece;
         Player Player1;
         Player Player2;
 
@@ -109,11 +108,6 @@ namespace ChessGameLogic
         {
             GameBoard.Add(piece);
         }
-
-
-
-
-
 
     }
 }

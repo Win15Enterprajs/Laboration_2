@@ -191,6 +191,7 @@ namespace ChessGameLogic
         }
 
 
+
         private List<Move> AddDiagonalMove_zero_zero(Pieces piece)
         {
             List<Move> diagonalMoves = new List<Move>();
@@ -404,6 +405,8 @@ namespace ChessGameLogic
             return verticalMoves;
         }
 
+
+
         private bool EncounterEnemy(int x, int y,Pieces piece)
         {
             foreach (var item in SnapShotOfGameboard)
@@ -424,6 +427,8 @@ namespace ChessGameLogic
             }
             return false;
         }
+
+
         private bool WillItChess(Pieces piece, Move move)
         {
             var saveCurrentPos = piece.CurrentPosition;
