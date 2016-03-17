@@ -9,8 +9,9 @@ namespace ChessGameLogic
 {
     public class Game
     {
-        int turncouter = 0;
+        int turncounter = 0;
         List<Pieces> GameBoard;
+        Pieces BestPiece;
         Player Player1;
         Player Player2;
 
@@ -20,6 +21,7 @@ namespace ChessGameLogic
         {
             GameBoard = new List<Pieces>()
             {
+                #region Adds White Player Pieces
                 new Pawn(Color.White, new Point(0,1), false),
                 new Pawn(Color.White, new Point(1,1), false),
                 new Pawn(Color.White, new Point(2,1), false),
@@ -28,6 +30,37 @@ namespace ChessGameLogic
                 new Pawn(Color.White, new Point(5,1), false),
                 new Pawn(Color.White, new Point(6,1), false),
                 new Pawn(Color.White, new Point(7,1), false),
+                new Rook(Color.White, new Point(0,0), false),
+                new Horse(Color.White, new Point(1,0)),
+                new Bishop(Color.White, new Point(2,0)),
+                new Queen(Color.White, new Point(3,0)),
+                new King(Color.White, new Point(4,0)),
+                new Bishop(Color.White, new Point(5,0)),
+                new Horse(Color.White, new Point(6,0)),
+                new Rook(Color.White, new Point(7,0), false),
+                #endregion
+                #region Adds Black Player Pieces
+                new Pawn(Color.Black, new Point(0,6), false),
+                new Pawn(Color.Black, new Point(1,6), false),
+                new Pawn(Color.Black, new Point(2,6), false),
+                new Pawn(Color.Black, new Point(3,6), false),
+                new Pawn(Color.Black, new Point(4,6), false),
+                new Pawn(Color.Black, new Point(5,6), false),
+                new Pawn(Color.Black, new Point(6,6), false),
+                new Pawn(Color.Black, new Point(7,6), false),
+                new Rook(Color.Black, new Point(0,7), false),
+                new Horse(Color.Black, new Point(1,7)),
+                new Bishop(Color.Black, new Point(2,7)),
+                new Queen(Color.Black, new Point(3,7)),
+                new King(Color.Black, new Point(4,7)),
+                new Bishop(Color.Black, new Point(5,7)),
+                new Horse(Color.Black, new Point(6,7)),
+                new Rook(Color.Black, new Point(7,7), false)
+                #endregion
+
+
+
+
 
             };
 
@@ -39,14 +72,17 @@ namespace ChessGameLogic
         }
         public void MakeTurn()
         {
+            InitializePiecesForThisTurn(GameBoard);
             GiveBestMoveToPieces();
-            Pieces PieceToMove = GetBestPiece();
+            Pieces PieceToMove = GetBestPiece(GameBoard);
             RemoveKilledPiece(PieceToMove);
             BustAMove(PieceToMove);
-            turncouter++;
+            turncounter++;
 
-            Console.WriteLine("OOOOOH YEEEA!!!");
-
+        }
+        public void ThisIsIt()
+        {
+            PlayAGame(GameBoard);
         }
 
         private void GiveBestMoveToPieces()
@@ -55,14 +91,16 @@ namespace ChessGameLogic
             Move bestMove = new Move(-1, -1, -999);
             foreach (Pieces piece in GameBoard)
             {
-                if (turncouter % 2 == 0 && piece.PieceColor == Color.White)
-                foreach (var move in piece.ListOfMoves)
+                if (turncounter % 2 == 1 && piece.PieceColor == Color.White)
                 {
-                    if (move.value > bestMove.value)
-                        bestMove = move;
+                    foreach (var move in piece.ListOfMoves)
+                    {
+                        if (move.value > bestMove.value)
+                            bestMove = move;
 
+                    }
                 }
-                else if (turncouter % 2 == 1 && piece.PieceColor == Color.Black)
+                else if (turncounter % 2 == 0 && piece.PieceColor == Color.Black)
                 {
                     foreach (var move in piece.ListOfMoves)
                     {
@@ -76,38 +114,107 @@ namespace ChessGameLogic
 
         }
 
-        private Pieces GetBestPiece()
-        {
-
-            Move bestMove = new Move(-1, -1, -999);
-            Pieces bestPiece = null;
-
-
-            foreach (Pieces piece in GameBoard)
-            {
-
-                if (piece.BestMove.value > bestMove.value)
-                {
-
-                    bestPiece = piece;
-                }
-            }
-            return bestPiece;
-        }
 
         private void RemoveKilledPiece(Pieces piece)
         {
             for (int i = 0; i < GameBoard.Count; i++)
             {
-                if (GameBoard[i].CurrentPosition == piece.CurrentPosition)
+                if (GameBoard[i].CurrentPosition._PosX == piece.BestMove.endPositions._PosX && GameBoard[i].CurrentPosition._PosY == piece.BestMove.endPositions._PosY)
                     GameBoard.RemoveAt(i);
             }
         }
 
         private void BustAMove(Pieces piece)
         {
-            GameBoard.Add(piece);
+            piece.CurrentPosition = piece.BestMove.endPositions;
         }
+        private void InitializePiecesForThisTurn(List<Pieces> gameboard)
+        {
+            var Intelligence = new AI();
+            var Movement = new MoveLogic();
+            foreach (var item in gameboard)
+            {
+                Movement.SetMovementList(item, gameboard);
+            }
+
+            foreach (var item in gameboard)
+            {
+                Intelligence.GiveValuetoMoves(item);
+            }
+
+        }
+        public void PlayAGame(List<Pieces> gameboard)
+        {
+            do
+            {
+                var intelligence = new AI();
+                var Movement = new MoveLogic();
+
+                for (int i = 0; i < gameboard.Count; i++)
+                {
+                    if (turncounter % 2 == 1 && gameboard[i].PieceColor == Color.White)
+                    {
+                        Movement.SetMovementList(gameboard[i], gameboard);
+                    }
+                    else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
+                    {
+                        Movement.SetMovementList(gameboard[i], gameboard);
+                    }
+
+
+                }
+                for (int i = 0; i < gameboard.Count; i++)
+                {
+                    if (turncounter % 2 == 1 && gameboard[i].PieceColor == Color.White)
+                    {
+                        intelligence.GiveValuetoMoves(gameboard[i]);
+                    }
+                    else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
+                    {
+                        Movement.SetMovementList(gameboard[i], gameboard);
+                    }
+
+                }
+                GiveBestMoveToPieces();
+                Pieces PieceToMove = GetBestPiece(gameboard);
+                RemoveKilledPiece(PieceToMove);
+                BustAMove(PieceToMove);
+                turncounter++;
+            } while (true);
+        }
+        private Pieces GetBestPiece(List<Pieces> gameboard)
+        {
+
+            Move bestMove = new Move(-1, -1, -999);
+            Pieces bestPiece = null;
+
+            for (int i = 0; i < gameboard.Count; i++)
+            {
+                if (turncounter%2 == 1 && gameboard[i].PieceColor == Color.White)
+                {
+                    if (gameboard[i].BestMove.value > bestMove.value)
+                    {
+                        bestMove.value = gameboard[i].BestMove.value;
+                        bestPiece = gameboard[i];
+                    }
+                }
+                else if (turncounter%2 == 0 && gameboard[i].PieceColor == Color.Black)
+                {
+                    if (bestMove.value > gameboard[i].BestMove.value)
+                    {
+                        bestPiece = gameboard[i];
+                        bestMove.value = gameboard[i].BestMove.value;
+                    }
+                }
+            }
+            
+
+            return bestPiece;
+        }
+
+
+
+
 
     }
 }

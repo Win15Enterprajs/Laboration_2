@@ -5,15 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using ChessGameLogic;
 
-namespace ChessGameLogic
+namespace ConsoleGUI
 {
     class Program
     {
         static void Main(string[] args)
         {
             Game Chess = new Game();
-            Draw DrawStuff = new Draw();            
-            DrawStuff.PrintGameBoard(Chess);
+            Draw DrawStuff = new Draw();
+            do
+            {
+                Console.Clear();
+                DrawStuff.PrintGameBoard(Chess);
+                Console.ReadKey();
+                Chess.ThisIsIt();
+            } while (true);
             Console.ReadKey();
         }
     }

@@ -14,7 +14,7 @@ namespace ChessGameLogic
 
         public void SetMovementList(Pieces piece, List<Pieces> gameBoard)
         {
-            SnapShotOfGameboard = gameBoard;
+            SnapShotOfGameboard = new List<Pieces>(gameBoard);
             templist.Clear();
                        
             if (piece is Pawn)
@@ -39,7 +39,7 @@ namespace ChessGameLogic
             piece.ListOfMoves = new List<Move>(templist);
             foreach (var item in piece.ListOfMoves)
             {
-                if (WillItChess(piece, item))
+                if (WillItChessYou(piece, item))
                     piece.ListOfMoves.Remove(item);
             }
 
@@ -137,15 +137,25 @@ namespace ChessGameLogic
             kingMoveList.Add(new Move((x - 1), (y), 0));
             kingMoveList.Add(new Move((x - 1), (y + 1), 0));
 
-            foreach (var item in kingMoveList)
+            for (int i = 0; i < kingMoveList.Count; i++)
             {
-                if (item.endPositions._PosX > 7 || item.endPositions._PosX < 0)
-                    kingMoveList.Remove(item);
-                else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
-                    kingMoveList.Remove(item);
-                else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY,king))
-                    kingMoveList.Remove(item);
+                if (kingMoveList[i].endPositions._PosX > 7 || kingMoveList[i].endPositions._PosX < 0)
+                    kingMoveList.Remove(kingMoveList[i]);
+                else if (kingMoveList[i].endPositions._PosY > 7 || kingMoveList[i].endPositions._PosY < 0)
+                    kingMoveList.Remove(kingMoveList[i]);
+                else if (EncounterAlly(kingMoveList[i].endPositions._PosX, kingMoveList[i].endPositions._PosY, king))
+                    kingMoveList.Remove(kingMoveList[i]);
             }
+
+            //foreach (var item in kingMoveList)
+            //{
+            //    if (item.endPositions._PosX > 7 || item.endPositions._PosX < 0)
+            //        kingMoveList.Remove(item);
+            //    else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
+            //        kingMoveList.Remove(item);
+            //    else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY,king))
+            //        kingMoveList.Remove(item);
+            //}
             foreach (var item in kingMoveList)
             {
                 templist.Add(item);
@@ -165,16 +175,24 @@ namespace ChessGameLogic
             horseMoveList.Add(new Move((x - 1), (y - 2), 0));
             horseMoveList.Add(new Move((x - 2), (y - 1), 0));
             horseMoveList.Add(new Move((x - 2), (y + 1), 0));
-
-            foreach (var item in horseMoveList)
+            for (int i = 0; i < horseMoveList.Count; i++)
             {
-                if (item.endPositions._PosX > 7 || item.endPositions._PosX < 0)
-                    horseMoveList.Remove(item);
-                else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
-                    horseMoveList.Remove(item);
-                else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY,horse))
-                    horseMoveList.Remove(item);
+                if (horseMoveList[i].endPositions._PosX > 7 || horseMoveList[i].endPositions._PosX < 0)
+                    horseMoveList.Remove(horseMoveList[i]);
+                else if (horseMoveList[i].endPositions._PosY > 7 || horseMoveList[i].endPositions._PosY < 0)
+                    horseMoveList.Remove(horseMoveList[i]);
+                else if (EncounterAlly(horseMoveList[i].endPositions._PosX, horseMoveList[i].endPositions._PosY, horse))
+                    horseMoveList.Remove(horseMoveList[i]);
             }
+            //foreach (var item in horseMoveList)
+            //{
+            //    if (item.endPositions._PosX > 7 || item.endPositions._PosX < 0)
+            //        horseMoveList.Remove(item);
+            //    else if (item.endPositions._PosY > 7 || item.endPositions._PosY < 0)
+            //        horseMoveList.Remove(item);
+            //    else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY,horse))
+            //        horseMoveList.Remove(item);
+            //}
             foreach (var item in horseMoveList)
             {
                 templist.Add(item);
@@ -189,7 +207,6 @@ namespace ChessGameLogic
 
             bishop.ListOfMoves = templist;
         }
-
 
 
         private List<Move> AddDiagonalMove_zero_zero(Pieces piece)
@@ -243,7 +260,7 @@ namespace ChessGameLogic
                     y = posY;
                 }
 
-            } while (x != 0 || y != 0);
+            } while (x >= 0 || y >= 0);
 
             return diagonalMoves;
         }
@@ -299,7 +316,7 @@ namespace ChessGameLogic
                     y = posY;
                 }
 
-            } while (x != 0 || y != 7);
+            } while (x >= 0 || y <= 7);
 
             return diagonalMoves;
         }
@@ -363,7 +380,7 @@ namespace ChessGameLogic
 
             int direction = 1;
 
-            for (int y = positionY + 1; y >= 0; y += direction)
+            for (int y = positionY + 1; y >= 0 && y <= 7; y += direction)
             {
                 if (EncounterEnemy(positionX, y,piece))
                 {
@@ -405,8 +422,6 @@ namespace ChessGameLogic
             return verticalMoves;
         }
 
-
-
         private bool EncounterEnemy(int x, int y,Pieces piece)
         {
             foreach (var item in SnapShotOfGameboard)
@@ -427,9 +442,7 @@ namespace ChessGameLogic
             }
             return false;
         }
-
-
-        private bool WillItChess(Pieces piece, Move move)
+        private bool WillItChessYou(Pieces piece, Move move)
         {
             var saveCurrentPos = piece.CurrentPosition;
             var AmazingKing = new Queen(piece.PieceColor, FindMeKing(SnapShotOfGameboard,piece));
@@ -476,6 +489,49 @@ namespace ChessGameLogic
             return point;
         }
         
+        private void MoveOutOfChess(Pieces piece)
+        {
+            foreach (var item in piece.ListOfMoves)
+            {
+               if (!WillItChessYou(piece, item));
+                piece.ListOfMoves.Remove(item);
+            }
+        }
+        public bool IsItChess(int turncounter)
+        {
+            if (turncounter % 2 == 0)
+            {
+                foreach (var item in SnapShotOfGameboard)
+                {
+                    foreach (var move in item.ListOfMoves)
+                    {
+                        if (item.PieceColor == Color.White)
+                            if (item.PieceType == ChessPieceSymbol.King)
+                                if (move.endPositions == item.CurrentPosition)
+                                    return true;
 
+
+
+                    }
+                }
+            }
+            else if (turncounter % 2 == 1)
+            {
+                foreach (var item in SnapShotOfGameboard)
+                {
+                    foreach (var move in item.ListOfMoves)
+                    {
+                        if (item.PieceColor == Color.Black)
+                            if (item.PieceType == ChessPieceSymbol.King)
+                                if (move.endPositions == item.CurrentPosition)
+                                    return true;
+
+
+
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
