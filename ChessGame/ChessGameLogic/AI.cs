@@ -76,5 +76,6 @@ namespace ChessGameLogic
             int nr = rnd.Next(0, 10);
             move.value = nr;
         }
+       
     }
 }

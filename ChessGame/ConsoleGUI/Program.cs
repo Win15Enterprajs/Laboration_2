@@ -18,7 +18,7 @@ namespace ConsoleGUI
                 Console.Clear();
                 DrawStuff.PrintGameBoard(Chess);
                 Console.ReadKey();
-                Chess.MakeTurn();
+                Chess.ThisIsIt();
             } while (true);
             Console.ReadKey();
         }
