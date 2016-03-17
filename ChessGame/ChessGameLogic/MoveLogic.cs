@@ -243,6 +243,8 @@ namespace ChessGameLogic
                         break;
                 }
                 // adding moves down left
+                x = piece.CurrentPosition._PosX;
+                y = piece.CurrentPosition._PosY;
                 for (int i = 0; i < 6; i++)
                 {
                     if (x >= 0 && y >= 0)
@@ -269,6 +271,8 @@ namespace ChessGameLogic
                     else
                         break;
                 }
+                x = piece.CurrentPosition._PosX;
+                y = piece.CurrentPosition._PosY;
                 // adding moves down to the right
                 for (int i = 0; i < 6; i++)
                 {
@@ -296,6 +300,8 @@ namespace ChessGameLogic
                     else
                         break;
                 }
+                x = piece.CurrentPosition._PosX;
+                y = piece.CurrentPosition._PosY;
                 // adding moves up to the left
                 for (int i = 0; i < 6; i++)
                 {
