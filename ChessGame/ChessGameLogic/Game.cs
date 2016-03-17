@@ -92,7 +92,7 @@ namespace ChessGameLogic
             Move bestMove = new Move(-1, -1, -999);
             foreach (Pieces piece in GameBoard)
             {
-                if (turncounter % 2 == 1 && piece.PieceColor == Color.White)
+                if ((turncounter % 2) == 1 && piece.PieceColor == Color.White)
                 {
                     foreach (var move in piece.ListOfMoves)
                     {
@@ -101,7 +101,7 @@ namespace ChessGameLogic
 
                     }
                 }
-                else if (turncounter % 2 == 0 && piece.PieceColor == Color.Black)
+                else if ((turncounter % 2) == 0 && piece.PieceColor == Color.Black)
                 {
                     foreach (var move in piece.ListOfMoves)
                     {
@@ -151,6 +151,7 @@ namespace ChessGameLogic
         {
             do
             {
+                turncounter++;
                 var intelligence = new AI();
                 var Movement = new MoveLogic();
 
@@ -180,9 +181,9 @@ namespace ChessGameLogic
 
                 }
                 GiveBestMoveToPieces();
-                Pieces PieceToMove = GetBestPiece(gameboard);
-                RemoveKilledPiece(PieceToMove);
-                BustAMove(PieceToMove);
+                BestPiece = GetBestPiece(gameboard);
+                RemoveKilledPiece(BestPiece);
+                BustAMove(BestPiece);
                 turncounter++;
             } while (true);
         }
