@@ -92,11 +92,13 @@ namespace ChessGameLogic
             foreach (Pieces piece in GameBoard)
             {
                 if (turncounter % 2 == 1 && piece.PieceColor == Color.White)
-                foreach (var move in piece.ListOfMoves)
                 {
-                    if (move.value > bestMove.value)
-                        bestMove = move;
+                    foreach (var move in piece.ListOfMoves)
+                    {
+                        if (move.value > bestMove.value)
+                            bestMove = move;
 
+                    }
                 }
                 else if (turncounter % 2 == 0 && piece.PieceColor == Color.Black)
                 {
@@ -151,29 +153,33 @@ namespace ChessGameLogic
                 for (int i = 0; i < gameboard.Count; i++)
                 {
                     if (turncounter % 2 == 1 && gameboard[i].PieceColor == Color.White)
-                        if (gameboard[i].PieceColor == Color.White)
-                            Movement.SetMovementList(gameboard[i], gameboard);
-                        else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
-                            if (gameboard[i].PieceColor == Color.Black)
-                                Movement.SetMovementList(gameboard[i], gameboard);
+                    {
+                        Movement.SetMovementList(gameboard[i], gameboard);
+                    }
+                    else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
+                    {
+                        Movement.SetMovementList(gameboard[i], gameboard);
+                    }
 
 
                 }
                 for (int i = 0; i < gameboard.Count; i++)
                 {
                     if (turncounter % 2 == 1 && gameboard[i].PieceColor == Color.White)
-                        if (gameboard[i].PieceColor == Color.White)
-                            intelligence.GiveValuetoMoves(gameboard[i]);
-                        else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
-                            if (gameboard[i].PieceColor == Color.Black)
-                                Movement.SetMovementList(gameboard[i], gameboard);
+                    {
+                        intelligence.GiveValuetoMoves(gameboard[i]);
+                    }
+                    else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
+                    {
+                        Movement.SetMovementList(gameboard[i], gameboard);
+                    }
 
                 }
                 GiveBestMoveToPieces();
-                GetBestPiece(gameboard);
                 Pieces PieceToMove = GetBestPiece(gameboard);
                 RemoveKilledPiece(PieceToMove);
                 BustAMove(PieceToMove);
+                turncounter++;
             } while (true);
         }
         private Pieces GetBestPiece(List<Pieces> gameboard)
@@ -185,15 +191,22 @@ namespace ChessGameLogic
             for (int i = 0; i < gameboard.Count; i++)
             {
                 if (turncounter % 2 == 1 && gameboard[i].PieceColor == Color.White)
+                {
                     if (gameboard[i].BestMove.value > bestMove.value)
                     {
+                        bestMove.value = gameboard[i].BestMove.value;
                         bestPiece = gameboard[i];
                     }
-               else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
+                    else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
+                    {
                         if (bestMove.value > gameboard[i].BestMove.value)
+                        {
                             bestPiece = gameboard[i];
+                            bestMove.value = gameboard[i].BestMove.value;
+                        }
+                    }
+                }
             }
-
 
             return bestPiece;
         }
