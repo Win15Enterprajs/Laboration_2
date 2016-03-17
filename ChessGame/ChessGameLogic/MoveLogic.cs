@@ -39,7 +39,7 @@ namespace ChessGameLogic
             piece.ListOfMoves = new List<Move>(templist);
             foreach (var item in piece.ListOfMoves)
             {
-                if (WillItChess(piece, item))
+                if (WillItChessYou(piece, item))
                     piece.ListOfMoves.Remove(item);
             }
 
@@ -424,7 +424,7 @@ namespace ChessGameLogic
             }
             return false;
         }
-        private bool WillItChess(Pieces piece, Move move)
+        private bool WillItChessYou(Pieces piece, Move move)
         {
             var saveCurrentPos = piece.CurrentPosition;
             var AmazingKing = new Queen(piece.PieceColor, FindMeKing(SnapShotOfGameboard,piece));
@@ -471,6 +471,49 @@ namespace ChessGameLogic
             return point;
         }
         
+        private void MoveOutOfChess(Pieces piece)
+        {
+            foreach (var item in piece.ListOfMoves)
+            {
+               if (!WillItChessYou(piece, item));
+                piece.ListOfMoves.Remove(item);
+            }
+        }
+        public bool IsItChess(int turncounter)
+        {
+            if (turncounter % 2 == 0)
+            {
+                foreach (var item in SnapShotOfGameboard)
+                {
+                    foreach (var move in item.ListOfMoves)
+                    {
+                        if (item.PieceColor == Color.White)
+                            if (item.PieceType == ChessPieceSymbol.King)
+                                if (move.endPositions == item.CurrentPosition)
+                                    return true;
 
+
+
+                    }
+                }
+            }
+            else if (turncounter % 2 == 1)
+            {
+                foreach (var item in SnapShotOfGameboard)
+                {
+                    foreach (var move in item.ListOfMoves)
+                    {
+                        if (item.PieceColor == Color.Black)
+                            if (item.PieceType == ChessPieceSymbol.King)
+                                if (move.endPositions == item.CurrentPosition)
+                                    return true;
+
+
+
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
