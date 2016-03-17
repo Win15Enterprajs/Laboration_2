@@ -36,11 +36,11 @@ namespace ChessGameLogic
                 BishopMovement(piece);
 
 
-            //piece.ListOfMoves = new List<Move>(templist);
-            for (int i = 0; i < templist.Count; i++)
-            {
-                piece.ListOfMoves.Add(templist[i]);
-            }
+            piece.ListOfMoves = new List<Move>(templist);
+            //for (int i = 0; i < templist.Count; i++)
+            //{
+            //    piece.ListOfMoves.Add(templist[i]);
+            //}
             foreach (var item in piece.ListOfMoves)
             {
                 if (WillItChessYou(piece, item))
@@ -512,7 +512,7 @@ namespace ChessGameLogic
 
             int direction = 1;
 
-            for (int y = positionY + 1; y >= 0 && y <= 7; y += direction)
+            for (int y = positionY; y >= 0; y += direction)
             {
                 if (EncounterEnemy(positionX, y,piece))
                 {
