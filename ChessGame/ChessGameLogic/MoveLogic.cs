@@ -408,8 +408,8 @@ namespace ChessGameLogic
             var y = posY;
             if (x == 7)
                 x = 6;
-            if (y == 7)
-                y = 6;
+            if (y == 0)
+                y = 1;
             var direction = 1;
 
             do
