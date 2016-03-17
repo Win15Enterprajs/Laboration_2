@@ -70,11 +70,19 @@ namespace ConsoleGUI
 
         private void printBoard()
         {
+            Console.WriteLine("    A |B |C |D |E |F |G |H ");
             for (int i = 3; i < 25; i +=3)
             {
+               
                 for (int j = 1; j < 9; j++)
                 {
+                    Console.SetCursorPosition(1, j);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                   Console.Write(j);
+
                     Console.SetCursorPosition(i, j);
+                  
+
                     if ((i % 2) != 1 && (j % 2) != 0 || (i % 2) != 0 && (j % 2) != 1)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkGray;
