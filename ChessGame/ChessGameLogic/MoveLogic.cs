@@ -461,7 +461,7 @@ namespace ChessGameLogic
             int direction = 1;
             List<Move> horizontalMoves = new List<Move>();
 
-            for (int x = positionX+1; x >= 0; x += direction)
+            for (int x = positionX; x >= 0; x += direction)
             {
                 if (EncounterEnemy(x, positionY,piece))
                 {
@@ -507,12 +507,13 @@ namespace ChessGameLogic
         {
             List<Move> verticalMoves = new List<Move>();
 
+            
             var positionY = piece.CurrentPosition._PosY;
             var positionX = piece.CurrentPosition._PosX;
 
             int direction = 1;
 
-            for (int y = positionY+1; y >= 0; y += direction)
+            for (int y = positionY; y >= 0; y += direction)
             {
               
                 if (EncounterEnemy(positionX, y,piece))
@@ -546,7 +547,7 @@ namespace ChessGameLogic
                     direction = -1;
                 }
 
-                else
+                else if (y > 0 && y < 7)
                 {
                     verticalMoves.Add(new Move(positionX, y, 0));
                 }
