@@ -139,7 +139,7 @@ namespace ChessGameLogic
 
             foreach (var item in gameboard)
             {
-                Intelligence.GiveValuetoMoves(item);
+                Intelligence.GiveValuetoMoves(item,gameboard);
             }
 
         }
@@ -167,7 +167,7 @@ namespace ChessGameLogic
                 {
                     if (turncounter % 2 == 1 && gameboard[i].PieceColor == Color.White)
                     {
-                        intelligence.GiveValuetoMoves(gameboard[i]);
+                        intelligence.GiveValuetoMoves(gameboard[i],gameboard);
                     }
                     else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
                     {
