@@ -329,7 +329,7 @@ namespace ChessGameLogic
                     y = posY;
                 }
 
-            } while (x >= 0 || y <= 7);
+            } while (x >= 0 || y <= 7 );
 
             return diagonalMoves;
         }

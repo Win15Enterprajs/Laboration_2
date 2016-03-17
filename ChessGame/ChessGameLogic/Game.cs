@@ -117,11 +117,14 @@ namespace ChessGameLogic
 
         private void RemoveKilledPiece(Pieces piece)
         {
+            int tempIndex = 0;
             for (int i = 0; i < GameBoard.Count; i++)
             {
                 if (GameBoard[i].CurrentPosition._PosX == piece.BestMove.endPositions._PosX && GameBoard[i].CurrentPosition._PosY == piece.BestMove.endPositions._PosY)
-                    GameBoard.RemoveAt(i);
+                    tempIndex = i;
+                break;
             }
+            GameBoard.RemoveAt(tempIndex);
         }
 
         private void BustAMove(Pieces piece)
