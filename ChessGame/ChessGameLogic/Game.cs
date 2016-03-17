@@ -188,12 +188,18 @@ namespace ChessGameLogic
                     if (gameboard[i].BestMove.value > bestMove.value)
                     {
                         bestPiece = gameboard[i];
+                        bestMove.value = gameboard[i].BestMove.value;
                     }
-               else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
+                    else if (turncounter % 2 == 0 && gameboard[i].PieceColor == Color.Black)
+                    {
                         if (bestMove.value > gameboard[i].BestMove.value)
+                        {
                             bestPiece = gameboard[i];
-            }
+                            bestMove.value = gameboard[i].BestMove.value;
+                        }
+                    }
 
+            }
 
             return bestPiece;
         }
