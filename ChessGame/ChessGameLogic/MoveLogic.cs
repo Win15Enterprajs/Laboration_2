@@ -467,13 +467,13 @@ namespace ChessGameLogic
             int direction = 1;
             List<Move> horizontalMoves = new List<Move>();
 
-            for (int x = positionX; x >= 0; x += direction)
+            for (int x = positionX+1; x >= 0; x += direction)
             {
                 if (EncounterEnemy(x, positionY,piece))
                 {
                     horizontalMoves.Add(new Move(x, positionY, 0));
 
-                    if (x >= positionX)
+                    if (x >= positionX && x <= 7)
                     {
                         x = positionX - 1;
                         direction = -1;
@@ -493,7 +493,7 @@ namespace ChessGameLogic
                         break;
                 }
 
-                else if (x == 7)
+                else if (x >= 7)
                 {
                     horizontalMoves.Add(new Move(x, positionY, 0));
                     x = positionX - 1;
@@ -518,8 +518,9 @@ namespace ChessGameLogic
 
             int direction = 1;
 
-            for (int y = positionY; y >= 0; y += direction)
+            for (int y = positionY+1; y >= 0; y += direction)
             {
+              
                 if (EncounterEnemy(positionX, y,piece))
                 {
                     verticalMoves.Add(new Move(positionX, y, 0));
