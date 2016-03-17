@@ -88,26 +88,26 @@ namespace ConsoleGUI
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
 
-            int count = 1;
+            int count = 0;
             for (int i = 4; i < 26; i += 3)
             {
 
                 Console.SetCursorPosition(i, 9);
-                Console.Write(count);
+                Console.Write(CoordinateConversionToLetter[count]);
                 Console.SetCursorPosition(i, 0);
-                Console.Write(count);
+                Console.Write(CoordinateConversionToLetter[count]);
                 count++;
             }
 
-            count = 0;
+            count = 8;
             for (int i = 1; i < 9; i++)
             {
 
                 Console.SetCursorPosition(1, i );
-                Console.Write(CoordinateConversionToLetter[count]);
+                Console.Write(count);
                 Console.SetCursorPosition(28, i );
-                Console.Write(CoordinateConversionToLetter[count]);
-                count++;
+                Console.Write(count);
+                count--;
             }
 
 
