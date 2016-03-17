@@ -9,7 +9,7 @@ namespace ChessGameLogic
     public enum ChessPieceSymbol
     {
         Pawn = 'P',
-        Horse = 'K',
+        Horse = 'H',
         Bishop = 'B',
         Rook = 'R',
         Queen = 'Q',
