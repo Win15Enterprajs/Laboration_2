@@ -49,13 +49,12 @@ namespace ChessGameLogic
         }
         public void MakeTurn()
         {
+            InitializePiecesForThisTurn(GameBoard);
             GiveBestMoveToPieces();
             Pieces PieceToMove = GetBestPiece();
             RemoveKilledPiece(PieceToMove);
             BustAMove(PieceToMove);
             turncounter++;
-
-            Console.WriteLine("OOOOOH YEEEA!!!");
 
         }
 
@@ -109,16 +108,30 @@ namespace ChessGameLogic
         {
             for (int i = 0; i < GameBoard.Count; i++)
             {
-                if (GameBoard[i].CurrentPosition == piece.CurrentPosition)
+                if (GameBoard[i].CurrentPosition == piece.BestMove.endPositions)
                     GameBoard.RemoveAt(i);
             }
         }
 
         private void BustAMove(Pieces piece)
         {
-            GameBoard.Add(piece);
+            piece.CurrentPosition = piece.BestMove.endPositions;
         }
+        private void InitializePiecesForThisTurn(List<Pieces> gameboard)
+        {
+            var Intelligence = new AI();
+            var Movement = new MoveLogic();
+            foreach (var item in gameboard)
+            {
+                Movement.SetMovementList(item, gameboard);
+            }
 
+            foreach (var item in gameboard)
+            {
+                Intelligence.GiveValuetoMoves(item);
+            }
+
+        }
 
 
 

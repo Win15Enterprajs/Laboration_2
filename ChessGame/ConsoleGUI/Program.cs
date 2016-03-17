@@ -12,8 +12,14 @@ namespace ConsoleGUI
         static void Main(string[] args)
         {
             Game Chess = new Game();
-            Draw DrawStuff = new Draw();            
-            DrawStuff.PrintGameBoard(Chess);
+            Draw DrawStuff = new Draw();
+            do
+            {
+                Console.Clear();
+                DrawStuff.PrintGameBoard(Chess);
+                Console.ReadKey();
+                Chess.MakeTurn();
+            } while (true);
             Console.ReadKey();
         }
     }
