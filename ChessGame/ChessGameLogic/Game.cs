@@ -55,7 +55,7 @@ namespace ChessGameLogic
                 new King(Color.Black, new Point(4,7)),
                 new Bishop(Color.Black, new Point(5,7)),
                 new Horse(Color.Black, new Point(6,7)),
-                new Rook(Color.Black, new Point(7,7), false),
+                new Rook(Color.Black, new Point(7,7), false)
                 #endregion
 
 
