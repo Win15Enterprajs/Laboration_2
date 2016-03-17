@@ -148,7 +148,6 @@ namespace ChessGameLogic
         public void PlayAGame(List<Pieces> gameboard)
         {
             
-                turncounter++;
                 var intelligence = new AI();
                 var Movement = new MoveLogic();
 
