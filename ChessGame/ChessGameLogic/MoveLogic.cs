@@ -170,20 +170,37 @@ namespace ChessGameLogic
             horseMoveList.Add(new Move((x + 1), (y + 2), 0));
             horseMoveList.Add(new Move((x - 1), (y + 2), 0));
             horseMoveList.Add(new Move((x + 2), (y + 1), 0));
-            horseMoveList.Add(new Move((x + 2), (y - 2), 0));
+            horseMoveList.Add(new Move((x + 2), (y - 1), 0));
             horseMoveList.Add(new Move((x + 1), (y - 2), 0));
             horseMoveList.Add(new Move((x - 1), (y - 2), 0));
             horseMoveList.Add(new Move((x - 2), (y - 1), 0));
             horseMoveList.Add(new Move((x - 2), (y + 1), 0));
+            //for (int i = 0; i < horseMoveList.Count; i++)
+            //{
+            //    if (horseMoveList[i].endPositions._PosX <= 7 || horseMoveList[i].endPositions._PosX >= 0)
+            //        templist.Add(horseMoveList[i]);
+            //    else if (horseMoveList[i].endPositions._PosY <= 7 || horseMoveList[i].endPositions._PosY >= 0)
+            //        templist.Add(horseMoveList[i]);
+
+            //    else if (EncounterAlly(horseMoveList[i].endPositions._PosX, horseMoveList[i].endPositions._PosY, horse))
+            //        horseMoveList.Remove(horseMoveList[i]);
+            //}
+
             for (int i = 0; i < horseMoveList.Count; i++)
             {
-                if (horseMoveList[i].endPositions._PosX > 7 || horseMoveList[i].endPositions._PosX < 0)
-                    horseMoveList.Remove(horseMoveList[i]);
-                else if (horseMoveList[i].endPositions._PosY > 7 || horseMoveList[i].endPositions._PosY < 0)
-                    horseMoveList.Remove(horseMoveList[i]);
-                else if (EncounterAlly(horseMoveList[i].endPositions._PosX, horseMoveList[i].endPositions._PosY, horse))
-                    horseMoveList.Remove(horseMoveList[i]);
+                if (!(EncounterAlly(horseMoveList[i].endPositions._PosX, horseMoveList[i].endPositions._PosY, horse)))
+                {
+                    if (horseMoveList[i].endPositions._PosX <= 7 && horseMoveList[i].endPositions._PosX >= 0)
+                    {
+                        if (horseMoveList[i].endPositions._PosY <= 7 && horseMoveList[i].endPositions._PosY >= 0)
+                        {
+                            templist.Add(horseMoveList[i]);
+                        }
+                    }
+                }
+                    
             }
+
             //foreach (var item in horseMoveList)
             //{
             //    if (item.endPositions._PosX > 7 || item.endPositions._PosX < 0)
@@ -193,10 +210,10 @@ namespace ChessGameLogic
             //    else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY,horse))
             //        horseMoveList.Remove(item);
             //}
-            foreach (var item in horseMoveList)
-            {
-                templist.Add(item);
-            }
+            //foreach (var item in horseMoveList)
+            //{
+            //    templist.Add(item);
+            //}
         }
 
         private void BishopMovement(Pieces bishop)
