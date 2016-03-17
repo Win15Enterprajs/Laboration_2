@@ -111,8 +111,6 @@ namespace ChessGameLogic
         {
             templist.AddRange(AddHorizontalMove(rook));
             templist.AddRange(AddVerticalMove(rook));
-
-            rook.ListOfMoves = templist;
         }
 
         private void QueenMovement(Pieces queen)
@@ -120,10 +118,8 @@ namespace ChessGameLogic
             templist.AddRange(AddHorizontalMove(queen));
             templist.AddRange(AddVerticalMove(queen));
 
-            templist.AddRange(AddDiagonalMove_zero_zero(queen));
             templist.AddRange(AddDiagonalMove_zero_seven(queen));
-
-            queen.ListOfMoves = templist;
+            templist.AddRange(AddDiagonalMove_zero_zero(queen));
         }
 
         private void KingMovement(Pieces king)
@@ -206,10 +202,8 @@ namespace ChessGameLogic
         private void BishopMovement(Pieces bishop)
         {
 
-            templist.AddRange(AddDiagonalMove_zero_zero(bishop));
             templist.AddRange(AddDiagonalMove_zero_seven(bishop));
-
-            bishop.ListOfMoves = templist;
+            templist.AddRange(AddDiagonalMove_zero_zero(bishop));
         }
 
         private List<Move> AddDiagonalMove(Pieces piece)
@@ -222,7 +216,7 @@ namespace ChessGameLogic
             {
 
                 // Adding spaces up to the right
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 6; i++)
                 {
                     if (x <= 7 && y <= 7)
                     {
@@ -249,36 +243,9 @@ namespace ChessGameLogic
                         break;
                 }
                 // adding moves down left
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 6; i++)
                 {
-                    if (x <= 7 && y <= 7)
-                    {
-                        if (EncounterEnemy(x, y, piece))
-                        {
-                            diagonalmoves.Add(new Move(x, y, 0));
-                            break;
-                        }
-                        else if (EncounterAlly(x, y, piece))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
-                            {
-                                diagonalmoves.Add(new Move(x, y, 0));
-                            }
-                            x++;
-                            y--;
-                        }
-                    }
-                    else
-                        break;
-                }
-                // adding moves down to the right
-                for (int i = 0; i < 7; i++)
-                {
-                    if (x <= 7 && y <= 7)
+                    if (x >= 0 && y >= 0)
                     {
                         if (EncounterEnemy(x, y, piece))
                         {
@@ -302,10 +269,37 @@ namespace ChessGameLogic
                     else
                         break;
                 }
-                // adding moves up to the left
-                for (int i = 0; i < 7; i++)
+                // adding moves down to the right
+                for (int i = 0; i < 6; i++)
                 {
-                    if (x <= 7 && y <= 7)
+                    if (x <= 7 && y >= 0)
+                    {
+                        if (EncounterEnemy(x, y, piece))
+                        {
+                            diagonalmoves.Add(new Move(x, y, 0));
+                            break;
+                        }
+                        else if (EncounterAlly(x, y, piece))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            {
+                                diagonalmoves.Add(new Move(x, y, 0));
+                            }
+                            x++;
+                            y--;
+                        }
+                    }
+                    else
+                        break;
+                }
+                // adding moves up to the left
+                for (int i = 0; i < 6; i++)
+                {
+                    if (x >= 0 && y <= 7)
                     {
                         if (EncounterEnemy(x, y, piece))
                         {
