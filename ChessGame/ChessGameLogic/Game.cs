@@ -74,9 +74,10 @@ namespace ChessGameLogic
         {
             InitializePiecesForThisTurn(GameBoard);
             GiveBestMoveToPieces();
-            Pieces PieceToMove = GetBestPiece(GameBoard);
-            RemoveKilledPiece(PieceToMove);
-            BustAMove(PieceToMove);
+            BestPiece = GetBestPiece(GameBoard);
+            RemoveKilledPiece(BestPiece);
+            BustAMove(BestPiece);
+            BestPiece = null;
             turncounter++;
 
         }
