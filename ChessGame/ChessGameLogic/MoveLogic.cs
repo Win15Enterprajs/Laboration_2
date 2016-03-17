@@ -36,7 +36,11 @@ namespace ChessGameLogic
                 BishopMovement(piece);
 
 
-            piece.ListOfMoves = new List<Move>(templist);
+            //piece.ListOfMoves = new List<Move>(templist);
+            for (int i = 0; i < templist.Count; i++)
+            {
+                piece.ListOfMoves.Add(templist[i]);
+            }
             foreach (var item in piece.ListOfMoves)
             {
                 if (WillItChessYou(piece, item))
