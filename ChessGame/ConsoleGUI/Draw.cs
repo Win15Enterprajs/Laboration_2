@@ -70,7 +70,6 @@ namespace ConsoleGUI
 
         private void printBoard()
         {
-            Console.WriteLine("    A |B |C |D |E |F |G |H ");
             for (int i = 3; i < 25; i +=3)
             {
                
