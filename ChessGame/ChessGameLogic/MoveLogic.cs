@@ -155,17 +155,20 @@ namespace ChessGameLogic
 
         private void RookMovement(Pieces rook)
         {
-            templist.AddRange(AddHorizontalMove(rook));
-            templist.AddRange(AddVerticalMove(rook));
+            //templist.AddRange(AddHorizontalMove(rook));
+            //templist.AddRange(AddVerticalMove(rook));
+            templist.AddRange(AddHorizontalAndVerticalMoves(rook));
         }
 
         private void QueenMovement(Pieces queen)
         {
-            templist.AddRange(AddHorizontalMove(queen));
-            templist.AddRange(AddVerticalMove(queen));
+            //templist.AddRange(AddHorizontalMove(queen));
+            //templist.AddRange(AddVerticalMove(queen));
+            templist.AddRange(AddHorizontalAndVerticalMoves(queen));
+            templist.AddRange(AddDiagonalMove(queen));
 
-            templist.AddRange(AddDiagonalMove_zero_seven(queen));
-            templist.AddRange(AddDiagonalMove_zero_zero(queen));
+            //templist.AddRange(AddDiagonalMove_zero_seven(queen));
+            //templist.AddRange(AddDiagonalMove_zero_zero(queen));
         }
 
         private void KingMovement(Pieces king)
@@ -279,11 +282,138 @@ namespace ChessGameLogic
 
         private void BishopMovement(Pieces bishop)
         {
-
-            templist.AddRange(AddDiagonalMove_zero_seven(bishop));
-            templist.AddRange(AddDiagonalMove_zero_zero(bishop));
+            templist.AddRange(AddDiagonalMove(bishop));
+            //templist.AddRange(AddDiagonalMove_zero_seven(bishop));
+            //templist.AddRange(AddDiagonalMove_zero_zero(bishop));
         }
+        private List<Move> AddHorizontalAndVerticalMoves(Pieces piece)
+        {
+            List<Move> horizontalAndVerticalMoves = new List<Move>();
+            bool withinbounds = true;
+            int x = piece.CurrentPosition._PosX;
+            int y = piece.CurrentPosition._PosY;
 
+            do
+            {
+                // This forloop looks for positive changes on the Y axis
+                for (int i = 0; i < 7; i++)
+                {
+                    y++;
+                    if (y <= 7)
+                    {
+                        if (EncounterEnemy(x, y, piece))
+                        {
+                            horizontalAndVerticalMoves.Add(new Move(x, y, 0));
+                            break;
+                        }
+                        // checks if the newfound tile has an ally in it
+                        else if (EncounterAlly(x, y, piece))
+                        {
+                            break;
+                        }
+                        // If the tile is not the original starting position adds the tile ot the movelist
+                        else
+                        {
+                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            {
+                                horizontalAndVerticalMoves.Add(new Move(x, y, 0));
+                            }
+                        }
+                    }
+                    else
+                        break;
+                }
+                // This forloop looks for negative changes on the Y axis
+                for (int i = 0; i < 7; i++)
+                {
+                    y--;
+                    if (y >= 0)
+                    {
+                        if (EncounterEnemy(x, y, piece))
+                        {
+                            horizontalAndVerticalMoves.Add(new Move(x, y, 0));
+                            break;
+                        }
+                        // checks if the newfound tile has an ally in it
+                        else if (EncounterAlly(x, y, piece))
+                        {
+                            break;
+                        }
+                        // If the tile is not the original starting position adds the tile ot the movelist
+                        else
+                        {
+                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            {
+                                horizontalAndVerticalMoves.Add(new Move(x, y, 0));
+                            }
+                        }
+                    }
+                    else
+                        break;
+                }
+                // This forloop looks for positive changes on the X axis
+                for (int i = 0; i < 7; i++)
+                {
+                    x++;
+                    if (x <= 7)
+                    {
+                        if (EncounterEnemy(x, y, piece))
+                        {
+                            horizontalAndVerticalMoves.Add(new Move(x, y, 0));
+                            break;
+                        }
+                        // checks if the newfound tile has an ally in it
+                        else if (EncounterAlly(x, y, piece))
+                        {
+                            break;
+                        }
+                        // If the tile is not the original starting position adds the tile ot the movelist
+                        else
+                        {
+                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            {
+                                horizontalAndVerticalMoves.Add(new Move(x, y, 0));
+                            }
+                        }
+                    }
+                    else
+                        break;
+                }
+                // This forloop looks for positive changes on the Y axis
+                for (int i = 0; i < 7; i++)
+                {
+                    x--;
+                    if (x >= 0)
+                    {
+                        if (EncounterEnemy(x, y, piece))
+                        {
+                            horizontalAndVerticalMoves.Add(new Move(x, y, 0));
+                            break;
+                        }
+                        // checks if the newfound tile has an ally in it
+                        else if (EncounterAlly(x, y, piece))
+                        {
+                            break;
+                        }
+                        // If the tile is not the original starting position adds the tile ot the movelist
+                        else
+                        {
+                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            {
+                                horizontalAndVerticalMoves.Add(new Move(x, y, 0));
+                            }
+                        }
+                    }
+                    else
+                        break;
+                }
+                withinbounds = false;
+            } while (withinbounds);
+        
+
+            return horizontalAndVerticalMoves;
+        }
+    
         private List<Move> AddDiagonalMove(Pieces piece)
         {
             List<Move> diagonalmoves = new List<Move>();
@@ -293,32 +423,41 @@ namespace ChessGameLogic
             do
             {
 
-                // Adding spaces up to the right
+                // Looping through spaces up to the right until you run out of gameboard or encounter an enemy or ally
                 for (int i = 0; i < 6; i++)
                 {
+                    // Makes sure the initial values are within bounds of the gameboard
                     if (x <= 7 && y <= 7)
                     {
-                        if (EncounterEnemy(x, y, piece))
+                        // Manipulate the values in the direction we want and check if they are within board
+                        x++;
+                        y++;
+                        if (x <= 7 && y <= 7)
                         {
-                            diagonalmoves.Add(new Move(x, y, 0));
-                            break;
-                        }
-                        else if (EncounterAlly(x,y,piece))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            // Checks if the newfound tile has an enemy in it
+                            if (EncounterEnemy(x, y, piece))
                             {
                                 diagonalmoves.Add(new Move(x, y, 0));
+                                break;
                             }
-                            x++;
-                            y++;
+                            // checks if the newfound tile has an ally in it
+                            else if (EncounterAlly(x, y, piece))
+                            {
+                                break;
+                            }
+                            // If the tile is not the original starting position adds the tile ot the movelist
+                            else
+                            {
+                                if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                                {
+                                    diagonalmoves.Add(new Move(x, y, 0));
+                                }
+                            }
                         }
+                        else
+                            break;
                     }
-                    else
-                        break;
+                   
                 }
                 // adding moves down left
                 x = piece.CurrentPosition._PosX;
@@ -327,27 +466,30 @@ namespace ChessGameLogic
                 {
                     if (x >= 0 && y >= 0)
                     {
-                        if (EncounterEnemy(x, y, piece))
+                        x--;
+                        y--;
+                        if (x >= 0 && y >= 0)
                         {
-                            diagonalmoves.Add(new Move(x, y, 0));
-                            break;
-                        }
-                        else if (EncounterAlly(x, y, piece))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            if (EncounterEnemy(x, y, piece))
                             {
                                 diagonalmoves.Add(new Move(x, y, 0));
+                                break;
                             }
-                            x--;
-                            y--;
+                            else if (EncounterAlly(x, y, piece))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                                {
+                                    diagonalmoves.Add(new Move(x, y, 0));
+                                }
+                            }
                         }
+                        else
+                            break;
                     }
-                    else
-                        break;
                 }
                 x = piece.CurrentPosition._PosX;
                 y = piece.CurrentPosition._PosY;
@@ -356,27 +498,31 @@ namespace ChessGameLogic
                 {
                     if (x <= 7 && y >= 0)
                     {
-                        if (EncounterEnemy(x, y, piece))
+                        x++;
+                        y--;
+                        if (x <= 7 && y >= 0)
                         {
-                            diagonalmoves.Add(new Move(x, y, 0));
-                            break;
-                        }
-                        else if (EncounterAlly(x, y, piece))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            if (EncounterEnemy(x, y, piece))
                             {
                                 diagonalmoves.Add(new Move(x, y, 0));
+                                break;
                             }
-                            x++;
-                            y--;
+                            else if (EncounterAlly(x, y, piece))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                                {
+                                    diagonalmoves.Add(new Move(x, y, 0));
+                                }
+                            }
                         }
+                        else
+                            break;
                     }
-                    else
-                        break;
+                    
                 }
                 x = piece.CurrentPosition._PosX;
                 y = piece.CurrentPosition._PosY;
@@ -385,28 +531,32 @@ namespace ChessGameLogic
                 {
                     if (x >= 0 && y <= 7)
                     {
-                        if (EncounterEnemy(x, y, piece))
+                        x--;
+                        y++;
+                        if (x >= 0 && y <= 7)
                         {
-                            diagonalmoves.Add(new Move(x, y, 0));
-                            break;
-                        }
-                        else if (EncounterAlly(x, y, piece))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            if (EncounterEnemy(x, y, piece))
                             {
                                 diagonalmoves.Add(new Move(x, y, 0));
+                                break;
                             }
-                            x--;
-                            y++;
+                            else if (EncounterAlly(x, y, piece))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                                {
+                                    diagonalmoves.Add(new Move(x, y, 0));
+                                }
+                            }
                         }
+                        else
+                            break;
                     }
-                    else
-                        withinbounds = false;
                 }
+                withinbounds = false;
             } while (withinbounds);
             return diagonalmoves;
         }
