@@ -41,20 +41,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI.cs" />
-    <Compile Include="Bishop.cs" />
+    <Compile Include="ChessPieces\Bishop.cs" />
     <Compile Include="Enum\Enum.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Horse.cs" />
-    <Compile Include="King.cs" />
+    <Compile Include="ChessPieces\Horse.cs" />
+    <Compile Include="ChessPieces\King.cs" />
+    <Compile Include="GameLogger.cs" />
     <Compile Include="MoveLogic.cs" />
     <Compile Include="PackageClasses\Move.cs" />
     <Compile Include="PackageClasses\Point.cs" />
-    <Compile Include="Pawn.cs" />
-    <Compile Include="Pieces.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="ChessPieces\Pawn.cs" />
+    <Compile Include="ChessPieces\Pieces.cs" />
+    <Compile Include="ChessPieces\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queen.cs" />
-    <Compile Include="Rook.cs" />
+    <Compile Include="ChessPieces\Queen.cs" />
+    <Compile Include="ChessPieces\Rook.cs" />
     <Compile Include="TestClasses\TEST_rockpossiblemoves.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

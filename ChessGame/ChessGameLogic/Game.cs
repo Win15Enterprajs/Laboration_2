@@ -11,6 +11,7 @@ namespace ChessGameLogic
     {
         int turncounter = 0;
         List<Pieces> GameBoard;
+        List<string> GameLog;
         Pieces BestPiece;
         Player Player1;
         Player Player2;
