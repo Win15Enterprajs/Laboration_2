@@ -110,7 +110,10 @@ namespace ChessGameLogic
 
                     }
                 }
-                piece.BestMove = bestMove;
+                var bPosX= bestMove.endPositions._PosX;
+                var bPosY= bestMove.endPositions._PosY;
+                var bVal = bestMove.value;
+                piece.BestMove = new Move(bPosX, bPosY, bVal);
                 bestMove = new Move(-1, -1, -999);
             }
 
@@ -129,7 +132,8 @@ namespace ChessGameLogic
 
         private void BustAMove(Pieces piece)
         {
-            piece.CurrentPosition = piece.BestMove.endPositions;
+            piece.CurrentPosition._PosX = piece.BestMove.endPositions._PosX;
+            piece.CurrentPosition._PosY = piece.BestMove.endPositions._PosY;
         }
         private void InitializePiecesForThisTurn(List<Pieces> gameboard)
         {

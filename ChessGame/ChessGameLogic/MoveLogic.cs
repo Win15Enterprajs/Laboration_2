@@ -61,7 +61,6 @@ namespace ChessGameLogic
             var positionY = pawn.CurrentPosition._PosY;
             bool noEncounterOnFirstMove = false;
 
-            List<Move> pawnMoveList = new List<Move>(); // Move = Xcoord, Ycoord and for now default value of 0.
 
             int direction = 1;
 
@@ -69,38 +68,66 @@ namespace ChessGameLogic
             {
                 direction = -1;
             }
-
-            if ((positionY + direction) < 7 && (positionY + direction) > 0) // The pawns movement along the Y-axis
+            List<Move> pawnMoveList = new List<Move>()
             {
-                if (!EncounterAlly(positionX, positionY + direction,pawn) && !EncounterEnemy(positionX, positionY + direction,pawn)) // Pawns movement along the Y-axis if it haven't moved before.
+                new Move(positionX - 1, positionY + direction, 0),
+                new Move(positionX + 1, positionY + direction, 0),
+                new Move(positionX, positionY + direction, 0),
+                new Move(positionX, positionY + (direction + direction), 0)
+
+            };
+            for (int i = 0; i < pawnMoveList.Count; i++)
+            {
+                if (!EncounterAlly(pawnMoveList[i].endPositions._PosX, pawnMoveList[i].endPositions._PosY, pawn) && (!EncounterEnemy(pawnMoveList[i].endPositions._PosX, pawnMoveList[i].endPositions._PosY, pawn)))
                 {
-                    pawnMoveList.Add(new Move(positionX, (positionY + direction), 0));
-                    noEncounterOnFirstMove = true;
+                    if ((pawnMoveList[i].endPositions._PosX <= 7) && pawnMoveList[i].endPositions._PosX >= 0 && (pawnMoveList[i].endPositions._PosX == positionX))
+                    {
+                        if ((pawnMoveList[i].endPositions._PosY <= 7) && pawnMoveList[i].endPositions._PosY >= 0)
+                        {
+                            templist.Add(pawnMoveList[i]);
+                        }
+                    }
+                }
+                else if (EncounterEnemy(pawnMoveList[i].endPositions._PosX, pawnMoveList[i].endPositions._PosY, pawn) && pawnMoveList[i].endPositions._PosX != positionX )
+                {
+                    templist.Add(pawnMoveList[i]);
                 }
             }
-            if ((positionX - 1) >= 0 && EncounterEnemy((positionX - 1), (positionY + direction),pawn)) // Pawns AttackDirection along the X-axis.
-            {
-                pawnMoveList.Add(new Move((positionX - 1), (positionY + direction), 0));
-            }
-            if ((positionX + 1) <= 7 && EncounterEnemy((positionX - 1), (positionY + direction),pawn)) // Pawns AttackDirection along the X-axis.
-            {
-                pawnMoveList.Add(new Move((positionX + 1), (positionY + direction), 0));
-            }
 
 
-            if (pawn.hasBeenMoved == false && noEncounterOnFirstMove) // Pawns movement along the Y-axis if it haven't moved before.
-            {
-                if (!EncounterAlly(positionX, (positionY + direction + direction),pawn) && !EncounterEnemy(positionX, (positionY + direction + direction),pawn)) // Checks if there is an ally or enemy in the path.
-                {
-                    pawnMoveList.Add(new Move(positionX, (positionY + direction + direction), 0));
-                    pawn.hasBeenMoved = true;
-                }
-            }
+            //////////////////////
 
-            foreach (var move in pawnMoveList)
-            {
-                templist.Add(move);
-            }
+            //if ((positionY + direction) < 7 && (positionY + direction) > 0) // The pawns movement along the Y-axis
+            //{
+            //    if (!EncounterAlly(positionX, positionY + direction,pawn) && !EncounterEnemy(positionX, positionY + direction,pawn)) // Pawns movement along the Y-axis if it haven't moved before.
+            //    {
+            //        templist.Add(new Move(positionX, (positionY + direction), 0));
+            //        noEncounterOnFirstMove = true;
+            //    }
+            //}
+            //if ((positionX - 1) >= 0 && EncounterEnemy((positionX - 1), (positionY + direction),pawn)) // Pawns AttackDirection along the X-axis.
+            //{
+            //    templist.Add(new Move((positionX - 1), (positionY + direction), 0));
+            //}
+            //if ((positionX + 1) <= 7 && EncounterEnemy((positionX - 1), (positionY + direction),pawn)) // Pawns AttackDirection along the X-axis.
+            //{
+            //    templist.Add(new Move((positionX + 1), (positionY + direction), 0));
+            //}
+
+
+            //if (pawn.hasBeenMoved == false && noEncounterOnFirstMove) // Pawns movement along the Y-axis if it haven't moved before.
+            //{
+            //    if (!EncounterAlly(positionX, (positionY + direction + direction),pawn) && !EncounterEnemy(positionX, (positionY + direction + direction),pawn)) // Checks if there is an ally or enemy in the path.
+            //    {
+            //        templist.Add(new Move(positionX, (positionY + (direction + direction)), 0));
+            //        pawn.hasBeenMoved = true;
+            //    }
+            //}
+
+            //foreach (var move in pawnMoveList)
+            //{
+            //    templist.Add(move);
+            //}
 
 
 
@@ -137,15 +164,31 @@ namespace ChessGameLogic
             kingMoveList.Add(new Move((x - 1), (y), 0));
             kingMoveList.Add(new Move((x - 1), (y + 1), 0));
 
+
             for (int i = 0; i < kingMoveList.Count; i++)
             {
-                if (kingMoveList[i].endPositions._PosX > 7 || kingMoveList[i].endPositions._PosX < 0)
-                    kingMoveList.Remove(kingMoveList[i]);
-                else if (kingMoveList[i].endPositions._PosY > 7 || kingMoveList[i].endPositions._PosY < 0)
-                    kingMoveList.Remove(kingMoveList[i]);
-                else if (EncounterAlly(kingMoveList[i].endPositions._PosX, kingMoveList[i].endPositions._PosY, king))
-                    kingMoveList.Remove(kingMoveList[i]);
+                if (!(EncounterAlly(kingMoveList[i].endPositions._PosX, kingMoveList[i].endPositions._PosY, king)))
+                {
+                    if (kingMoveList[i].endPositions._PosX <= 7 && kingMoveList[i].endPositions._PosX >= 0)
+                    {
+                        if (kingMoveList[i].endPositions._PosY <= 7 && kingMoveList[i].endPositions._PosY >= 0)
+                        {
+                            templist.Add(kingMoveList[i]);
+                        }
+                    }
+                }
+
             }
+
+            //for (int i = 0; i < kingMoveList.Count; i++)
+            //{
+            //    if (kingMoveList[i].endPositions._PosX > 7 || kingMoveList[i].endPositions._PosX < 0)
+            //        kingMoveList.Remove(kingMoveList[i]);
+            //    else if (kingMoveList[i].endPositions._PosY > 7 || kingMoveList[i].endPositions._PosY < 0)
+            //        kingMoveList.Remove(kingMoveList[i]);
+            //    else if (EncounterAlly(kingMoveList[i].endPositions._PosX, kingMoveList[i].endPositions._PosY, king))
+            //        kingMoveList.Remove(kingMoveList[i]);
+            //}
 
             //foreach (var item in kingMoveList)
             //{
@@ -156,10 +199,10 @@ namespace ChessGameLogic
             //    else if (EncounterAlly(item.endPositions._PosX, item.endPositions._PosY,king))
             //        kingMoveList.Remove(item);
             //}
-            foreach (var item in kingMoveList)
-            {
-                templist.Add(item);
-            }
+            //foreach (var item in kingMoveList)
+            //{
+            //    templist.Add(item);
+            //}
         }
 
         private void HorseMovement(Pieces horse)
