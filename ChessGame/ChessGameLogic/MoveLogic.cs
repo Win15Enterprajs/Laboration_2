@@ -52,6 +52,52 @@ namespace ChessGameLogic
                 piece.ListOfMoves.Clear();
             }
         }
+        private void PawnMovement2(Pieces pawn)
+        {
+            List<Move> pawnMoveList = new List<Move>();
+            var x = pawn.CurrentPosition._PosX;
+            var y = pawn.CurrentPosition._PosY;
+            if (pawn.PieceColor == Color.White)
+            {
+                pawnMoveList.Add((new Move((x), (y + 1), 0)));
+                pawnMoveList.Add((new Move((x + 1), (y + 1), 0)));
+                pawnMoveList.Add((new Move((x - 1), (y + 1), 0)));
+                if (pawn.hasBeenMoved == false)
+                {
+                    pawnMoveList.Add((new Move((x), (y + 2), 0)));
+                }
+            }
+            else if (pawn.PieceColor == Color.Black)
+            {
+                pawnMoveList.Add((new Move((x), (y - 1), 0)));
+                pawnMoveList.Add((new Move((x + 1), (y - 1), 0)));
+                pawnMoveList.Add((new Move((x - 1), (y - 1), 0)));
+                if (pawn.hasBeenMoved == false)
+                {
+                    pawnMoveList.Add((new Move((x), (y - 2), 0)));
+                }
+            }
+            for (int i = 0; i < pawnMoveList.Count; i++)
+            {
+                x = pawnMoveList[i].endPositions._PosX;
+                y = pawnMoveList[i].endPositions._PosX;
+                if (x <= 7 && x >= 0 && y >= 0 && y <= 7)
+                {
+                    if (EncounterAlly(x, y, pawn))
+                    {
+
+                    }
+                    else if (EncounterEnemy(x, y, pawn) && x > pawn.CurrentPosition._PosX || x < pawn.CurrentPosition._PosY)
+                    {
+                        templist.Add(pawnMoveList[i]);
+                    }
+                    else
+                    {
+                        templist.Add(pawnMoveList[i]);
+                    }
+                }
+            }
+        }
         private void PawnMovement(Pieces pawn)
         {
             var positionX = pawn.CurrentPosition._PosX;
