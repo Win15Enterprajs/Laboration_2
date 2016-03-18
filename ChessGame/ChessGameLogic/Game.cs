@@ -110,7 +110,11 @@ namespace ChessGameLogic
 
                     }
                 }
-                piece.BestMove = bestMove;
+                var bPosX= bestMove.endPositions._PosX;
+                var bPosY= bestMove.endPositions._PosY;
+                var bVal = bestMove.value;
+                piece.BestMove = new Move(bPosX, bPosY, bVal);
+                bestMove = new Move(-1, -1, -999);
             }
 
         }
@@ -128,7 +132,8 @@ namespace ChessGameLogic
 
         private void BustAMove(Pieces piece)
         {
-            piece.CurrentPosition = piece.BestMove.endPositions;
+            piece.CurrentPosition._PosX = piece.BestMove.endPositions._PosX;
+            piece.CurrentPosition._PosY = piece.BestMove.endPositions._PosY;
         }
         private void InitializePiecesForThisTurn(List<Pieces> gameboard)
         {
@@ -188,28 +193,30 @@ namespace ChessGameLogic
         {
 
             Move bestMove = new Move(-1, -1, -999);
-            Pieces bestPiece = null;
+            var ListOfBestMovesWithSameValue = new List<Pieces>();
 
             for (int i = 0; i < gameboard.Count; i++)
             {
                 if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
                 {
-                    if (gameboard[i].BestMove.value > bestMove.value)
+                    if (gameboard[i].BestMove.value >= bestMove.value)
                     {
                         bestMove.value = gameboard[i].BestMove.value;
-                        bestPiece = gameboard[i];
+                        ListOfBestMovesWithSameValue.Add(gameboard[i]);
                     }
                 }
                 else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
                 {
-                    if (gameboard[i].BestMove.value > bestMove.value)
+                    if (gameboard[i].BestMove.value >= bestMove.value)
                     {
-                        bestPiece = gameboard[i];
                         bestMove.value = gameboard[i].BestMove.value;
+                        ListOfBestMovesWithSameValue.Add(gameboard[i]);
+
                     }
                 }
             }
-            
+            var rnd = new Random();
+            Pieces bestPiece = ListOfBestMovesWithSameValue.ElementAt(rnd.Next(0, ListOfBestMovesWithSameValue.Count));
 
             return bestPiece;
         }
