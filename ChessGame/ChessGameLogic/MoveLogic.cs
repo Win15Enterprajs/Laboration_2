@@ -113,7 +113,7 @@ namespace ChessGameLogic
                                 }
                                 else if (pawn.PieceColor == Color.Black)
                                 {
-                                    if (EncounterAlly(x - 1,,y,pawn))
+                                    if (EncounterAlly(x - 1,y,pawn))
                                     {
 
                                     }
