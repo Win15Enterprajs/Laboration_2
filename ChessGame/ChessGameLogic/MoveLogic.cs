@@ -75,6 +75,7 @@ namespace ChessGameLogic
             {
                 direction = -1;
             }
+
             List<Move> pawnMoveList = new List<Move>()
             {
                 new Move(positionX - 1, positionY + direction, 0),
@@ -85,17 +86,28 @@ namespace ChessGameLogic
             };
             for (int i = 0; i < pawnMoveList.Count; i++)
             {
-                if (!EncounterAlly(pawnMoveList[i].endPositions._PosX, pawnMoveList[i].endPositions._PosY, pawn) && (!EncounterEnemy(pawnMoveList[i].endPositions._PosX, pawnMoveList[i].endPositions._PosY, pawn)))
+                var posX = pawnMoveList[i].endPositions._PosX;
+                var posY = pawnMoveList[i].endPositions._PosY;
+
+                if (!EncounterAlly(posX, posY, pawn) && (!EncounterEnemy(posX, posY, pawn)))
                 {
-                    if ((pawnMoveList[i].endPositions._PosX <= 7) && pawnMoveList[i].endPositions._PosX >= 0 && (pawnMoveList[i].endPositions._PosX == positionX))
+                    if ((posX <= 7) && posX >= 0 && (posX == positionX))
                     {
-                        if ((pawnMoveList[i].endPositions._PosY <= 7) && pawnMoveList[i].endPositions._PosY >= 0)
+                        if (posY <= 7 && posY >= 0)
                         {
-                            templist.Add(pawnMoveList[i]);
+                            if (noEncounterOnFirstMove == false)
+                            {
+                                templist.Add(pawnMoveList[i]);
+                                noEncounterOnFirstMove = true;
+                            }
+                            else if (noEncounterOnFirstMove == true && pawn.hasBeenMoved == false)
+                            {
+                                templist.Add(pawnMoveList[i]);
+                            }
                         }
                     }
                 }
-                else if (EncounterEnemy(pawnMoveList[i].endPositions._PosX, pawnMoveList[i].endPositions._PosY, pawn) && pawnMoveList[i].endPositions._PosX != positionX )
+                else if (EncounterEnemy(posX, posY, pawn) && posX != positionX )
                 {
                     templist.Add(pawnMoveList[i]);
                 }

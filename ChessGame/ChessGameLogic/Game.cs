@@ -134,6 +134,7 @@ namespace ChessGameLogic
         {
             piece.CurrentPosition._PosX = piece.BestMove.endPositions._PosX;
             piece.CurrentPosition._PosY = piece.BestMove.endPositions._PosY;
+            piece.hasBeenMoved = true;
         }
         private void InitializePiecesForThisTurn(List<Pieces> gameboard)
         {
