@@ -26,7 +26,7 @@ namespace ChessGameLogic
             this.ListOfMoves = new List<Move>();
         }
 
-        public Pieces(Point currentPosition, Color color, bool hasBennMoved, ChessPieceSymbol type)
+        public Pieces(Point currentPosition, Color color, bool hasBeenMoved, ChessPieceSymbol type)
         {
             this.PieceType = type;
             this.PieceColor = color;
