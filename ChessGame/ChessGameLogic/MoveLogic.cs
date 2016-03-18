@@ -98,6 +98,32 @@ namespace ChessGameLogic
                     {
                         if (x == pawn.CurrentPosition._PosX)
                         {
+                            if (x == (pawn.CurrentPosition._PosX + 2) || x == (pawn.CurrentPosition._PosX - 2))
+                            {
+                                if (pawn.PieceColor == Color.White)
+                                {
+                                    if (EncounterAlly(x + 1, y, pawn))
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        templist.Add(pawnMoveList[i]);
+                                    }
+                                }
+                                else if (pawn.PieceColor == Color.Black)
+                                {
+                                    if (EncounterAlly(x - 1,,y,pawn))
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        templist.Add(pawnMoveList[i]);
+                                    }
+                                }
+                                
+                            }
                             templist.Add(pawnMoveList[i]);
                         }
                     }
