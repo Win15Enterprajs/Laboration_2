@@ -87,9 +87,12 @@ namespace ChessGameLogic
                     {
 
                     }
-                    else if (EncounterEnemy(x, y, pawn) && x > pawn.CurrentPosition._PosX || x < pawn.CurrentPosition._PosX)
+                    else if (EncounterEnemy(x, y, pawn))
                     {
-                        templist.Add(pawnMoveList[i]);
+                        if (x > pawn.CurrentPosition._PosX || x < pawn.CurrentPosition._PosX)
+                        {
+                            templist.Add(pawnMoveList[i]);
+                        }
                     }
                     else
                     {
@@ -143,15 +146,12 @@ namespace ChessGameLogic
             }
             var DoubleMove = new Move(positionX, positionY + ((direction) + (direction)), 0);
 
-            if (DoubleMove.endPositions._PosX <= 7 && DoubleMove.endPositions._PosX >= 0 && DoubleMove.endPositions._PosY <= 7 && DoubleMove.endPositions._PosY >=0)
+            if (!(EncounterAlly(positionX, positionY + direction, pawn) && EncounterEnemy(positionX, positionY, pawn)))
             {
-                if (!(EncounterAlly(positionX, positionY + direction, pawn) && EncounterEnemy(positionX, positionY, pawn)))
+                if(!(EncounterAlly(positionX, positionY + ((direction) + (direction)), pawn) && !EncounterEnemy(positionX, positionY, pawn)))
                 {
-                    if (!(EncounterAlly(positionX, positionY + ((direction) + (direction)), pawn) && !EncounterEnemy(positionX, positionY, pawn)))
-                    {
-                        templist.Add(DoubleMove);
-                    }
-                } 
+                    templist.Add(DoubleMove);
+                }
             }
         }
 
