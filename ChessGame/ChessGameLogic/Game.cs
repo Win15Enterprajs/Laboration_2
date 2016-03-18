@@ -244,7 +244,9 @@ namespace ChessGameLogic
             for (int i = 0; i < GameBoard.Count; i++)
             {
                 GameBoard[i].ListOfMoves.Clear();
+                GameBoard[i].BestMove = null;
             }
+           
         }
 
 
