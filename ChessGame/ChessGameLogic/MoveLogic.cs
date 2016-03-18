@@ -87,9 +87,12 @@ namespace ChessGameLogic
                     {
 
                     }
-                    else if (EncounterEnemy(x, y, pawn) && x > pawn.CurrentPosition._PosX || x < pawn.CurrentPosition._PosY)
+                    else if (EncounterEnemy(x, y, pawn))
                     {
-                        templist.Add(pawnMoveList[i]);
+                        if (x > pawn.CurrentPosition._PosX || x < pawn.CurrentPosition._PosX)
+                        {
+                            templist.Add(pawnMoveList[i]);
+                        }
                     }
                     else
                     {
