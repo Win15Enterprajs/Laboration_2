@@ -12,7 +12,7 @@ namespace ChessGameLogic
         public Rook(Color color, Point CurrentPosition, bool hasBeenMoved, ChessPieceSymbol type = ChessPieceSymbol.Rook) 
             : base ( color, CurrentPosition, type)
         {
-
+            this.Value = 50;
         }
     }
 }
