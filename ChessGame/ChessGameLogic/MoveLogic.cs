@@ -18,7 +18,7 @@ namespace ChessGameLogic
             templist.Clear();
 
             if (piece is Pawn)
-                PawnMovement(piece);
+                PawnMovement2(piece);
 
             else if (piece is Rook)
                 RookMovement(piece);
@@ -37,13 +37,13 @@ namespace ChessGameLogic
 
 
             piece.ListOfMoves = new List<Move>(templist);
-            for (int i = 0; i < piece.ListOfMoves.Count; i++)
-            {
-                if (WillItChessYou(piece, piece.ListOfMoves[i], gameBoard))
-                {
-                    piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
-                }
-            }
+            //for (int i = 0; i < piece.ListOfMoves.Count; i++)
+            //{
+            //    if (WillItChessYou(piece, piece.ListOfMoves[i], gameBoard))
+            //    {
+            //        piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
+            //    }
+            //}
         }
         public void ClearMovementList(List<Pieces> gameboard)
         {
@@ -80,7 +80,7 @@ namespace ChessGameLogic
             for (int i = 0; i < pawnMoveList.Count; i++)
             {
                 x = pawnMoveList[i].endPositions._PosX;
-                y = pawnMoveList[i].endPositions._PosX;
+                y = pawnMoveList[i].endPositions._PosY;
                 if (x <= 7 && x >= 0 && y >= 0 && y <= 7)
                 {
                     if (EncounterAlly(x, y, pawn))
@@ -96,7 +96,10 @@ namespace ChessGameLogic
                     }
                     else
                     {
-                        templist.Add(pawnMoveList[i]);
+                        if (x == pawn.CurrentPosition._PosX)
+                        {
+                            templist.Add(pawnMoveList[i]);
+                        }
                     }
                 }
             }
