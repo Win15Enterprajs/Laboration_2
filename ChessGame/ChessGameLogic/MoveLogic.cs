@@ -56,6 +56,7 @@ namespace ChessGameLogic
         {
             var positionX = pawn.CurrentPosition._PosX;
             var positionY = pawn.CurrentPosition._PosY;
+            var noEncounterOnFirstMove = false;
 
 
             int direction = 1;
