@@ -127,32 +127,21 @@ namespace ChessGameLogic
                 var posX = pawnMoveList[i].endPositions._PosX;
                 var posY = pawnMoveList[i].endPositions._PosY;
 
-                if ((!EncounterAlly(posX, posY, pawn)) && ((!EncounterEnemy(posX, posY, pawn))) && (posX == positionX))
+                if ((posX >= 0 && positionX <= 7) && posY >= 0 && positionY <= 7)
                 {
-                    if ((posX <= 7) && posX >= 0)
-                    {
-                        if (posY <= 7 && posY >= 0)
-                        {
-                            
+                    if ((!EncounterAlly(posX, posY, pawn)) && ((!EncounterEnemy(posX, posY, pawn))) && (posX == positionX))
+                    {                      
                                 templist.Add(pawnMoveList[i]);
-                            
-                        }
-                    }
-                }
-                else if (EncounterEnemy(posX, posY, pawn) && posX != positionX )
-                {
-                    templist.Add(pawnMoveList[i]);
-                }
-            }
-            var DoubleMove = new Move(positionX, positionY + ((direction) + (direction)), 0);
 
-            if (!(EncounterAlly(positionX, positionY + direction, pawn) && EncounterEnemy(positionX, positionY, pawn)))
-            {
-                if(!(EncounterAlly(positionX, positionY + ((direction) + (direction)), pawn) && !EncounterEnemy(positionX, positionY, pawn)))
-                {
-                    templist.Add(DoubleMove);
-                }
+                         
+                    }
+                    else if (EncounterEnemy(posX, posY, pawn) && posX != positionX)
+                    {
+                        templist.Add(pawnMoveList[i]);
+                    }
+                } 
             }
+            
         }
 
         private void RookMovement(Pieces rook)
