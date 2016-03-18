@@ -17,7 +17,7 @@ namespace ChessGameLogic
             {
                 if (CanThisMoveTakeSomething(piece.ListOfMoves[i], tempgameboard))
                 {
-                    GiveInitialTakeValue(piece.ListOfMoves[i],tempgameboard);
+                    GiveInitialTakeValue(piece.ListOfMoves[i],tempgameboard,piece);
                     RemoveSelfFromValue(piece.ListOfMoves[i], piece);
                 }
                 else
@@ -38,21 +38,24 @@ namespace ChessGameLogic
             //}
            
         }
-        private void GiveInitialTakeValue(Move move, List<Pieces> tempgameboard)
+        private void GiveInitialTakeValue(Move move, List<Pieces> tempgameboard,Pieces piece)
         {
                 foreach (var opponent in tempgameboard)
                 {
 
-                        if (opponent.PieceType == ChessPieceSymbol.Bishop)
-                            move.value = 30;
-                        if (opponent.PieceType == ChessPieceSymbol.Horse)
-                            move.value = 30;
-                        if (opponent.PieceType == ChessPieceSymbol.Pawn)
-                            move.value = 30;
-                        if (opponent.PieceType == ChessPieceSymbol.Queen)
-                            move.value = 90;
-                        if (opponent.PieceType == ChessPieceSymbol.Rook)
-                            move.value = 50;
+                if (piece.PieceColor != opponent.PieceColor)
+                {
+                    if (opponent.PieceType == ChessPieceSymbol.Bishop)
+                        move.value = 30;
+                    if (opponent.PieceType == ChessPieceSymbol.Horse)
+                        move.value = 30;
+                    if (opponent.PieceType == ChessPieceSymbol.Pawn)
+                        move.value = 30;
+                    if (opponent.PieceType == ChessPieceSymbol.Queen)
+                        move.value = 90;
+                    if (opponent.PieceType == ChessPieceSymbol.Rook)
+                        move.value = 50;
+                }
 
                 }
                 
@@ -81,7 +84,7 @@ namespace ChessGameLogic
             //}
             foreach (var item in tempgameboard)
             {
-                if (item.CurrentPosition == move.endPositions)
+                if (item.CurrentPosition._PosX == move.endPositions._PosX && item.CurrentPosition._PosY == move.endPositions._PosY)
                     return true;
             }
             return false;

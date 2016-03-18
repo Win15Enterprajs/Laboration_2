@@ -51,8 +51,8 @@ namespace ChessGameLogic
                 new Rook(Color.Black, new Point(0,7), false),
                 new Horse(Color.Black, new Point(1,7)),
                 new Bishop(Color.Black, new Point(2,7)),
-                new Queen(Color.Black, new Point(3,7)),
-                new King(Color.Black, new Point(4,7)),
+                new Queen(Color.Black, new Point(4,7)),
+                new King(Color.Black, new Point(3,7)),
                 new Bishop(Color.Black, new Point(5,7)),
                 new Horse(Color.Black, new Point(6,7)),
                 new Rook(Color.Black, new Point(7,7), false)
@@ -172,7 +172,7 @@ namespace ChessGameLogic
                     }
                     else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
                     {
-                        Movement.SetMovementList(gameboard[i], gameboard);
+                    intelligence.GiveValuetoMoves(gameboard[i], gameboard);
                     }
 
                 }
@@ -180,6 +180,7 @@ namespace ChessGameLogic
                 BestPiece = GetBestPiece(gameboard);
                 RemoveKilledPiece(BestPiece);
                 BustAMove(BestPiece);
+                ClearPieces();
                 turncounter++;
              
         }
@@ -211,6 +212,13 @@ namespace ChessGameLogic
             
 
             return bestPiece;
+        }
+        private void ClearPieces()
+        {
+            for (int i = 0; i < GameBoard.Count; i++)
+            {
+                GameBoard[i].ListOfMoves.Clear();
+            }
         }
 
 

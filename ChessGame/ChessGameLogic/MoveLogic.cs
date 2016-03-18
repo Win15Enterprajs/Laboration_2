@@ -16,7 +16,7 @@ namespace ChessGameLogic
         {
             SnapShotOfGameboard = new List<Pieces>(gameBoard);
             templist.Clear();
-                       
+
             if (piece is Pawn)
                 PawnMovement(piece);
 
@@ -41,12 +41,19 @@ namespace ChessGameLogic
             //{
             //    piece.ListOfMoves.Add(templist[i]);
             //}
-            foreach (var item in piece.ListOfMoves)
+            for (int i = 0; i < piece.ListOfMoves.Count; i++)
             {
-                if (WillItChessYou(piece, item))
-                    piece.ListOfMoves.Remove(item);
-            }
+                if (WillItChessYou(piece, piece.ListOfMoves[i], gameBoard))
+                {
+                    piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
+                }
+                //foreach (var item in piece.ListOfMoves)
+                //{
+                //    if (WillItChessYou(piece, item,gameBoard))
+                //        piece.ListOfMoves.Remove(item);
+                //}
 
+            }
         }
         public void ClearMovementList(List<Pieces> gameboard)
         {
@@ -133,7 +140,6 @@ namespace ChessGameLogic
             kingMoveList.Add(new Move((x + 1), (y - 1), 0));
             kingMoveList.Add(new Move((x - 1), (y - 1), 0));
             kingMoveList.Add(new Move((x), (y - 1), 0));
-            kingMoveList.Add(new Move((x - 1), (y - 1), 0));
             kingMoveList.Add(new Move((x - 1), (y), 0));
             kingMoveList.Add(new Move((x - 1), (y + 1), 0));
 
@@ -584,8 +590,12 @@ namespace ChessGameLogic
             foreach (var item in SnapShotOfGameboard)
             {
                 if (item.CurrentPosition._PosX == x && item.CurrentPosition._PosY == y)
+                {
                     if (item.PieceColor != piece.PieceColor)
+                    {
                         return true;
+                    }
+                }
             }
             return false;
         }
@@ -594,37 +604,64 @@ namespace ChessGameLogic
             foreach (var item in SnapShotOfGameboard)
             {
                 if (item.CurrentPosition._PosX == x && item.CurrentPosition._PosY == y)
+                {
                     if (item.PieceColor == piece.PieceColor)
+                    {
                         return true;
+                    }
+                }
             }
             return false;
         }
-        private bool WillItChessYou(Pieces piece, Move move)
+        private bool WillItChessYou(Pieces piece, Move move, List<Pieces> gameboard)
         {
-            var saveCurrentPos = piece.CurrentPosition;
+            var saveCurrentPos = new Point(0,0);
+            saveCurrentPos._PosX = piece.CurrentPosition._PosX;
+            saveCurrentPos._PosY = piece.CurrentPosition._PosY;
             var AmazingKing = new Queen(piece.PieceColor, FindMeKing(SnapShotOfGameboard,piece));
-            piece.CurrentPosition = move.endPositions;
+            piece.CurrentPosition._PosX = move.endPositions._PosX;
+            piece.CurrentPosition._PosY = move.endPositions._PosY;
 
             QueenMovement(AmazingKing);
 
-            foreach (var item in AmazingKing.ListOfMoves)
+            for (int i = 0; i < AmazingKing.ListOfMoves.Count; i++)
             {
-                foreach (var opponent in SnapShotOfGameboard)
+                for (int j = 0; j < gameboard.Count ; j++)
                 {
-                    if (opponent.PieceColor != AmazingKing.PieceColor)
+                    if (gameboard[j].PieceColor != AmazingKing.PieceColor)
                     {
-                        if (opponent.CurrentPosition == move.endPositions)
+                        if (gameboard[j].CurrentPosition._PosX == move.endPositions._PosX && gameboard[j].CurrentPosition._PosY == move.endPositions._PosY)
                         {
-                            if (opponent.PieceType == ChessPieceSymbol.Bishop || opponent.PieceType == ChessPieceSymbol.Queen || opponent.PieceType == ChessPieceSymbol.Rook)
+                            if (gameboard[j].PieceType == ChessPieceSymbol.Bishop || gameboard[j].PieceType == ChessPieceSymbol.Queen || gameboard[j].PieceType == ChessPieceSymbol.Rook)
                             {
-                                piece.CurrentPosition = saveCurrentPos;
+                                piece.CurrentPosition._PosX = saveCurrentPos._PosX;
+                                piece.CurrentPosition._PosY = saveCurrentPos._PosY;
                                 return true;
                             }
                         }
                     }
                 }
+            
             }
-            piece.CurrentPosition = saveCurrentPos;
+            //foreach (var item in AmazingKing.ListOfMoves)
+            //{
+            //    foreach (var opponent in SnapShotOfGameboard)
+            //    {
+            //        if (opponent.PieceColor != AmazingKing.PieceColor)
+            //        {
+            //            if (opponent.CurrentPosition == move.endPositions)
+            //            {
+            //                if (opponent.PieceType == ChessPieceSymbol.Bishop || opponent.PieceType == ChessPieceSymbol.Queen || opponent.PieceType == ChessPieceSymbol.Rook)
+            //                {
+            //                    piece.CurrentPosition = saveCurrentPos;
+            //                    return true;
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            piece.CurrentPosition._PosX = saveCurrentPos._PosX;
+            piece.CurrentPosition._PosY = saveCurrentPos._PosY;
             return false;
 
 
@@ -646,11 +683,11 @@ namespace ChessGameLogic
             return point;
         }
         
-        private void MoveOutOfChess(Pieces piece)
+        private void MoveOutOfChess(Pieces piece, List<Pieces> gameboard)
         {
             foreach (var item in piece.ListOfMoves)
             {
-               if (!WillItChessYou(piece, item));
+               if (!WillItChessYou(piece, item,gameboard));
                 piece.ListOfMoves.Remove(item);
             }
         }
