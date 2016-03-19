@@ -16,30 +16,58 @@ namespace ChessGameLogic
         {
             SnapShotOfGameboard = new List<Pieces>(gameBoard);
             templist.Clear();
+            //if (piece is Pawn)
+            //    PawnMovement2(piece);
 
-                if (piece is Pawn)
-                    PawnMovement2(piece);
+            //else if (piece is Rook)
+            //    RookMovement(piece);
 
-                else if (piece is Rook)
-                    RookMovement(piece);
+            //else if (piece is Queen)
+            //    QueenMovement(piece);
 
-                else if (piece is Queen)
-                    QueenMovement(piece);
+            //else if (piece is King)
+            //    KingMovement(piece);
 
-                else if (piece is King)
-                    KingMovement(piece);
+            //else if (piece is Horse)
+            //    HorseMovement(piece);
 
-                else if (piece is Horse)
-                    HorseMovement(piece);
+            //else if (piece is Bishop)
+            //    BishopMovement(piece);
 
-                else if (piece is Bishop)
-                    BishopMovement(piece);
 
-            //if (AmIInChess(piece,gameBoard))
-            //{
-            //    GetMovesThatCancelChess(gameBoard, piece);
-            //}
-            piece.ListOfMoves = new List<Move>(templist);
+
+
+            if (AmIInChess(piece, gameBoard))
+            {
+                GetMovesThatCancelChess(gameBoard, piece);
+            }
+            //piece.ListOfMoves = new List<Move>(templist);
+            piece.ListOfMoves = new List<Move>(Returnlistofmoves(piece, gameBoard));
+        }
+        private List<Move> Returnlistofmoves(Pieces piece, List<Pieces> gameBoard)
+        {
+            var temporarylist = new List<Move>();
+
+            if (piece is Pawn)
+                PawnMovement2(piece);
+
+            else if (piece is Rook)
+                RookMovement(piece);
+
+            else if (piece is Queen)
+                QueenMovement(piece);
+
+            else if (piece is King)
+                KingMovement(piece);
+
+            else if (piece is Horse)
+                HorseMovement(piece);
+
+            else if (piece is Bishop)
+                BishopMovement(piece);
+
+           
+            return templist;
         }
         public void ClearMovementList(List<Pieces> gameboard)
         {
@@ -615,17 +643,18 @@ namespace ChessGameLogic
         private bool AmIInChess(Pieces piece, List<Pieces> gameboard)
         {
 
-            var move = new Move(FindMeKing(gameboard, piece), 0);
-            //var move = new Move(FindMeKing(gameboard, piece)._PosX, FindMeKing(gameboard, piece)._PosY, 0);
+            //var move = new Move(FindMeKing(gameboard, piece), 0);
+            var move = new Move(FindMeKing(gameboard, piece)._PosX, FindMeKing(gameboard, piece)._PosY, 0);
             var tempmovelogic = new MoveLogic();
             List<Move> tempmovelist = new List<Move>();
             for (int i = 0; i < gameboard.Count; i++)
             {
-                if (gameboard[i].PieceColor != piece.PieceColor)
+                if (piece.PieceColor != gameboard[i].PieceColor)
                 {
-                    tempmovelogic.SetMovementList(gameboard[i], gameboard);
+                    gameboard[i].ListOfMoves = Returnlistofmoves(gameboard[i], gameboard);
                 }
             }
+          
             for (int i = 0; i < gameboard.Count; i++)
             {
                 for (int j = 0; j < gameboard[i].ListOfMoves.Count; j++)

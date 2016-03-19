@@ -84,13 +84,6 @@ namespace ChessGameLogic
             List<Move> tempmovelist = new List<Move>();
             for (int i = 0; i < gameboard.Count; i++)
             {
-                if (gameboard[i].PieceColor != piece.PieceColor)
-                {
-                    tempmovelogic.SetMovementList(gameboard[i], gameboard);
-                }
-            }
-            for (int i = 0; i < gameboard.Count; i++)
-            {
                 for (int j = 0; j < gameboard[i].ListOfMoves.Count; j++)
                 {
                     tempmovelist.Add(gameboard[i].ListOfMoves[j]);
