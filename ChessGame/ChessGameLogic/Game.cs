@@ -9,7 +9,7 @@ namespace ChessGameLogic
 {
     public class Game
     {
-        int turncounter = 0;
+        int turncounter = 1;
         List<Pieces> GameBoard;
         List<string> GameLog;
         Pieces BestPiece;
@@ -248,7 +248,11 @@ namespace ChessGameLogic
             }
            
         }
+        private void AmIInChess()
+        {
 
+        }
+       
 
 
 

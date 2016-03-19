@@ -17,33 +17,29 @@ namespace ChessGameLogic
             SnapShotOfGameboard = new List<Pieces>(gameBoard);
             templist.Clear();
 
-            if (piece is Pawn)
-                PawnMovement2(piece);
+                if (piece is Pawn)
+                    PawnMovement2(piece);
 
-            else if (piece is Rook)
-                RookMovement(piece);
+                else if (piece is Rook)
+                    RookMovement(piece);
 
-            else if (piece is Queen)
-                QueenMovement(piece);
+                else if (piece is Queen)
+                    QueenMovement(piece);
 
-            else if (piece is King)
-                KingMovement(piece);
+                else if (piece is King)
+                    KingMovement(piece);
 
-            else if (piece is Horse)
-                HorseMovement(piece);
+                else if (piece is Horse)
+                    HorseMovement(piece);
 
-            else if (piece is Bishop)
-                BishopMovement(piece);
+                else if (piece is Bishop)
+                    BishopMovement(piece);
 
-
-            piece.ListOfMoves = new List<Move>(templist);
-            //for (int i = 0; i < piece.ListOfMoves.Count; i++)
+            //if (AmIInChess(piece,gameBoard))
             //{
-            //    if (WillItChessYou(piece, piece.ListOfMoves[i], gameBoard))
-            //    {
-            //        piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
-            //    }
+            //    GetMovesThatCancelChess(gameBoard, piece);
             //}
+            piece.ListOfMoves = new List<Move>(templist);
         }
         public void ClearMovementList(List<Pieces> gameboard)
         {
@@ -615,41 +611,72 @@ namespace ChessGameLogic
                 piece.ListOfMoves.Remove(item);
             }
         }
-        public bool IsItChess(int turncounter)
+       
+        private bool AmIInChess(Pieces piece, List<Pieces> gameboard)
         {
-            if (turncounter % 2 == 0)
+
+            var move = new Move(FindMeKing(gameboard, piece), 0);
+            //var move = new Move(FindMeKing(gameboard, piece)._PosX, FindMeKing(gameboard, piece)._PosY, 0);
+            var tempmovelogic = new MoveLogic();
+            List<Move> tempmovelist = new List<Move>();
+            for (int i = 0; i < gameboard.Count; i++)
             {
-                foreach (var item in SnapShotOfGameboard)
+                if (gameboard[i].PieceColor != piece.PieceColor)
                 {
-                    foreach (var move in item.ListOfMoves)
-                    {
-                        if (item.PieceColor == Color.White)
-                            if (item.PieceType == ChessPieceSymbol.King)
-                                if (move.endPositions == item.CurrentPosition)
-                                    return true;
-
-
-
-                    }
+                    tempmovelogic.SetMovementList(gameboard[i], gameboard);
                 }
             }
-            else if (turncounter % 2 == 1)
+            for (int i = 0; i < gameboard.Count; i++)
             {
-                foreach (var item in SnapShotOfGameboard)
+                for (int j = 0; j < gameboard[i].ListOfMoves.Count; j++)
                 {
-                    foreach (var move in item.ListOfMoves)
-                    {
-                        if (item.PieceColor == Color.Black)
-                            if (item.PieceType == ChessPieceSymbol.King)
-                                if (move.endPositions == item.CurrentPosition)
-                                    return true;
-
-
-
-                    }
+                    tempmovelist.Add(gameboard[i].ListOfMoves[j]);
                 }
             }
-            return false;
+            for (int i = 0; i < gameboard.Count; i++)
+            {
+                if (gameboard[i].PieceColor != piece.PieceColor)
+                {
+                    gameboard[i].ListOfMoves.Clear();
+                }
+            }
+            for (int i = 0; i < tempmovelist.Count; i++)
+            {
+                if (tempmovelist[i].endPositions._PosX == move.endPositions._PosX && tempmovelist[i].endPositions._PosY == move.endPositions._PosY)
+                    return true;
+            }
+                return false;
         }
+        private void GetMovesThatCancelChess(List<Pieces> gameboard, Pieces piece)
+        {
+            for (int i = 0; i < piece.ListOfMoves.Count; i++)
+            {
+                if (!WillThisMoveCancelChess(gameboard, piece, piece.ListOfMoves[i]))
+                    {
+                     piece.ListOfMoves.RemoveAt(i);
+                    }
+                
+            }
+        }
+        private bool WillThisMoveCancelChess(List<Pieces> gameboard, Pieces piece, Move move)
+        {
+            var savex = piece.CurrentPosition._PosX;
+            var savey = piece.CurrentPosition._PosY;
+
+            piece.CurrentPosition._PosX = move.endPositions._PosX;
+            piece.CurrentPosition._PosY = move.endPositions._PosY;
+
+            if (!AmIInChess(piece,gameboard))
+            {
+                piece.CurrentPosition._PosX = savex;
+                piece.CurrentPosition._PosY = savey;
+                return true;
+            }
+            piece.CurrentPosition._PosX = savex;
+            piece.CurrentPosition._PosY = savey;
+            return false;
+
+        }
+        
     }
 }

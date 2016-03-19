@@ -24,19 +24,7 @@ namespace ChessGameLogic
                 {
                     GiveRandomValueToAMove(piece.ListOfMoves[i]);
                 }
-            }   
-            //foreach (var item in piece.ListOfMoves)
-            //{
-            //    if (CanThisMoveTakeSomething(item))
-            //    {
-            //        GiveInitialTakeValue(item);
-            //        RemoveSelfFromValue(item, piece);
-            //    }
-            //    else
-            //        GiveRandomValueToAMove(item);
-               
-            //}
-           
+            }             
         }
         private void GiveInitialTakeValue(Move move, List<Pieces> tempgameboard,Pieces piece)
         {
@@ -77,11 +65,6 @@ namespace ChessGameLogic
         }
         private bool CanThisMoveTakeSomething(Move move, List<Pieces> tempgameboard)
         {
-            //for (int i = 0; i < tempgameboard.Count; i++)
-            //{
-            //    if (tempgameboard[i].CurrentPosition == move.endPositions)
-            //        return true;
-            //}
             foreach (var item in tempgameboard)
             {
                 if (item.CurrentPosition._PosX == move.endPositions._PosX && item.CurrentPosition._PosY == move.endPositions._PosY)
@@ -94,6 +77,40 @@ namespace ChessGameLogic
             Random rnd = new Random();
             int nr = rnd.Next(0, 10);
             move.value = nr;
+        }
+        private bool Threatened(List<Pieces> gameboard, Move move, Pieces piece)
+        {
+            var tempmovelogic = new MoveLogic();
+            List<Move> tempmovelist = new List<Move>();
+            for (int i = 0; i < gameboard.Count; i++)
+            {
+                if (gameboard[i].PieceColor != piece.PieceColor)
+                {
+                    tempmovelogic.SetMovementList(gameboard[i], gameboard);
+                }
+            }
+            for (int i = 0; i < gameboard.Count; i++)
+            {
+                for (int j = 0; j < gameboard[i].ListOfMoves.Count; j++)
+                {
+                    tempmovelist.Add(gameboard[i].ListOfMoves[j]);
+                }
+            }
+            for (int i = 0; i < gameboard.Count; i++)
+            {
+                if (piece.PieceColor != gameboard[i].PieceColor)
+                {
+                    gameboard[i].ListOfMoves.Clear();
+                }
+            }
+            for (int i = 0; i < tempmovelist.Count; i++)
+            {
+                if (tempmovelist[i].endPositions._PosX == move.endPositions._PosX && tempmovelist[i].endPositions._PosY == move.endPositions._PosY)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
        
     }
