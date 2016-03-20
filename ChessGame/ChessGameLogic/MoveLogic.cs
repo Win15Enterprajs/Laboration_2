@@ -701,7 +701,17 @@ namespace ChessGameLogic
         {
             var savex = piece.CurrentPosition._PosX;
             var savey = piece.CurrentPosition._PosY;
+            Pieces enemypiecesaved = null;
 
+            for (int i = 0; i < SnapShotOfGameboard.Count; i++)
+            {
+                if (move.endPositions._PosX == SnapShotOfGameboard[i].CurrentPosition._PosX && move.endPositions._PosY == SnapShotOfGameboard[i].CurrentPosition._PosY)
+                {
+                    enemypiecesaved = gameboard[i];
+                    SnapShotOfGameboard.Remove(gameboard[i]);
+                    
+                }
+            }
             piece.CurrentPosition._PosX = move.endPositions._PosX;
             piece.CurrentPosition._PosY = move.endPositions._PosY;
 
@@ -709,6 +719,7 @@ namespace ChessGameLogic
             {
                 piece.CurrentPosition._PosX = savex;
                 piece.CurrentPosition._PosY = savey;
+                SnapShotOfGameboard.Add(enemypiecesaved);
                 return false;
             }
 
@@ -716,6 +727,7 @@ namespace ChessGameLogic
             {
                 piece.CurrentPosition._PosX = savex;
                 piece.CurrentPosition._PosY = savey;
+                gameboard.Add(enemypiecesaved);
                 return true;
             }
 
