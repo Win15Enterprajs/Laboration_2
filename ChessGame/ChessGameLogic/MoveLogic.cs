@@ -23,10 +23,6 @@ namespace ChessGameLogic
             {
                 GetMovesThatCancelChess(gameBoard, piece);
             }
-            if (piece is King)
-            {
-
-            }
             else
             {
 
