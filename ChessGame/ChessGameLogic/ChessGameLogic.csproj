@@ -47,6 +47,7 @@
     <Compile Include="ChessPieces\Horse.cs" />
     <Compile Include="ChessPieces\King.cs" />
     <Compile Include="GameLogger.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="MoveLogic.cs" />
     <Compile Include="PackageClasses\Move.cs" />
     <Compile Include="PackageClasses\Point.cs" />

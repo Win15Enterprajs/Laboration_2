@@ -120,5 +120,30 @@ namespace ConsoleGUI
 
 
         }
+
+        public void printGameLog(Game game)
+        {
+            string[] LoggToPrint = new string[game.getGameLog().Count];
+            game.getGameLog().CopyTo(LoggToPrint);
+            int cursorX = 33;
+            int cursorY = 8;
+            Console.ForegroundColor = ConsoleColor.White;
+
+            for (int i = LoggToPrint.Length - 1; i >= 0; i--)
+            {
+                Console.SetCursorPosition(cursorX, cursorY);
+                if (LoggToPrint.Length > 0)
+                {
+                    Console.WriteLine(LoggToPrint[i]); 
+                }
+                cursorY--; 
+                if(cursorY < 1)
+                {
+                    break;
+                }
+            }
+            
+            
+        }
     }
 }

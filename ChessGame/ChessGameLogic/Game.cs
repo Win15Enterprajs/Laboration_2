@@ -11,7 +11,7 @@ namespace ChessGameLogic
     {
         int turncounter = 1;
         List<Pieces> GameBoard;
-        List<string> GameLog;
+        GameLogger logger;
         Pieces BestPiece;
         Player Player1;
         Player Player2;
@@ -64,12 +64,17 @@ namespace ChessGameLogic
 
 
             };
+            logger = new GameLogger();
 
 
         }
         public List<Pieces> GetGameBoard()
         {
             return GameBoard;
+        }
+        public List<string> getGameLog()
+        {
+            return logger.gameLog;
         }
         public void MakeTurn()
         {
@@ -140,6 +145,7 @@ namespace ChessGameLogic
             }
             if (willweremove)
             {
+                logger.LogKilledPieceToRemove(GameBoard[tempindex]);
                 GameBoard.RemoveAt(tempindex);
             }
             willweremove = false;
@@ -201,6 +207,7 @@ namespace ChessGameLogic
                 BestPiece = GetBestPiece(gameboard);
                 RemoveKilledPiece(BestPiece);
                 BustAMove(BestPiece);
+                logger.LogTurn();
                 ClearPieces();
                 turncounter++;
              
@@ -236,7 +243,7 @@ namespace ChessGameLogic
             }
             var rnd = new Random();
             Pieces bestPiece = ListOfBestMovesWithSameValue.ElementAt(rnd.Next(0, ListOfBestMovesWithSameValue.Count));
-
+            logger.LogPieceToMove(bestPiece);
             return bestPiece;
         }
         private void ClearPieces()

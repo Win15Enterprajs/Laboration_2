@@ -17,6 +17,7 @@ namespace ConsoleGUI
             {
                 Console.Clear();
                 DrawStuff.PrintGameBoard(Chess);
+                DrawStuff.printGameLog(Chess);
                 Console.ReadKey();
                 Chess.ThisIsIt();
             } while (true);
