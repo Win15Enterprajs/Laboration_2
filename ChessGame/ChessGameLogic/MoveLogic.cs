@@ -34,19 +34,19 @@ namespace ChessGameLogic
             //else if (piece is Bishop)
             //    BishopMovement(piece);
 
+            piece.ListOfMoves = new List<Move>(Returnlistofmoves(piece, gameBoard));
 
-
-
-            if (AmIInChess(piece, gameBoard))
+            bool fuckyouchess = AmIInChess(piece, gameBoard);
+            if (fuckyouchess)
             {
                 GetMovesThatCancelChess(gameBoard, piece);
             }
             //piece.ListOfMoves = new List<Move>(templist);
-            piece.ListOfMoves = new List<Move>(Returnlistofmoves(piece, gameBoard));
+            //piece.ListOfMoves = new List<Move>(Returnlistofmoves(piece, gameBoard));
         }
         private List<Move> Returnlistofmoves(Pieces piece, List<Pieces> gameBoard)
         {
-            var temporarylist = new List<Move>();
+            templist.Clear();
 
             if (piece is Pawn)
                 PawnMovement2(piece);
@@ -303,7 +303,7 @@ namespace ChessGameLogic
                         // If the tile is not the original starting position adds the tile ot the movelist
                         else
                         {
-                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            if (x != piece.CurrentPosition._PosX)
                             {
                                 horizontalAndVerticalMoves.Add(new Move(x, y, 0));
                             }
@@ -331,7 +331,7 @@ namespace ChessGameLogic
                         // If the tile is not the original starting position adds the tile ot the movelist
                         else
                         {
-                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            if (y != piece.CurrentPosition._PosY)
                             {
                                 horizontalAndVerticalMoves.Add(new Move(x, y, 0));
                             }
@@ -359,7 +359,7 @@ namespace ChessGameLogic
                         // If the tile is not the original starting position adds the tile ot the movelist
                         else
                         {
-                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            if (x != piece.CurrentPosition._PosX)
                             {
                                 horizontalAndVerticalMoves.Add(new Move(x, y, 0));
                             }
@@ -387,7 +387,7 @@ namespace ChessGameLogic
                         // If the tile is not the original starting position adds the tile ot the movelist
                         else
                         {
-                            if (x != piece.CurrentPosition._PosX && y != piece.CurrentPosition._PosY)
+                            if (x != piece.CurrentPosition._PosX)
                             {
                                 horizontalAndVerticalMoves.Add(new Move(x, y, 0));
                             }
@@ -643,15 +643,14 @@ namespace ChessGameLogic
         private bool AmIInChess(Pieces piece, List<Pieces> gameboard)
         {
 
-            //var move = new Move(FindMeKing(gameboard, piece), 0);
-            var move = new Move(FindMeKing(gameboard, piece)._PosX, FindMeKing(gameboard, piece)._PosY, 0);
-            var tempmovelogic = new MoveLogic();
+            var move = new Move(FindMeKing(gameboard, piece), 0);
+            //var move = new Move(FindMeKing(gameboard, piece)._PosX, FindMeKing(gameboard, piece)._PosY, 0);
             List<Move> tempmovelist = new List<Move>();
             for (int i = 0; i < gameboard.Count; i++)
             {
                 if (piece.PieceColor != gameboard[i].PieceColor)
                 {
-                    gameboard[i].ListOfMoves = Returnlistofmoves(gameboard[i], gameboard);
+                    gameboard[i].ListOfMoves.AddRange(Returnlistofmoves(gameboard[i], gameboard));
                 }
             }
           
@@ -681,9 +680,9 @@ namespace ChessGameLogic
             for (int i = 0; i < piece.ListOfMoves.Count; i++)
             {
                 if (!WillThisMoveCancelChess(gameboard, piece, piece.ListOfMoves[i]))
-                    {
-                     piece.ListOfMoves.RemoveAt(i);
-                    }
+                {
+                    piece.ListOfMoves.RemoveAt(i);
+                }
                 
             }
         }
@@ -695,15 +694,19 @@ namespace ChessGameLogic
             piece.CurrentPosition._PosX = move.endPositions._PosX;
             piece.CurrentPosition._PosY = move.endPositions._PosY;
 
-            if (!AmIInChess(piece,gameboard))
+            if (!AmIInChess(piece, gameboard))
             {
                 piece.CurrentPosition._PosX = savex;
                 piece.CurrentPosition._PosY = savey;
                 return true;
             }
-            piece.CurrentPosition._PosX = savex;
-            piece.CurrentPosition._PosY = savey;
-            return false;
+            else
+
+                {
+                piece.CurrentPosition._PosX = savex;
+                piece.CurrentPosition._PosY = savey;
+                return false;
+                }
 
         }
         
