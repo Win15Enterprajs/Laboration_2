@@ -35,7 +35,7 @@ namespace ChessGameLogic
 
         public void LogKilledPieceToRemove(Pieces killedPiece)
         {
-            var log = string.Format($"| It took a {killedPiece.PieceColor} {killedPiece.PieceType}");
+            var log = string.Format($" | It took a {killedPiece.PieceColor} {killedPiece.PieceType}");
             LogPost += log;
         }
 
