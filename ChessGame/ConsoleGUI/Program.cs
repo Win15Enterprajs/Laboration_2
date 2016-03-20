@@ -11,6 +11,7 @@ namespace ConsoleGUI
     {
         static void Main(string[] args)
         {
+            Console.SetWindowSize(100, 30);
             Game Chess = new Game();
             Draw DrawStuff = new Draw();
             do
