@@ -25,7 +25,6 @@ namespace ChessGameLogic
             }
             else
             {
-
                 RemoveMovesThatWillChessYou(piece, gameBoard);
             }
         }
@@ -50,22 +49,22 @@ namespace ChessGameLogic
             templist.Clear();
 
             if (piece is Pawn)
-                PawnMovement2(piece);
+                PawnMovement2(piece, gameBoard);
 
             else if (piece is Rook)
-                RookMovement(piece);
+                RookMovement(piece, gameBoard);
 
             else if (piece is Queen)
-                QueenMovement(piece);
+                QueenMovement(piece, gameBoard);
 
             else if (piece is King)
-                KingMovement(piece);
+                KingMovement(piece, gameBoard);
 
             else if (piece is Horse)
-                HorseMovement(piece);
+                HorseMovement(piece, gameBoard);
 
             else if (piece is Bishop)
-                BishopMovement(piece);
+                BishopMovement(piece, gameBoard);
 
            
             return templist;
@@ -77,7 +76,7 @@ namespace ChessGameLogic
                 piece.ListOfMoves.Clear();
             }
         }
-        private void PawnMovement2(Pieces pawn)
+        private void PawnMovement2(Pieces pawn, List<Pieces> TestGameboard)
         {
             List<Move> pawnMoveList = new List<Move>();
             var x = pawn.CurrentPosition._PosX;
@@ -108,11 +107,11 @@ namespace ChessGameLogic
                 y = pawnMoveList[i].endPositions._PosY;
                 if (x <= 7 && x >= 0 && y >= 0 && y <= 7)
                 {
-                    if (EncounterAlly(x, y, pawn))
+                    if (EncounterAlly(x, y, pawn, TestGameboard))
                     {
 
                     }
-                    else if (EncounterEnemy(x, y, pawn))
+                    else if (EncounterEnemy(x, y, pawn, TestGameboard))
                     {
                         if (x > pawn.CurrentPosition._PosX || x < pawn.CurrentPosition._PosX)
                         {
@@ -127,7 +126,7 @@ namespace ChessGameLogic
                             {
                                 if (pawn.PieceColor == Color.White)
                                 {
-                                    if (EncounterAlly(x + 1, y, pawn))
+                                    if (EncounterAlly(x + 1, y, pawn, TestGameboard))
                                     {
 
                                     }
@@ -138,7 +137,7 @@ namespace ChessGameLogic
                                 }
                                 else if (pawn.PieceColor == Color.Black)
                                 {
-                                    if (EncounterAlly(x - 1,y,pawn))
+                                    if (EncounterAlly(x - 1,y,pawn, TestGameboard))
                                     {
 
                                     }
@@ -155,61 +154,61 @@ namespace ChessGameLogic
                 }
             }
         }
-        private void PawnMovement(Pieces pawn)
-        {
-            var positionX = pawn.CurrentPosition._PosX;
-            var positionY = pawn.CurrentPosition._PosY;
-            var noEncounterOnFirstMove = false;
+        //private void PawnMovement(Pieces pawn, List<Pieces> TestGameboard)
+        //{
+        //    var positionX = pawn.CurrentPosition._PosX;
+        //    var positionY = pawn.CurrentPosition._PosY;
+        //    var noEncounterOnFirstMove = false;
 
 
-            int direction = 1;
+        //    int direction = 1;
 
-            if (pawn.PieceColor == Color.Black)
-            {
-                direction = -1;
-            }
+        //    if (pawn.PieceColor == Color.Black)
+        //    {
+        //        direction = -1;
+        //    }
 
-            List<Move> pawnMoveList = new List<Move>()
-            {
-                new Move(positionX - 1, positionY + direction, 0),
-                new Move(positionX + 1, positionY + direction, 0),
-                new Move(positionX, positionY + direction, 0),
+        //    List<Move> pawnMoveList = new List<Move>()
+        //    {
+        //        new Move(positionX - 1, positionY + direction, 0),
+        //        new Move(positionX + 1, positionY + direction, 0),
+        //        new Move(positionX, positionY + direction, 0),
 
-            };
-            for (int i = 0; i < pawnMoveList.Count; i++)
-            {
-                var posX = pawnMoveList[i].endPositions._PosX;
-                var posY = pawnMoveList[i].endPositions._PosY;
+        //    };
+        //    for (int i = 0; i < pawnMoveList.Count; i++)
+        //    {
+        //        var posX = pawnMoveList[i].endPositions._PosX;
+        //        var posY = pawnMoveList[i].endPositions._PosY;
 
-                if ((posX >= 0 && positionX <= 7) && posY >= 0 && positionY <= 7)
-                {
-                    if ((!EncounterAlly(posX, posY, pawn)) && ((!EncounterEnemy(posX, posY, pawn))) && (posX == positionX))
-                    {                      
-                                templist.Add(pawnMoveList[i]);
+        //        if ((posX >= 0 && positionX <= 7) && posY >= 0 && positionY <= 7)
+        //        {
+        //            if ((!EncounterAlly(posX, posY, pawn)) && ((!EncounterEnemy(posX, posY, pawn))) && (posX == positionX))
+        //            {                      
+        //                        templist.Add(pawnMoveList[i]);
 
                          
-                    }
-                    else if (EncounterEnemy(posX, posY, pawn) && posX != positionX)
-                    {
-                        templist.Add(pawnMoveList[i]);
-                    }
-                } 
-            }
+        //            }
+        //            else if (EncounterEnemy(posX, posY, pawn) && posX != positionX)
+        //            {
+        //                templist.Add(pawnMoveList[i]);
+        //            }
+        //        } 
+        //    }
             
-        }
+        //}
 
-        private void RookMovement(Pieces rook)
+        private void RookMovement(Pieces rook, List<Pieces> TestGameboard)
         {
-            templist.AddRange(AddHorizontalAndVerticalMoves(rook));
+            templist.AddRange(AddHorizontalAndVerticalMoves(rook, TestGameboard));
         }
 
-        private void QueenMovement(Pieces queen)
+        private void QueenMovement(Pieces queen, List<Pieces> TestGameboard)
         {
-            templist.AddRange(AddHorizontalAndVerticalMoves(queen));
-            templist.AddRange(AddDiagonalMove(queen));
+            templist.AddRange(AddHorizontalAndVerticalMoves(queen, TestGameboard));
+            templist.AddRange(AddDiagonalMove(queen, TestGameboard));
         }
 
-        private void KingMovement(Pieces king)
+        private void KingMovement(Pieces king, List<Pieces> TestGameboard)
         {
             var x = king.CurrentPosition._PosX;
             var y = king.CurrentPosition._PosY;
@@ -226,7 +225,7 @@ namespace ChessGameLogic
 
             for (int i = 0; i < kingMoveList.Count; i++)
             {
-                if (!(EncounterAlly(kingMoveList[i].endPositions._PosX, kingMoveList[i].endPositions._PosY, king)))
+                if (!(EncounterAlly(kingMoveList[i].endPositions._PosX, kingMoveList[i].endPositions._PosY, king, TestGameboard)))
                 {
                     if (kingMoveList[i].endPositions._PosX <= 7 && kingMoveList[i].endPositions._PosX >= 0)
                     {
@@ -242,7 +241,7 @@ namespace ChessGameLogic
           
         }
 
-        private void HorseMovement(Pieces horse)
+        private void HorseMovement(Pieces horse, List<Pieces> TestGameboard)
         {
             var x = horse.CurrentPosition._PosX;
             var y = horse.CurrentPosition._PosY;
@@ -258,7 +257,7 @@ namespace ChessGameLogic
 
             for (int i = 0; i < horseMoveList.Count; i++)
             {
-                if (!(EncounterAlly(horseMoveList[i].endPositions._PosX, horseMoveList[i].endPositions._PosY, horse)))
+                if (!(EncounterAlly(horseMoveList[i].endPositions._PosX, horseMoveList[i].endPositions._PosY, horse, TestGameboard)))
                 {
                     if (horseMoveList[i].endPositions._PosX <= 7 && horseMoveList[i].endPositions._PosX >= 0)
                     {
@@ -272,11 +271,11 @@ namespace ChessGameLogic
             }
         }
 
-        private void BishopMovement(Pieces bishop)
+        private void BishopMovement(Pieces bishop, List<Pieces> TestGameboard)
         {
-            templist.AddRange(AddDiagonalMove(bishop));
+            templist.AddRange(AddDiagonalMove(bishop, TestGameboard));
         }
-        private List<Move> AddHorizontalAndVerticalMoves(Pieces piece)
+        private List<Move> AddHorizontalAndVerticalMoves(Pieces piece, List<Pieces> TestGameboard)
         {
             List<Move> horizontalAndVerticalMoves = new List<Move>();
             bool withinbounds = true;
@@ -291,13 +290,13 @@ namespace ChessGameLogic
                     y++;
                     if (y <= 7)
                     {
-                        if (EncounterEnemy(x, y, piece))
+                        if (EncounterEnemy(x, y, piece, TestGameboard))
                         {
                             horizontalAndVerticalMoves.Add(new Move(x, y, 0));
                             break;
                         }
                         // checks if the newfound tile has an ally in it
-                        else if (EncounterAlly(x, y, piece))
+                        else if (EncounterAlly(x, y, piece, TestGameboard))
                         {
                             break;
                         }
@@ -321,13 +320,13 @@ namespace ChessGameLogic
                     y--;
                     if (y >= 0)
                     {
-                        if (EncounterEnemy(x, y, piece))
+                        if (EncounterEnemy(x, y, piece, TestGameboard))
                         {
                             horizontalAndVerticalMoves.Add(new Move(x, y, 0));
                             break;
                         }
                         // checks if the newfound tile has an ally in it
-                        else if (EncounterAlly(x, y, piece))
+                        else if (EncounterAlly(x, y, piece, TestGameboard))
                         {
                             break;
                         }
@@ -351,13 +350,13 @@ namespace ChessGameLogic
                     x++;
                     if (x <= 7)
                     {
-                        if (EncounterEnemy(x, y, piece))
+                        if (EncounterEnemy(x, y, piece, TestGameboard))
                         {
                             horizontalAndVerticalMoves.Add(new Move(x, y, 0));
                             break;
                         }
                         // checks if the newfound tile has an ally in it
-                        else if (EncounterAlly(x, y, piece))
+                        else if (EncounterAlly(x, y, piece, TestGameboard))
                         {
                             break;
                         }
@@ -381,13 +380,13 @@ namespace ChessGameLogic
                     x--;
                     if (x >= 0)
                     {
-                        if (EncounterEnemy(x, y, piece))
+                        if (EncounterEnemy(x, y, piece, TestGameboard))
                         {
                             horizontalAndVerticalMoves.Add(new Move(x, y, 0));
                             break;
                         }
                         // checks if the newfound tile has an ally in it
-                        else if (EncounterAlly(x, y, piece))
+                        else if (EncounterAlly(x, y, piece, TestGameboard))
                         {
                             break;
                         }
@@ -410,7 +409,7 @@ namespace ChessGameLogic
             return horizontalAndVerticalMoves;
         }
     
-        private List<Move> AddDiagonalMove(Pieces piece)
+        private List<Move> AddDiagonalMove(Pieces piece, List<Pieces> TestGameboard)
         {
             List<Move> diagonalmoves = new List<Move>();
             bool withinbounds = true;
@@ -431,13 +430,13 @@ namespace ChessGameLogic
                         if (x <= 7 && y <= 7)
                         {
                             // Checks if the newfound tile has an enemy in it
-                            if (EncounterEnemy(x, y, piece))
+                            if (EncounterEnemy(x, y, piece, TestGameboard))
                             {
                                 diagonalmoves.Add(new Move(x, y, 0));
                                 break;
                             }
                             // checks if the newfound tile has an ally in it
-                            else if (EncounterAlly(x, y, piece))
+                            else if (EncounterAlly(x, y, piece, TestGameboard))
                             {
                                 break;
                             }
@@ -466,12 +465,12 @@ namespace ChessGameLogic
                         y--;
                         if (x >= 0 && y >= 0)
                         {
-                            if (EncounterEnemy(x, y, piece))
+                            if (EncounterEnemy(x, y, piece, TestGameboard))
                             {
                                 diagonalmoves.Add(new Move(x, y, 0));
                                 break;
                             }
-                            else if (EncounterAlly(x, y, piece))
+                            else if (EncounterAlly(x, y, piece, TestGameboard))
                             {
                                 break;
                             }
@@ -498,12 +497,12 @@ namespace ChessGameLogic
                         y--;
                         if (x <= 7 && y >= 0)
                         {
-                            if (EncounterEnemy(x, y, piece))
+                            if (EncounterEnemy(x, y, piece, TestGameboard))
                             {
                                 diagonalmoves.Add(new Move(x, y, 0));
                                 break;
                             }
-                            else if (EncounterAlly(x, y, piece))
+                            else if (EncounterAlly(x, y, piece, TestGameboard))
                             {
                                 break;
                             }
@@ -531,12 +530,12 @@ namespace ChessGameLogic
                         y++;
                         if (x >= 0 && y <= 7)
                         {
-                            if (EncounterEnemy(x, y, piece))
+                            if (EncounterEnemy(x, y, piece, TestGameboard))
                             {
                                 diagonalmoves.Add(new Move(x, y, 0));
                                 break;
                             }
-                            else if (EncounterAlly(x, y, piece))
+                            else if (EncounterAlly(x, y, piece, TestGameboard))
                             {
                                 break;
                             }
@@ -557,9 +556,9 @@ namespace ChessGameLogic
             return diagonalmoves;
         }
         
-        private bool EncounterEnemy(int x, int y,Pieces piece)
+        private bool EncounterEnemy(int x, int y,Pieces piece, List<Pieces> TestGameboard)
         {
-            foreach (var item in SnapShotOfGameboard)
+            foreach (var item in TestGameboard)
             {
                 if (item.CurrentPosition._PosX == x && item.CurrentPosition._PosY == y)
                 {
@@ -571,9 +570,9 @@ namespace ChessGameLogic
             }
             return false;
         }
-        private bool EncounterAlly(int x, int y, Pieces piece)
+        private bool EncounterAlly(int x, int y, Pieces piece, List<Pieces> TestGameboard)
         {
-            foreach (var item in SnapShotOfGameboard)
+            foreach (var item in TestGameboard)
             {
                 if (item.CurrentPosition._PosX == x && item.CurrentPosition._PosY == y)
                 {
@@ -710,7 +709,7 @@ namespace ChessGameLogic
         {
             var savex = piece.CurrentPosition._PosX;
             var savey = piece.CurrentPosition._PosY;
-            var gameboardtest = new List<Pieces>(SnapShotOfGameboard);
+            var gameboardtest = new List<Pieces>(gameboard);
             Pieces enemypiecesaved = null;
 
             for (int i = 0; i < gameboardtest.Count; i++)
@@ -719,24 +718,38 @@ namespace ChessGameLogic
                 {
                     enemypiecesaved = gameboardtest[i];
                     gameboardtest.Remove(gameboardtest[i]);
+                    break;
 
                 }
             }
-            var z = FindMeKing(gameboardtest, piece)._PosX;
-            var n = FindMeKing(gameboardtest, piece)._PosY;
+            //var z = FindMeKing(gameboardtest, piece)._PosX;
+            //var n = FindMeKing(gameboardtest, piece)._PosY;
 
-            if (piece is King)
+            //if (piece is King)
+            //{
+            //    for (int i = 0; i < gameboardtest.Count; i++)
+
+            //    {
+            //        if (gameboardtest[i].CurrentPosition._PosX == z && gameboardtest[i].CurrentPosition._PosY == n)
+            //        {
+            //            gameboardtest[i].CurrentPosition._PosX = move.endPositions._PosX;
+            //            gameboardtest[i].CurrentPosition._PosY = move.endPositions._PosY;
+            //        }
+            //    }
+            //}
+            //var z = FindMeKing(gameboardtest, piece)._PosX;
+            //var n = FindMeKing(gameboardtest, piece)._PosY;
+
+            for (int i = 0; i < gameboardtest.Count; i++) // Jag tror att det här är lösningen på vårat problem. Men jag har inte testkört för att se om kungen kan ta en pjäs och försätta sig i schack. Men nu borde den inte kunna det. 
             {
-                for (int i = 0; i < gameboardtest.Count; i++)
-
+                if (gameboardtest[i].CurrentPosition._PosX == savex && gameboardtest[i].CurrentPosition._PosY == savey)
                 {
-                    if (gameboardtest[i].CurrentPosition._PosX == z && gameboardtest[i].CurrentPosition._PosY == n)
-                    {
-                        gameboardtest[i].CurrentPosition._PosX = move.endPositions._PosX;
-                        gameboardtest[i].CurrentPosition._PosY = move.endPositions._PosY;
-                    }
+                    gameboardtest[i].CurrentPosition._PosX = move.endPositions._PosX;
+                    gameboardtest[i].CurrentPosition._PosY = move.endPositions._PosY;
+                    
                 }
             }
+
             piece.CurrentPosition._PosX = move.endPositions._PosX;
             piece.CurrentPosition._PosY = move.endPositions._PosY;
 
@@ -756,7 +769,7 @@ namespace ChessGameLogic
                 return true;
             }
 
-        }
-        
+    }
+
     }
 }

@@ -244,6 +244,9 @@ namespace ChessGameLogic
             var rnd = new Random();
 
 
+
+
+
             Pieces bestPiece = ListOfBestMovesWithSameValue.ElementAt(rnd.Next(0, ListOfBestMovesWithSameValue.Count));
             logger.LogPieceToMove(bestPiece);
             return bestPiece;
