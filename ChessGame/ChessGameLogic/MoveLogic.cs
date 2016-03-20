@@ -33,7 +33,7 @@ namespace ChessGameLogic
 
             for (int i = 0; i < piece.ListOfMoves.Count; i++)
             {
-                if (WillItChessYou(piece,piece.ListOfMoves[i], gameboard))
+                if (!WillItChessYou(piece,piece.ListOfMoves[i], gameboard))
                 {
                     piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
                 }
@@ -581,37 +581,42 @@ namespace ChessGameLogic
         }
         private bool WillItChessYou(Pieces piece, Move move, List<Pieces> gameboard)
         {
-            var saveCurrentPos = new Point(0,0);
-            saveCurrentPos._PosX = piece.CurrentPosition._PosX;
-            saveCurrentPos._PosY = piece.CurrentPosition._PosY;
-            var AmazingKing = new Queen(piece.PieceColor, FindMeKing(SnapShotOfGameboard,piece));
-            piece.CurrentPosition._PosX = move.endPositions._PosX;
-            piece.CurrentPosition._PosY = move.endPositions._PosY;
+           bool letssee = WillThisMoveCancelChess(gameboard, piece, move);
+            //var saveCurrentPos = new Point(0,0);
+            //saveCurrentPos._PosX = piece.CurrentPosition._PosX;
+            //saveCurrentPos._PosY = piece.CurrentPosition._PosY;
+            ////var AmazingKing = new Queen(piece.PieceColor, FindMeKing(gameboard,piece));
+            //piece.CurrentPosition._PosX = move.endPositions._PosX;
+            //piece.CurrentPosition._PosY = move.endPositions._PosY;
+            //var AmazingKing = new Queen(piece.PieceColor, FindMeKing(gameboard, piece));
 
-            QueenMovement(AmazingKing);
+            //QueenMovement(AmazingKing);
+            //AmazingKing.ListOfMoves = new List<Move>(templist);
+            //templist.Clear();
 
-            for (int i = 0; i < AmazingKing.ListOfMoves.Count; i++)
-            {
-                for (int j = 0; j < gameboard.Count; j++)
-                {
-                    if (gameboard[j].PieceColor != AmazingKing.PieceColor)
-                    {
-                        if (gameboard[j].CurrentPosition._PosX == move.endPositions._PosX && gameboard[j].CurrentPosition._PosY == move.endPositions._PosY)
-                        {
-                            if (gameboard[j].PieceType == ChessPieceSymbol.Bishop || gameboard[j].PieceType == ChessPieceSymbol.Queen || gameboard[j].PieceType == ChessPieceSymbol.Rook)
-                            {
-                                piece.CurrentPosition._PosX = saveCurrentPos._PosX;
-                                piece.CurrentPosition._PosY = saveCurrentPos._PosY;
-                                return true;
-                            }
-                        }
-                    }
-                }
+            //for (int i = 0; i < AmazingKing.ListOfMoves.Count; i++)
+            //{
+            //    for (int j = 0; j < gameboard.Count; j++)
+            //    {
+            //        if (gameboard[j].PieceColor != AmazingKing.PieceColor)
+            //        {
+            //            if (gameboard[j].CurrentPosition._PosX == move.endPositions._PosX && gameboard[j].CurrentPosition._PosY == move.endPositions._PosY)
+            //            {
+            //                if (gameboard[j].PieceType == ChessPieceSymbol.Bishop || gameboard[j].PieceType == ChessPieceSymbol.Queen || gameboard[j].PieceType == ChessPieceSymbol.Rook)
+            //                {
+            //                    piece.CurrentPosition._PosX = saveCurrentPos._PosX;
+            //                    piece.CurrentPosition._PosY = saveCurrentPos._PosY;
+            //                    return true;
+            //                }
+            //            }
+            //        }
+            //    }
 
-            }
-            piece.CurrentPosition._PosX = saveCurrentPos._PosX;
-            piece.CurrentPosition._PosY = saveCurrentPos._PosY;
-            return false;
+            //}
+            //piece.CurrentPosition._PosX = saveCurrentPos._PosX;
+            //piece.CurrentPosition._PosY = saveCurrentPos._PosY;
+            //return false;
+            return letssee;
 
 
 
@@ -659,7 +664,10 @@ namespace ChessGameLogic
             {
                 for (int j = 0; j < gameboard[i].ListOfMoves.Count; j++)
                 {
-                    tempmovelist.Add(gameboard[i].ListOfMoves[j]);
+                    if (piece.PieceColor != gameboard[i].PieceColor)
+                    {
+                        tempmovelist.Add(gameboard[i].ListOfMoves[j]);
+                    }
                 }
             }
             for (int i = 0; i < gameboard.Count; i++)
@@ -694,36 +702,9 @@ namespace ChessGameLogic
         }
         private bool WillThisMoveCancelChess(List<Pieces> gameboard, Pieces piece, Move move)
         {
-            var gameboardtest = new List<Pieces>(SnapShotOfGameboard);
-            //var savex = piece.CurrentPosition._PosX;
-            //var savey = piece.CurrentPosition._PosY;
-            //Pieces SavedEnemy;
-            //foreach (var ChessPiece in gameboard)
-            //{
-            //    if(ChessPiece.CurrentPosition._PosX == move.endPositions._PosX & ChessPiece.CurrentPosition._PosY == piece.CurrentPosition._PosY)
-            //    {
-            //        SavedEnemy = ChessPiece;
-            //    }
-            //}
-
-            //piece.CurrentPosition._PosX = move.endPositions._PosX;
-            //piece.CurrentPosition._PosY = move.endPositions._PosY;
-
-            //if (AmIInChess(piece, gameboard))
-            //{
-            //    piece.CurrentPosition._PosX = savex;
-            //    piece.CurrentPosition._PosY = savey;
-            //    return false;
-            //}
-
-            //else
-            //{
-            //    piece.CurrentPosition._PosX = savex;
-            //    piece.CurrentPosition._PosY = savey;
-            //    return true;
-            //}
             var savex = piece.CurrentPosition._PosX;
             var savey = piece.CurrentPosition._PosY;
+            var gameboardtest = new List<Pieces>(SnapShotOfGameboard);
             Pieces enemypiecesaved = null;
 
             for (int i = 0; i < gameboardtest.Count; i++)
@@ -733,6 +714,21 @@ namespace ChessGameLogic
                     enemypiecesaved = gameboardtest[i];
                     gameboardtest.Remove(gameboardtest[i]);
 
+                }
+            }
+            var z = FindMeKing(gameboardtest, piece)._PosX;
+            var n = FindMeKing(gameboardtest, piece)._PosY;
+
+            if (piece is King)
+            {
+                for (int i = 0; i < gameboardtest.Count; i++)
+
+                {
+                    if (gameboardtest[i].CurrentPosition._PosX == z && gameboardtest[i].CurrentPosition._PosY == n)
+                    {
+                        gameboardtest[i].CurrentPosition._PosX = move.endPositions._PosX;
+                        gameboardtest[i].CurrentPosition._PosY = move.endPositions._PosY;
+                    }
                 }
             }
             piece.CurrentPosition._PosX = move.endPositions._PosX;

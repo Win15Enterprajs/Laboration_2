@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChessGameLogic.Packages;
+using System.Threading;
 
 namespace ChessGameLogic
 {
@@ -74,6 +75,7 @@ namespace ChessGameLogic
         }
         private void GiveRandomValueToAMove(Move move)
         {
+            Thread.Sleep(1);
             Random rnd = new Random();
             int nr = rnd.Next(0, 10);
             move.value = nr;
