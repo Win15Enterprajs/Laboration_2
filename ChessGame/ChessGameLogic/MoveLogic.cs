@@ -312,6 +312,8 @@ namespace ChessGameLogic
                     else
                         break;
                 }
+                x = piece.CurrentPosition._PosX;
+                y = piece.CurrentPosition._PosY;
                 // This forloop looks for negative changes on the Y axis
                 for (int i = 0; i < 7; i++)
                 {
@@ -340,6 +342,8 @@ namespace ChessGameLogic
                     else
                         break;
                 }
+                x = piece.CurrentPosition._PosX;
+                y = piece.CurrentPosition._PosY;
                 // This forloop looks for positive changes on the X axis
                 for (int i = 0; i < 7; i++)
                 {
@@ -368,6 +372,8 @@ namespace ChessGameLogic
                     else
                         break;
                 }
+                x = piece.CurrentPosition._PosX;
+                y = piece.CurrentPosition._PosY;
                 // This forloop looks for positive changes on the Y axis
                 for (int i = 0; i < 7; i++)
                 {
@@ -681,7 +687,7 @@ namespace ChessGameLogic
             {
                 if (!WillThisMoveCancelChess(gameboard, piece, piece.ListOfMoves[i]))
                 {
-                    piece.ListOfMoves.RemoveAt(i);
+                    piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
                 }
                 
             }
@@ -694,19 +700,19 @@ namespace ChessGameLogic
             piece.CurrentPosition._PosX = move.endPositions._PosX;
             piece.CurrentPosition._PosY = move.endPositions._PosY;
 
-            if (!AmIInChess(piece, gameboard))
+            if (AmIInChess(piece, gameboard))
+            {
+                piece.CurrentPosition._PosX = savex;
+                piece.CurrentPosition._PosY = savey;
+                return false;
+            }
+
+            else
             {
                 piece.CurrentPosition._PosX = savex;
                 piece.CurrentPosition._PosY = savey;
                 return true;
             }
-            else
-
-                {
-                piece.CurrentPosition._PosX = savex;
-                piece.CurrentPosition._PosY = savey;
-                return false;
-                }
 
         }
         
