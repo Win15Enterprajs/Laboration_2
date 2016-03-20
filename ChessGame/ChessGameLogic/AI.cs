@@ -52,13 +52,13 @@ namespace ChessGameLogic
         private Move RemoveSelfFromValue(Move move, Pieces piece)
         {
             if (piece.PieceType == ChessPieceSymbol.Bishop)
-                move.value = move.value - (30 * 0.5);
+                move.value = move.value - (30 * 0.25);
             if (piece.PieceType == ChessPieceSymbol.Horse)
-                move.value = move.value - (30 * 0.5);
+                move.value = move.value - (30 * 0.25);
             if (piece.PieceType == ChessPieceSymbol.Queen)
-                move.value = move.value - (90 * 0.5);
+                move.value = move.value - (90 * 0.25);
             if (piece.PieceType == ChessPieceSymbol.Rook)
-                move.value = move.value - (30 * 0.5);
+                move.value = move.value - (30 * 0.25);
             if (piece.PieceType == ChessPieceSymbol.Pawn)
                     move.value = move.value - (10 * 0.5);
             return move;

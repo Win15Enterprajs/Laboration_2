@@ -23,26 +23,31 @@ namespace ChessGameLogic
             {
                 GetMovesThatCancelChess(gameBoard, piece);
             }
-            RemoveMovesThatWillChessYou(piece, gameBoard);
+            if (piece is King)
+            {
+
+            }
+            else
+            {
+
+                RemoveMovesThatWillChessYou(piece, gameBoard);
+            }
         }
         private void RemoveMovesThatWillChessYou(Pieces piece, List<Pieces> gameboard)
         {
             var savex = piece.CurrentPosition._PosX;
             var savey = piece.CurrentPosition._PosY;
-            
+            var newlistOfValidMoves = new List<Move>();
 
             for (int i = 0; i < piece.ListOfMoves.Count; i++)
             {
-
-                if (!WillItChessYou(piece,piece.ListOfMoves[i], gameboard))
+                if (WillItChessYou(piece,piece.ListOfMoves[i], gameboard))
                 {
-                    if (piece is King)
-                    {
-
-                    }
-                    piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
+                    newlistOfValidMoves.Add(piece.ListOfMoves[i]);
                 }
             }
+            piece.ListOfMoves.Clear();
+            piece.ListOfMoves = new List<Move>(newlistOfValidMoves);
         }
         private List<Move> Returnlistofmoves(Pieces piece, List<Pieces> gameBoard)
         {
