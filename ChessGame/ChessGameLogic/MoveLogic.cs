@@ -33,8 +33,13 @@ namespace ChessGameLogic
 
             for (int i = 0; i < piece.ListOfMoves.Count; i++)
             {
+
                 if (!WillItChessYou(piece,piece.ListOfMoves[i], gameboard))
                 {
+                    if (piece is King)
+                    {
+
+                    }
                     piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
                 }
             }
