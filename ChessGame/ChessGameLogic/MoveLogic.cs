@@ -16,24 +16,6 @@ namespace ChessGameLogic
         {
             SnapShotOfGameboard = new List<Pieces>(gameBoard);
             templist.Clear();
-            //if (piece is Pawn)
-            //    PawnMovement2(piece);
-
-            //else if (piece is Rook)
-            //    RookMovement(piece);
-
-            //else if (piece is Queen)
-            //    QueenMovement(piece);
-
-            //else if (piece is King)
-            //    KingMovement(piece);
-
-            //else if (piece is Horse)
-            //    HorseMovement(piece);
-
-            //else if (piece is Bishop)
-            //    BishopMovement(piece);
-
             piece.ListOfMoves = new List<Move>(Returnlistofmoves(piece, gameBoard));
 
             bool fuckyouchess = AmIInChess(piece, gameBoard);
@@ -41,8 +23,21 @@ namespace ChessGameLogic
             {
                 GetMovesThatCancelChess(gameBoard, piece);
             }
-            //piece.ListOfMoves = new List<Move>(templist);
-            //piece.ListOfMoves = new List<Move>(Returnlistofmoves(piece, gameBoard));
+            RemoveMovesThatWillChessYou(piece, gameBoard);
+        }
+        private void RemoveMovesThatWillChessYou(Pieces piece, List<Pieces> gameboard)
+        {
+            var savex = piece.CurrentPosition._PosX;
+            var savey = piece.CurrentPosition._PosY;
+            
+
+            for (int i = 0; i < piece.ListOfMoves.Count; i++)
+            {
+                if (WillItChessYou(piece,piece.ListOfMoves[i], gameboard))
+                {
+                    piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
+                }
+            }
         }
         private List<Move> Returnlistofmoves(Pieces piece, List<Pieces> gameBoard)
         {
