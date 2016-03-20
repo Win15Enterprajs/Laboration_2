@@ -683,14 +683,19 @@ namespace ChessGameLogic
         }
         private void GetMovesThatCancelChess(List<Pieces> gameboard, Pieces piece)
         {
+            var newlistOfValidMoves = new List<Move>();
             for (int i = 0; i < piece.ListOfMoves.Count; i++)
             {
-                if (!WillThisMoveCancelChess(gameboard, piece, piece.ListOfMoves[i]))
+                if (WillThisMoveCancelChess(gameboard, piece, piece.ListOfMoves[i]))
                 {
-                    piece.ListOfMoves.Remove(piece.ListOfMoves[i]);
+                    newlistOfValidMoves.Add(piece.ListOfMoves[i]);
+
                 }
-                
+
             }
+
+            piece.ListOfMoves.Clear();
+            piece.ListOfMoves = new List<Move>(newlistOfValidMoves);
         }
         private bool WillThisMoveCancelChess(List<Pieces> gameboard, Pieces piece, Move move)
         {
