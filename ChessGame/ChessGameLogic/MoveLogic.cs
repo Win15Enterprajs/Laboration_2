@@ -699,27 +699,55 @@ namespace ChessGameLogic
         }
         private bool WillThisMoveCancelChess(List<Pieces> gameboard, Pieces piece, Move move)
         {
+            var gameboardtest = new List<Pieces>(SnapShotOfGameboard);
+            //var savex = piece.CurrentPosition._PosX;
+            //var savey = piece.CurrentPosition._PosY;
+            //Pieces SavedEnemy;
+            //foreach (var ChessPiece in gameboard)
+            //{
+            //    if(ChessPiece.CurrentPosition._PosX == move.endPositions._PosX & ChessPiece.CurrentPosition._PosY == piece.CurrentPosition._PosY)
+            //    {
+            //        SavedEnemy = ChessPiece;
+            //    }
+            //}
+
+            //piece.CurrentPosition._PosX = move.endPositions._PosX;
+            //piece.CurrentPosition._PosY = move.endPositions._PosY;
+
+            //if (AmIInChess(piece, gameboard))
+            //{
+            //    piece.CurrentPosition._PosX = savex;
+            //    piece.CurrentPosition._PosY = savey;
+            //    return false;
+            //}
+
+            //else
+            //{
+            //    piece.CurrentPosition._PosX = savex;
+            //    piece.CurrentPosition._PosY = savey;
+            //    return true;
+            //}
             var savex = piece.CurrentPosition._PosX;
             var savey = piece.CurrentPosition._PosY;
             Pieces enemypiecesaved = null;
 
-            for (int i = 0; i < SnapShotOfGameboard.Count; i++)
+            for (int i = 0; i < gameboardtest.Count; i++)
             {
-                if (move.endPositions._PosX == SnapShotOfGameboard[i].CurrentPosition._PosX && move.endPositions._PosY == SnapShotOfGameboard[i].CurrentPosition._PosY)
+                if (move.endPositions._PosX == gameboardtest[i].CurrentPosition._PosX && move.endPositions._PosY == gameboardtest[i].CurrentPosition._PosY)
                 {
-                    enemypiecesaved = gameboard[i];
-                    SnapShotOfGameboard.Remove(gameboard[i]);
-                    
+                    enemypiecesaved = gameboardtest[i];
+                    gameboardtest.Remove(gameboardtest[i]);
+
                 }
             }
             piece.CurrentPosition._PosX = move.endPositions._PosX;
             piece.CurrentPosition._PosY = move.endPositions._PosY;
 
-            if (AmIInChess(piece, gameboard))
+            if (AmIInChess(piece, gameboardtest))
             {
                 piece.CurrentPosition._PosX = savex;
                 piece.CurrentPosition._PosY = savey;
-                SnapShotOfGameboard.Add(enemypiecesaved);
+                gameboardtest.Add(enemypiecesaved);
                 return false;
             }
 
@@ -727,7 +755,7 @@ namespace ChessGameLogic
             {
                 piece.CurrentPosition._PosX = savex;
                 piece.CurrentPosition._PosY = savey;
-                gameboard.Add(enemypiecesaved);
+                gameboardtest.Add(enemypiecesaved);
                 return true;
             }
 
