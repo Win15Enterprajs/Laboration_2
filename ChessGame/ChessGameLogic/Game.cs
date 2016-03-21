@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChessGameLogic.Packages;
+using System.Threading;
 
 namespace ChessGameLogic
 {
@@ -245,8 +246,8 @@ namespace ChessGameLogic
 
 
 
-
-
+            var timespan = new TimeSpan(1);
+            Thread.Sleep(timespan);
             Pieces bestPiece = ListOfBestMovesWithSameValue.ElementAt(rnd.Next(0, ListOfBestMovesWithSameValue.Count));
             logger.LogPieceToMove(bestPiece);
             return bestPiece;
@@ -261,10 +262,7 @@ namespace ChessGameLogic
             }
            
         }
-        private void AmIInChess()
-        {
 
-        }
        
 
 

@@ -75,7 +75,8 @@ namespace ChessGameLogic
         }
         private void GiveRandomValueToAMove(Move move)
         {
-            Thread.Sleep(1);
+            var timespan = new TimeSpan(1);
+            Thread.Sleep(timespan);
             Random rnd = new Random();
             int nr = rnd.Next(0, 10);
             move.value = nr;

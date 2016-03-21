@@ -9,12 +9,12 @@ namespace ChessGameLogic
 {
     internal class MoveLogic
     {
-        List<Pieces> SnapShotOfGameboard;
+        //List<Pieces> SnapShotOfGameboard;
         private List<Move> templist = new List<Move>();
 
         public void SetMovementList(Pieces piece, List<Pieces> gameBoard)
         {
-            SnapShotOfGameboard = new List<Pieces>(gameBoard);
+            //SnapShotOfGameboard = new List<Pieces>(gameBoard);
             templist.Clear();
             piece.ListOfMoves = new List<Move>(Returnlistofmoves(piece, gameBoard));
 
