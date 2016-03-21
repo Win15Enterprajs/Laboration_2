@@ -14,11 +14,6 @@ namespace ChessGameLogic
         List<Pieces> GameBoard;
         GameLogger logger;
         Pieces BestPiece;
-        Player Player1;
-        Player Player2;
-
-
-
         public Game()
         {
             GameBoard = new List<Pieces>()

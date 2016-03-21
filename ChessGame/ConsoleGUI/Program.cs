@@ -22,7 +22,6 @@ namespace ConsoleGUI
                 Console.ReadKey();
                 Chess.ThisIsIt();
             } while (true);
-            Console.ReadKey();
         }
     }
 }

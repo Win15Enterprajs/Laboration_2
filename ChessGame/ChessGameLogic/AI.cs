@@ -29,8 +29,8 @@ namespace ChessGameLogic
         }
         private void GiveInitialTakeValue(Move move, List<Pieces> tempgameboard,Pieces piece)
         {
-                foreach (var opponent in tempgameboard)
-                {
+            foreach (var opponent in tempgameboard)
+            {
 
                 if (piece.PieceColor != opponent.PieceColor)
                 {
@@ -46,7 +46,7 @@ namespace ChessGameLogic
                         move.value = 50;
                 }
 
-                }
+            }
                 
         }
         private Move RemoveSelfFromValue(Move move, Pieces piece)
