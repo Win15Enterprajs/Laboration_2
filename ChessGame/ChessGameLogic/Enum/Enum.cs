@@ -20,4 +20,10 @@ namespace ChessGameLogic
         White,
         Black
     }
+    public enum GameState
+    {
+        Running,
+        Draw,
+        Checkmate
+    }
 }

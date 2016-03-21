@@ -31,7 +31,7 @@ namespace ConsoleGUI
         public void PrintGameBoard(Game game)
         {
             Console.CursorVisible = false;
-            printBoard();
+            PrintBoard();
 
             int startPosX = 0;
             int startPosY = 8;
@@ -68,7 +68,7 @@ namespace ConsoleGUI
 
         }
 
-        private void printBoard()
+        private void PrintBoard()
         {
             for (int i = 3; i < 25; i +=3)
             {
@@ -121,7 +121,7 @@ namespace ConsoleGUI
 
         }
 
-        public void printGameLog(Game game)
+        public void PrintGameLog(Game game)
         {
             string[] LoggToPrint = new string[game.getGameLog().Count];
             game.getGameLog().CopyTo(LoggToPrint);
@@ -144,6 +144,15 @@ namespace ConsoleGUI
             }
             
             
+        }
+        public void PrintResult(Game Chess)
+        {
+            while (true)
+            {
+                Console.WriteLine($"{ Chess.State}");
+                Console.ReadKey();
+            }
+
         }
     }
 }

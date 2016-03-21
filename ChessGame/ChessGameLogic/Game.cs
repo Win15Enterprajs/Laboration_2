@@ -14,6 +14,15 @@ namespace ChessGameLogic
         List<Pieces> GameBoard;
         GameLogger logger;
         Pieces BestPiece;
+        private GameState state;
+
+        public GameState State
+        {
+            get { return state; }
+            private set { state = value; }
+        }
+
+
         public Game()
         {
             GameBoard = new List<Pieces>()
@@ -55,12 +64,9 @@ namespace ChessGameLogic
                 new Rook(Color.Black, new Point(7,7), false)
                 #endregion
 
-
-
-
-
             };
             logger = new GameLogger();
+            state = GameState.Running;
 
 
         }
@@ -88,7 +94,7 @@ namespace ChessGameLogic
             PlayAGame(GameBoard);
         }
 
-        private void GiveBestMoveToPieces()
+        private void GiveBestMoveToPieces() //// Randoma fram ett bestmove om alla moves har samma value.
         {
 
             Move bestMove = new Move(-1, -1, -999);
@@ -130,28 +136,35 @@ namespace ChessGameLogic
         {
             int tempindex = 0;
             bool willweremove = false;
-            for (int i = 0; i < GameBoard.Count; i++)
+            if (piece.BestMove != null)
             {
-                if (GameBoard[i].CurrentPosition._PosX == piece.BestMove.endPositions._PosX && GameBoard[i].CurrentPosition._PosY == piece.BestMove.endPositions._PosY)
+                for (int i = 0; i < GameBoard.Count; i++)
                 {
-                    tempindex = i;
-                    willweremove = true;
+                    if (GameBoard[i].CurrentPosition._PosX == piece.BestMove.endPositions._PosX && GameBoard[i].CurrentPosition._PosY == piece.BestMove.endPositions._PosY)
+                    {
+                        tempindex = i;
+                        willweremove = true;
+                    }
+
                 }
-                
+                if (willweremove)
+                {
+                    logger.LogKilledPieceToRemove(GameBoard[tempindex]);
+                    GameBoard.RemoveAt(tempindex);
+                }
+                willweremove = false; 
             }
-            if (willweremove)
-            {
-                logger.LogKilledPieceToRemove(GameBoard[tempindex]);
-                GameBoard.RemoveAt(tempindex);
-            }
-            willweremove = false;
         }
 
         private void BustAMove(Pieces piece)
         {
-            piece.CurrentPosition._PosX = piece.BestMove.endPositions._PosX;
-            piece.CurrentPosition._PosY = piece.BestMove.endPositions._PosY;
-            piece.hasBeenMoved = true;
+            if (piece.BestMove != null)
+            {
+                piece.CurrentPosition._PosX = piece.BestMove.endPositions._PosX;
+                piece.CurrentPosition._PosY = piece.BestMove.endPositions._PosY;
+                piece.hasBeenMoved = true; 
+            } 
+            
         }
         private void InitializePiecesForThisTurn(List<Pieces> gameboard)
         {
@@ -243,9 +256,19 @@ namespace ChessGameLogic
 
             var timespan = new TimeSpan(1);
             Thread.Sleep(timespan);
-            Pieces bestPiece = ListOfBestMovesWithSameValue.ElementAt(rnd.Next(0, ListOfBestMovesWithSameValue.Count));
-            logger.LogPieceToMove(bestPiece);
-            return bestPiece;
+            Pieces bestPiece = null;
+
+            if (ListOfBestMovesWithSameValue.Count != 0)
+            {
+                bestPiece = ListOfBestMovesWithSameValue.ElementAt(rnd.Next(0, ListOfBestMovesWithSameValue.Count));
+                logger.LogPieceToMove(bestPiece);
+                return bestPiece; 
+            }
+            else
+            {
+                state = GameState.Checkmate;
+            }
+            return BestPiece;
         }
         private void ClearPieces()
         {
