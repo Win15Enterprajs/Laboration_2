@@ -94,18 +94,23 @@ namespace ChessGameLogic
             PlayAGame(GameBoard);
         }
 
-        private void GiveBestMoveToPieces() //// Randoma fram ett bestmove om alla moves har samma value.
+        private void GiveBestMoveToPieces() 
         {
 
             Move bestMove = new Move(-1, -1, -999);
+            List<Move> listOfBestMoves = new List<Move>();
             foreach (Pieces piece in GameBoard)
             {
                 if ((turncounter % 2) == 1 && piece.PieceColor == Color.White)
                 {
                     foreach (var move in piece.ListOfMoves)
                     {
-                        if (move.value > bestMove.value)
+                        if (move.value >= bestMove.value)
+                        {
                             bestMove = move;
+                            var tempMove = move;
+                            listOfBestMoves.Add(move);
+                        }
 
                     }
                 }
@@ -113,20 +118,27 @@ namespace ChessGameLogic
                 {
                     foreach (var move in piece.ListOfMoves)
                     {
-                        if (move.value > bestMove.value)
+                        if (move.value >= bestMove.value)
+                        {
                             bestMove = move;
-
+                            var tempMove = move;
+                            listOfBestMoves.Add(move);
+                        }
                     }
                 }
                 var bPosX= bestMove.endPositions._PosX;
                 var bPosY= bestMove.endPositions._PosY;
                 var bVal = bestMove.value;
 
-                if (piece.ListOfMoves.Count != 0)
+                if (piece.ListOfMoves.Count != 0 && listOfBestMoves.Count != 0)
                 {
-                    piece.BestMove = new Move(bPosX, bPosY, bVal); 
+                    var rnd = new Random();
+                    //piece.BestMove = new Move(bPosX, bPosY, bVal);
+                    piece.BestMove = listOfBestMoves.ElementAt(rnd.Next(0, listOfBestMoves.Count));
+                    listOfBestMoves.Clear();
+
                 }
-                bestMove = new Move(-1, -1, -999);
+                //bestMove = new Move(-1, -1, -999);
             }
 
         }
