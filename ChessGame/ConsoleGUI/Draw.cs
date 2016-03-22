@@ -31,7 +31,7 @@ namespace ConsoleGUI
         public void PrintGameBoard(Game game)
         {
             Console.CursorVisible = false;
-            PrintBoard();
+            PrintBoard(game);
 
             int startPosX = 0;
             int startPosY = 8;
@@ -68,7 +68,7 @@ namespace ConsoleGUI
 
         }
 
-        private void PrintBoard()
+        private void PrintBoard(Game game)
         {
             for (int i = 3; i < 25; i +=3)
             {
@@ -118,6 +118,20 @@ namespace ConsoleGUI
                 count--;
             }
 
+            
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(3, 10);
+            var turn = game.GetTurn();
+            if((turn % 2) == 0)
+            {
+                Console.WriteLine("Blacks turn:");
+            }
+            else
+            {
+                Console.WriteLine("Whites turn:");
+            }
+            PrintResult(game);
 
         }
 
@@ -142,16 +156,20 @@ namespace ConsoleGUI
                     break;
                 }
             }
+
             
             
         }
         public void PrintResult(Game Chess)
         {
-            while (true)
+
+            if (Chess.State != GameState.Running)
             {
-                Console.WriteLine($"{ Chess.State}");
-                Console.ReadKey();
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.SetCursorPosition(20, 10);
+                Console.WriteLine($"{ Chess.State}"); 
             }
+            
 
         }
     }

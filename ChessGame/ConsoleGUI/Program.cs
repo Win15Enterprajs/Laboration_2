@@ -23,7 +23,10 @@ namespace ConsoleGUI
                 Chess.ThisIsIt();
             } while (Chess.State == GameState.Running);
 
-            DrawStuff.PrintResult(Chess);
+            do
+            {
+                DrawStuff.PrintResult(Chess); 
+            } while (true);
         }
     }
 }

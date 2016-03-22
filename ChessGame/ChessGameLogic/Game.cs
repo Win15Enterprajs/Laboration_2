@@ -19,9 +19,13 @@ namespace ChessGameLogic
         public GameState State
         {
             get { return state; }
-            private set { state = value; }
+            set { state = value; }
         }
 
+        public int GetTurn()
+        {
+            return turncounter;
+        }
 
         public Game()
         {
@@ -184,7 +188,7 @@ namespace ChessGameLogic
             var Movement = new MoveLogic();
             foreach (var item in gameboard)
             {
-                Movement.SetMovementList(item, gameboard);
+                Movement.SetMovementList(item, gameboard, state);
             }
 
             foreach (var item in gameboard)
@@ -198,16 +202,17 @@ namespace ChessGameLogic
             
                 var intelligence = new AI();
                 var Movement = new MoveLogic();
+                state = GameState.Running;
 
                 for (int i = 0; i < gameboard.Count; i++)
                 {
                     if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
                     {
-                        Movement.SetMovementList(gameboard[i], gameboard);
+                        Movement.SetMovementList(gameboard[i], gameboard, state);
                     }
                     else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
                     {
-                        Movement.SetMovementList(gameboard[i], gameboard);
+                        Movement.SetMovementList(gameboard[i], gameboard, state);
                     }
 
 

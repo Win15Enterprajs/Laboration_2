@@ -12,7 +12,7 @@ namespace ChessGameLogic
         //List<Pieces> SnapShotOfGameboard;
         private List<Move> templist = new List<Move>();
 
-        public void SetMovementList(Pieces piece, List<Pieces> gameBoard)
+        public void SetMovementList(Pieces piece, List<Pieces> gameBoard, GameState state)
         {
             //SnapShotOfGameboard = new List<Pieces>(gameBoard);
             templist.Clear();
@@ -22,6 +22,7 @@ namespace ChessGameLogic
             if (Chess)
             {
                 GetMovesThatCancelChess(gameBoard, piece);
+
             }
             else
             {
