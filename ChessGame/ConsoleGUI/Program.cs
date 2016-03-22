@@ -21,11 +21,15 @@ namespace ConsoleGUI
                 DrawStuff.PrintGameLog(Chess);
                 Console.ReadKey();
                 Chess.ThisIsIt();
-            } while (Chess.State == GameState.Running);
+            } while (Chess.State == GameState.Running || Chess.State == GameState.Check);
 
             do
             {
-                DrawStuff.PrintResult(Chess); 
+                Console.Clear();
+                DrawStuff.PrintGameBoard(Chess);
+                DrawStuff.PrintGameLog(Chess);
+                DrawStuff.PrintResult(Chess);
+                Console.ReadKey();
             } while (true);
         }
     }

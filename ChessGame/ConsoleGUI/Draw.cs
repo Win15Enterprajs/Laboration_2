@@ -166,8 +166,8 @@ namespace ConsoleGUI
             if (Chess.State != GameState.Running)
             {
                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.SetCursorPosition(20, 10);
-                Console.WriteLine($"{ Chess.State}"); 
+                Console.SetCursorPosition(16, 10);
+                Console.WriteLine($"{Chess.State}       "); 
             }
             
 

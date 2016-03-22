@@ -14,17 +14,15 @@ namespace ChessGameLogic
         List<Pieces> GameBoard;
         GameLogger logger;
         Pieces BestPiece;
+        AI intelligence;
+        MoveLogic movement;
         private GameState state;
+        private int noTakeTurns = 0;
 
         public GameState State
         {
             get { return state; }
             set { state = value; }
-        }
-
-        public int GetTurn()
-        {
-            return turncounter;
         }
 
         public Game()
@@ -61,8 +59,8 @@ namespace ChessGameLogic
                 new Rook(Color.Black, new Point(0,7), false),
                 new Horse(Color.Black, new Point(1,7)),
                 new Bishop(Color.Black, new Point(2,7)),
-                new Queen(Color.Black, new Point(4,7)),
-                new King(Color.Black, new Point(3,7)),
+                new Queen(Color.Black, new Point(3,7)),
+                new King(Color.Black, new Point(4,7)),
                 new Bishop(Color.Black, new Point(5,7)),
                 new Horse(Color.Black, new Point(6,7)),
                 new Rook(Color.Black, new Point(7,7), false)
@@ -71,9 +69,18 @@ namespace ChessGameLogic
             };
             logger = new GameLogger();
             state = GameState.Running;
+            intelligence = new AI();
+            movement = new MoveLogic();
 
 
         }
+
+        public int GetTurn()
+        {
+            return turncounter;
+        }
+
+  
         public List<Pieces> GetGameBoard()
         {
             return GameBoard;
@@ -167,6 +174,11 @@ namespace ChessGameLogic
                 {
                     logger.LogKilledPieceToRemove(GameBoard[tempindex]);
                     GameBoard.RemoveAt(tempindex);
+                    noTakeTurns = 0;
+                }
+                else
+                {
+                    noTakeTurns++;
                 }
                 willweremove = false; 
             }
@@ -199,44 +211,45 @@ namespace ChessGameLogic
         }
         public void PlayAGame(List<Pieces> gameboard)
         {
-            
-                var intelligence = new AI();
-                var Movement = new MoveLogic();
-                state = GameState.Running;
 
-                for (int i = 0; i < gameboard.Count; i++)
+            var intelligence = new AI();
+            var Movement = new MoveLogic();
+            state = GameState.Running;
+            for (int i = 0; i < gameboard.Count; i++)
+            {
+                if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
                 {
-                    if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
-                    {
-                        Movement.SetMovementList(gameboard[i], gameboard, state);
-                    }
-                    else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
-                    {
-                        Movement.SetMovementList(gameboard[i], gameboard, state);
-                    }
-
-
+                    Movement.SetMovementList(gameboard[i], gameboard, state);
                 }
-                for (int i = 0; i < gameboard.Count; i++)
+                else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
                 {
-                    if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
-                    {
-                        intelligence.GiveValuetoMoves(gameboard[i],gameboard);
-                    }
-                    else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
-                    {
+                    Movement.SetMovementList(gameboard[i], gameboard, state);
+                }
+
+
+            }
+            for (int i = 0; i < gameboard.Count; i++)
+            {
+                if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
+                {
                     intelligence.GiveValuetoMoves(gameboard[i], gameboard);
-                    }
-
                 }
-                GiveBestMoveToPieces();
-                BestPiece = GetBestPiece(gameboard);
-                RemoveKilledPiece(BestPiece);
-                BustAMove(BestPiece);
-                logger.LogTurn();
-                ClearPieces();
-                turncounter++;
-             
+                else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
+                {
+                    intelligence.GiveValuetoMoves(gameboard[i], gameboard);
+                }
+
+            }
+            GiveBestMoveToPieces();
+            BestPiece = GetBestPiece(gameboard);
+            RemoveKilledPiece(BestPiece);
+            BustAMove(BestPiece);
+            logger.LogTurn();
+            ClearPieces();
+            EvaluateStateOfGame();
+            
+            turncounter++;
+
         }
         private Pieces GetBestPiece(List<Pieces> gameboard)
         {
@@ -281,10 +294,6 @@ namespace ChessGameLogic
                 logger.LogPieceToMove(bestPiece);
                 return bestPiece; 
             }
-            else
-            {
-                state = GameState.Checkmate;
-            }
             return BestPiece;
         }
         private void ClearPieces()
@@ -296,6 +305,35 @@ namespace ChessGameLogic
 
             }
            
+        }
+
+        private bool WillThisTurnPutEnemyInCheck()
+        {
+            return movement.IsEnemyInCheck(turncounter, GameBoard);
+        }
+
+        private void EvaluateStateOfGame()
+        {
+            int PiecesLeftThatCanCheckMate = GameBoard.Count(x => (x is Horse || x is Bishop || x is Pawn));
+
+            if (BestPiece == null && state != GameState.Check)
+            {
+                state = GameState.Draw;
+            }
+            else if (BestPiece == null && state == GameState.Check)
+            {
+                state = GameState.Checkmate;
+            }
+
+            else 
+            if (GameBoard.Count == 2 || (GameBoard.Count < 4 && (PiecesLeftThatCanCheckMate < 3 )) ) //|| noTakeTurns > 50)
+            {
+                state = GameState.Draw;
+            }
+            else if (WillThisTurnPutEnemyInCheck())
+            {
+                state = GameState.Check;
+            }
         }
 
        

@@ -22,7 +22,7 @@ namespace ChessGameLogic
             if (Chess)
             {
                 GetMovesThatCancelChess(gameBoard, piece);
-
+                state = GameState.Check;
             }
             else
             {
@@ -262,7 +262,7 @@ namespace ChessGameLogic
                         // If the tile is not the original starting position adds the tile ot the movelist
                         else
                         {
-                            if (x != piece.CurrentPosition._PosX)
+                            if (y != piece.CurrentPosition._PosY)
                             {
                                 horizontalAndVerticalMoves.Add(new Move(x, y, 0));
                             }
@@ -333,7 +333,7 @@ namespace ChessGameLogic
                 }
                 x = piece.CurrentPosition._PosX;
                 y = piece.CurrentPosition._PosY;
-                // This forloop looks for positive changes on the Y axis
+                // This forloop looks for positive changes on the X axis
                 for (int i = 0; i < 7; i++)
                 {
                     x--;
@@ -729,6 +729,23 @@ namespace ChessGameLogic
             }
 
     }
+        public bool IsEnemyInCheck(int turn, List<Pieces> gameboard)
+        {
+            var movementCheck = new MoveLogic();
+            Pawn TestPiece = null;
+            var nextTurn = turn + 1;
+            if (nextTurn % 2 == 1)
+            {
+                TestPiece = new Pawn(Color.White,(new Point(0,0)),true);
+            }
+            else if (nextTurn % 2 == 0)
+            {
+                TestPiece = new Pawn(Color.Black, (new Point(0, 0)), true);
+
+            }
+            return movementCheck.AmIInChess(TestPiece, gameboard);
+
+        }
 
     }
 }
