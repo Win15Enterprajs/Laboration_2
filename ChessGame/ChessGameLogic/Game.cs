@@ -190,6 +190,21 @@ namespace ChessGameLogic
             {
                 piece.CurrentPosition._PosX = piece.BestMove.endPositions._PosX;
                 piece.CurrentPosition._PosY = piece.BestMove.endPositions._PosY;
+                if(piece is Pawn)
+                {
+                    if (piece.PieceColor == Color.Black && piece.BestMove.endPositions._PosY == 0)
+                    {
+                        var QueenFromPawn = new Queen(Color.Black, new Point(piece.CurrentPosition._PosX, piece.CurrentPosition._PosY));
+                        GameBoard.Remove(piece);
+                        GameBoard.Add(QueenFromPawn);
+                    }
+                    else if(piece.BestMove.endPositions._PosY == 7)
+                    {
+                        var QueenFromPawn = new Queen(Color.White, new Point(piece.CurrentPosition._PosX, piece.CurrentPosition._PosY));
+                        GameBoard.Remove(piece);
+                        GameBoard.Add(QueenFromPawn);
+                    }
+                }
                 piece.hasBeenMoved = true; 
             } 
             
@@ -314,7 +329,7 @@ namespace ChessGameLogic
 
         private void EvaluateStateOfGame()
         {
-            int PiecesLeftThatCanCheckMate = GameBoard.Count(x => (x is Horse || x is Bishop || x is Pawn));
+            int PiecesLeftThatCanCheckMate = GameBoard.Count(x => (x is Queen || x is Rook));
 
             if (BestPiece == null && state != GameState.Check)
             {
@@ -326,7 +341,7 @@ namespace ChessGameLogic
             }
 
             else 
-            if (GameBoard.Count == 2 || (GameBoard.Count < 4 && (PiecesLeftThatCanCheckMate < 3 )) ) //|| noTakeTurns > 50)
+            if (GameBoard.Count == 2 || (GameBoard.Count < 4 && (PiecesLeftThatCanCheckMate == 0 )) || noTakeTurns > 50)
             {
                 state = GameState.Draw;
             }
