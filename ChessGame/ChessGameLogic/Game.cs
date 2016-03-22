@@ -330,6 +330,7 @@ namespace ChessGameLogic
         private void EvaluateStateOfGame()
         {
             int PiecesLeftThatCanCheckMate = GameBoard.Count(x => (x is Queen || x is Rook));
+            //Två biskopar av samma färg + knug kan teoretiskt också göra schackmatt. 
 
             if (BestPiece == null && state != GameState.Check)
             {
@@ -340,7 +341,6 @@ namespace ChessGameLogic
                 state = GameState.Checkmate;
             }
 
-            else 
             if (GameBoard.Count == 2 || (GameBoard.Count < 4 && (PiecesLeftThatCanCheckMate == 0 )) || noTakeTurns > 50)
             {
                 state = GameState.Draw;
