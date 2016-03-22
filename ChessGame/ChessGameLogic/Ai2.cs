@@ -7,44 +7,74 @@ using ChessGameLogic.Packages;
 
 namespace ChessGameLogic.ChessPieces
 {
-    class Ai2
+
+    partial class Ai2
     {
+        MoveLogic AiMove = new MoveLogic();
         private List<Pieces> Enemies;
         private List<Pieces> Allies;
-        private List<Pieces> Gameboard;
+        //////////////////////////////////////////////////////
+        private List<Pieces> GameBoard;
         private List<Pieces> TempGameBoard;
 
 
-        public void InitiateAI(Pieces piece, List<Pieces> board)
-        {   
-            Gameboard = board;
-            TempGameBoard = new List<Pieces>(board);
-
-            Allies = GetAllies(piece.PieceColor);
-            Enemies = GetEnemies(piece.PieceColor);
-        }
-        public void GiveValueToMoves(Pieces piece, List<Pieces> board)
-        {
-           InitiateAI(piece,board);
-
-
-        }
-
-       
-
-
-        private bool CanItakeSomething(Pieces piece, List<Pieces> board)
-        {
-            return false;
-        }
-
-        private void GiveTakeValue(Pieces piece, List<Pieces> board)
+        public Ai2(List<Pieces> gameBoard)
         {
             
         }
 
-        private bool WillIgetThreatened(Pieces piece, List<Pieces> board)
+        public void InitiateAI(Pieces piece)
+        {   //creates the gameboard that the Ai will use as reference. 
+            ///////////////////////////////////////////// 
+           
+            TempGameBoard = new List<Pieces>(GameBoard);
+
+            /////////////////////////////////////////////
+            // seperates the allies and enemies into different lists. (for simplicity)
+            Allies = GetAllies(piece.PieceColor);
+            Enemies = GetEnemies(piece.PieceColor);
+            SetMovesForEnemies();
+        }
+        public void GiveValueToMoves(Pieces piece)
         {
+            foreach (Move move in piece.ListOfMoves)
+            {
+                if (CanItakeSomething(move))
+                {
+                    GiveTakeValue(move);
+
+                    WillIgetThreatened(move);
+                }
+            }
+        }
+
+        private bool CanItakeSomething(Move move)
+        {
+            foreach (Pieces E in Enemies)
+            {
+                foreach (Move Emove in E.ListOfMoves)
+                {
+                    if (CompareMoves(Emove, move))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        private void GiveTakeValue(Move move)
+        {
+            foreach (Pieces enemy in Enemies)
+            {
+                if (CompareMoves(enemy.CurrentPosition, move))
+                {
+                    move.value += enemy.Value;
+                }
+            }
+        }
+
+        private bool WillIgetThreatened(Move move)
+        {
+
             return false;
         }
 
@@ -53,7 +83,7 @@ namespace ChessGameLogic.ChessPieces
             return false;
         }
 
-        private bool WillIthreaten(Pieces piece, List<Pieces> board)
+        private bool WillIthreaten(Move move)
         {
             return false;
         }
@@ -68,35 +98,70 @@ namespace ChessGameLogic.ChessPieces
             return false;
         }
 
+        private bool CanIThreatenDaKing()
+        {
+            return false;
+        }
+
         private List<Pieces> GetEnemies(Color color)
         {
-            List<Pieces> listOfEnemies = new List<Pieces>();
-
-            foreach (Pieces P in Gameboard)
-            {
-                if(P.PieceColor != color)
-                    listOfEnemies.Add(P);
-            }
-            return listOfEnemies;
+            return GameBoard.Where(P => P.PieceColor != color).ToList();
         }
 
         private List<Pieces> GetAllies(Color color)
         {
-            List<Pieces> listOfAllies = new List<Pieces>();
-
-            foreach (Pieces P in Gameboard)
-            {
-                if (P.PieceColor != color)
-                    listOfAllies.Add(P);
-            }
-            return listOfAllies;
+            return GameBoard.Where(P => P.PieceColor == color).ToList();
         }
 
         private void RestoreTempGameBoard()
         {
-            TempGameBoard = new List<Pieces>(Gameboard);
+            TempGameBoard = new List<Pieces>(GameBoard);
         }
+
+        private void SetMovesForEnemies()
+        {
+            foreach (Pieces P in Enemies)
+            {
+                AiMove.SetMovementList(P, GameBoard);
+            }
+        }
+
+        #region CompareMoves()...
+        public bool CompareMoves(Move enemyMove, Move move)
+        {
+            if (enemyMove.endPositions._PosX == move.endPositions._PosX && enemyMove.endPositions._PosY == move.endPositions._PosY)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool CompareMoves(Point enemyPosition, Move move)
+        {
+            if (enemyPosition._PosX == move.endPositions._PosX && enemyPosition._PosY == move.endPositions._PosY)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
+
 
 
     }
 }
+
+
+
+
+
+
+
+
+
+
