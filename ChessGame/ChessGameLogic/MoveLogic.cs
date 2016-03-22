@@ -710,7 +710,7 @@ namespace ChessGameLogic
         {
             var savex = piece.CurrentPosition._PosX;
             var savey = piece.CurrentPosition._PosY;
-            var gameboardtest = new List<Pieces>(SnapShotOfGameboard);
+            var gameboardtest = new List<Pieces>(gameboard);
             Pieces enemypiecesaved = null;
 
             for (int i = 0; i < gameboardtest.Count; i++)
