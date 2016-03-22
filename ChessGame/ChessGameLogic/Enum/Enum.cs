@@ -24,7 +24,6 @@ namespace ChessGameLogic
     {
         Running,
         Draw,
-        Stalemate,
         Check,
         Checkmate
     }
