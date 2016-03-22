@@ -20,9 +20,10 @@ namespace ChessGameLogic.ChessPieces
 
         public Ai2(List<Pieces> gameBoard)
         {
-            
+            this.GameBoard = gameBoard;
         }
 
+        // initierar AI´n (sepererar allies i enemies m.m)
         public void InitiateAI(Pieces piece)
         {   //creates the gameboard that the Ai will use as reference. 
             ///////////////////////////////////////////// 
@@ -35,6 +36,8 @@ namespace ChessGameLogic.ChessPieces
             Enemies = GetEnemies(piece.PieceColor);
             SetMovesForEnemies();
         }
+
+        //bas Metoden.. typish.. 
         public void GiveValueToMoves(Pieces piece)
         {
             foreach (Move move in piece.ListOfMoves)
@@ -42,12 +45,12 @@ namespace ChessGameLogic.ChessPieces
                 if (CanItakeSomething(move))
                 {
                     GiveTakeValue(move);
-
                     WillIgetThreatened(move);
                 }
             }
         }
 
+        //kollar bara om ett moves kan ta något
         private bool CanItakeSomething(Move move)
         {
             foreach (Pieces E in Enemies)
@@ -61,6 +64,7 @@ namespace ChessGameLogic.ChessPieces
             return false;
         }
 
+        // ger movet värde beroende på vad den tar
         private void GiveTakeValue(Move move)
         {
             foreach (Pieces enemy in Enemies)
@@ -72,52 +76,51 @@ namespace ChessGameLogic.ChessPieces
             }
         }
 
+        // precis som det låter, kollar om movet kommer bli hotat av en motståndare
         private bool WillIgetThreatened(Move move)
         {
 
             return false;
         }
 
+        // kollar om ett move är skyddat av en annan allie.
         private bool WillIBeProtected(Pieces piece, List<Pieces> board)
         {
             return false;
         }
 
+        // kollar om movet kommer hota en annan pjäs
         private bool WillIthreaten(Move move)
         {
             return false;
         }
 
+        // är jag skyddad här?!
         private bool AmIProtected(Pieces piece, List<Pieces> board)
         {
             return false;
         }
 
+        // är jag hotad här?!
         private bool AmIThreatened(Pieces piece, List<Pieces> board)
         {
             return false;
         }
 
+        // kan jag hota kungen?!
         private bool CanIThreatenDaKing()
         {
             return false;
         }
 
-        private List<Pieces> GetEnemies(Color color)
-        {
-            return GameBoard.Where(P => P.PieceColor != color).ToList();
-        }
 
-        private List<Pieces> GetAllies(Color color)
-        {
-            return GameBoard.Where(P => P.PieceColor == color).ToList();
-        }
-
+        // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
         private void RestoreTempGameBoard()
         {
             TempGameBoard = new List<Pieces>(GameBoard);
         }
 
+        // eftersom ennemy inte har några moves, så får dom de här! 
         private void SetMovesForEnemies()
         {
             foreach (Pieces P in Enemies)
@@ -126,6 +129,8 @@ namespace ChessGameLogic.ChessPieces
             }
         }
 
+
+        // gämnför två Moves och returnerar true eller false beroende på om de innehåller samma koordinater eller inte. 
         #region CompareMoves()...
         public bool CompareMoves(Move enemyMove, Move move)
         {
@@ -150,6 +155,18 @@ namespace ChessGameLogic.ChessPieces
             }
         }
         #endregion
+        // separerar ennemies från allies, lägger dom i egna listor(för enkelhets skull. gör också så att man inte behöver ha fula checkar över allt)
+        #region Seperate Enemies and Allies
+        private List<Pieces> GetEnemies(Color color)
+        {
+            return GameBoard.Where(P => P.PieceColor != color).ToList();
+        }
+        private List<Pieces> GetAllies(Color color)
+        {
+            return GameBoard.Where(P => P.PieceColor == color).ToList();
+        }
+        #endregion
+
 
 
 
