@@ -14,7 +14,7 @@ namespace ChessGameLogic.ChessPieces
         private List<Pieces> Enemies;
         private List<Pieces> Allies;
         //////////////////////////////////////////////////////
-        private List<Pieces> GameBoard;
+        private readonly List<Pieces> GameBoard;
         private List<Pieces> TempGameBoard;
 
 
@@ -24,7 +24,7 @@ namespace ChessGameLogic.ChessPieces
         }
 
         // initierar AI´n (sepererar allies i enemies m.m)
-        public void InitiateAI(Pieces piece)
+        public void InitiateAI(Color color)
         {   //creates the gameboard that the Ai will use as reference. 
             ///////////////////////////////////////////// 
            
@@ -32,14 +32,15 @@ namespace ChessGameLogic.ChessPieces
 
             /////////////////////////////////////////////
             // seperates the allies and enemies into different lists. (for simplicity)
-            Allies = GetAllies(piece.PieceColor);
-            Enemies = GetEnemies(piece.PieceColor);
+            Allies = GetAllies(color);
+            Enemies = GetEnemies(color);
             SetMovesForEnemies();
         }
 
         //bas Metoden.. typish.. 
         public void GiveValueToMoves(Pieces piece)
         {
+            InitiateAI(piece.PieceColor);
             foreach (Move move in piece.ListOfMoves)
             {
                 if (CanItakeSomething(move))
@@ -47,6 +48,11 @@ namespace ChessGameLogic.ChessPieces
                     GiveTakeValue(move);
                     WillIgetThreatened(move);
                 }
+                else if ()
+                {
+                    
+                }
+                
             }
         }
 
@@ -80,6 +86,8 @@ namespace ChessGameLogic.ChessPieces
         private bool WillIgetThreatened(Move move)
         {
 
+
+           
             return false;
         }
 
@@ -90,8 +98,20 @@ namespace ChessGameLogic.ChessPieces
         }
 
         // kollar om movet kommer hota en annan pjäs
-        private bool WillIthreaten(Move move)
+        private bool WillIthreaten(Pieces piece, Move move)
         {
+            var tempPiece = GetPieceFromTempBoard(piece);
+
+            tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
+            tempPiece.ReturnMoveList();
+
+            foreach (Move tempMove in tempPiece.ListOfMoves)
+            {
+                CanItakeSomething(tempMove);
+                return true;
+            }
+
+            RestoreTempGameBoard();
             return false;
         }
 
@@ -113,12 +133,20 @@ namespace ChessGameLogic.ChessPieces
             return false;
         }
 
-
+      
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
         private void RestoreTempGameBoard()
         {
             TempGameBoard = new List<Pieces>(GameBoard);
         }
+
+        private void CopyGameboard()
+        {
+            
+        }
+
+
+        
 
         // eftersom ennemy inte har några moves, så får dom de här! 
         private void SetMovesForEnemies()
@@ -130,6 +158,20 @@ namespace ChessGameLogic.ChessPieces
         }
 
 
+        private Pieces GetThretnedEnemyPiece(Move move)
+        {
+            Pieces tempPiece = TempGameBoard.Find(p => p.CurrentPosition == move.endPositions);
+
+            return tempPiece;
+
+
+        }
+
+        private Pieces GetPieceFromTempBoard(Pieces piece)
+        {
+            Pieces tempPiece = TempGameBoard.Find(p => p.CurrentPosition == piece.CurrentPosition);
+            return tempPiece;
+        }
         // gämnför två Moves och returnerar true eller false beroende på om de innehåller samma koordinater eller inte. 
         #region CompareMoves()...
         public bool CompareMoves(Move enemyMove, Move move)
