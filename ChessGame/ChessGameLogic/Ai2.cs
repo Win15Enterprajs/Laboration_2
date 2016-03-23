@@ -14,7 +14,7 @@ namespace ChessGameLogic.ChessPieces
         private List<Pieces> Enemies;
         private List<Pieces> Allies;
         //////////////////////////////////////////////////////
-        private readonly List<Pieces> GameBoard;
+        private List<Pieces> GameBoard;
         private List<Pieces> TempGameBoard;
 
 
@@ -24,7 +24,7 @@ namespace ChessGameLogic.ChessPieces
         }
 
         // initierar AI´n (sepererar allies i enemies m.m)
-        public void InitiateAI(Color color)
+        public void InitiateAI(Pieces piece)
         {   //creates the gameboard that the Ai will use as reference. 
             ///////////////////////////////////////////// 
            
@@ -32,15 +32,14 @@ namespace ChessGameLogic.ChessPieces
 
             /////////////////////////////////////////////
             // seperates the allies and enemies into different lists. (for simplicity)
-            Allies = GetAllies(color);
-            Enemies = GetEnemies(color);
+            Allies = GetAllies(piece.PieceColor);
+            Enemies = GetEnemies(piece.PieceColor);
             SetMovesForEnemies();
         }
 
         //bas Metoden.. typish.. 
         public void GiveValueToMoves(Pieces piece)
         {
-            InitiateAI(piece.PieceColor);
             foreach (Move move in piece.ListOfMoves)
             {
                 if (CanItakeSomething(move))
@@ -48,11 +47,6 @@ namespace ChessGameLogic.ChessPieces
                     GiveTakeValue(move);
                     WillIgetThreatened(move);
                 }
-                else if ()
-                {
-                    
-                }
-                
             }
         }
 
@@ -86,8 +80,6 @@ namespace ChessGameLogic.ChessPieces
         private bool WillIgetThreatened(Move move)
         {
 
-
-           
             return false;
         }
 
@@ -98,20 +90,8 @@ namespace ChessGameLogic.ChessPieces
         }
 
         // kollar om movet kommer hota en annan pjäs
-        private bool WillIthreaten(Pieces piece, Move move)
+        private bool WillIthreaten(Move move)
         {
-            var tempPiece = GetPieceFromTempBoard(piece);
-
-            tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
-            tempPiece.ReturnMoveList();
-
-            foreach (Move tempMove in tempPiece.ListOfMoves)
-            {
-                CanItakeSomething(tempMove);
-                return true;
-            }
-
-            RestoreTempGameBoard();
             return false;
         }
 
@@ -143,20 +123,12 @@ namespace ChessGameLogic.ChessPieces
             return false;
         }
 
-      
+
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
         private void RestoreTempGameBoard()
         {
             TempGameBoard = new List<Pieces>(GameBoard);
         }
-
-        private void CopyGameboard()
-        {
-            
-        }
-
-
-        
 
         // eftersom ennemy inte har några moves, så får dom de här! 
         private void SetMovesForEnemies()
@@ -168,20 +140,6 @@ namespace ChessGameLogic.ChessPieces
         }
 
 
-        private Pieces GetThretnedEnemyPiece(Move move)
-        {
-            Pieces tempPiece = TempGameBoard.Find(p => p.CurrentPosition == move.endPositions);
-
-            return tempPiece;
-
-
-        }
-
-        private Pieces GetPieceFromTempBoard(Pieces piece)
-        {
-            Pieces tempPiece = TempGameBoard.Find(p => p.CurrentPosition == piece.CurrentPosition);
-            return tempPiece;
-        }
         // gämnför två Moves och returnerar true eller false beroende på om de innehåller samma koordinater eller inte. 
         #region CompareMoves()...
         public bool CompareEnemyMoveToMyMove(Move enemyMove, Move move)
@@ -229,6 +187,31 @@ namespace ChessGameLogic.ChessPieces
             return GameBoard.Where(P => P.PieceColor == color).ToList();
         }
         #endregion
+
+        public void MakeCopyOfGameboard()
+        {
+            TempGameBoard.Clear();
+
+            var pawns = GameBoard.Where(x => x is Pawn).ToList();
+            pawns.ForEach(x => TempGameBoard.Add(new Pawn(x.PieceColor, x.CurrentPosition, x.hasBeenMoved)));
+
+            var bishops = GameBoard.Where(x => x is Bishop).ToList();
+            bishops.ForEach(x => TempGameBoard.Add(new Bishop(x.PieceColor, x.CurrentPosition)));
+
+            var horses = GameBoard.Where(x => x is Horse).ToList();
+            horses.ForEach(x => TempGameBoard.Add(new Horse(x.PieceColor, x.CurrentPosition)));
+
+            var rooks = GameBoard.Where(x => x is Rook).ToList();
+            rooks.ForEach(x => TempGameBoard.Add(new Rook(x.PieceColor, x.CurrentPosition, x.hasBeenMoved)));
+
+            var queens = GameBoard.Where(x => x is Queen).ToList();
+            queens.ForEach(x => TempGameBoard.Add(new Queen(x.PieceColor, x.CurrentPosition)));
+
+            var kings = GameBoard.Where(x => x is King).ToList();
+            kings.ForEach(x => TempGameBoard.Add(new King(x.PieceColor, x.CurrentPosition)));
+
+
+        }
 
 
 
