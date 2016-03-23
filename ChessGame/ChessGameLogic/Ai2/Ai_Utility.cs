@@ -91,5 +91,30 @@ namespace ChessGameLogic
             return GameBoard.Where(P => P.PieceColor == color).ToList();
         }
         #endregion
+        public void MakeCopyOfGameboard()
+        {
+            TempGameBoard.Clear();
+
+            var pawns = GameBoard.Where(x => x is Pawn).ToList();
+            pawns.ForEach(x => TempGameBoard.Add(new Pawn(x.PieceColor, x.CurrentPosition, x.hasBeenMoved)));
+
+            var bishops = GameBoard.Where(x => x is Bishop).ToList();
+            bishops.ForEach(x => TempGameBoard.Add(new Bishop(x.PieceColor, x.CurrentPosition)));
+
+            var horses = GameBoard.Where(x => x is Horse).ToList();
+            horses.ForEach(x => TempGameBoard.Add(new Horse(x.PieceColor, x.CurrentPosition)));
+
+            var rooks = GameBoard.Where(x => x is Rook).ToList();
+            rooks.ForEach(x => TempGameBoard.Add(new Rook(x.PieceColor, x.CurrentPosition, x.hasBeenMoved)));
+
+            var queens = GameBoard.Where(x => x is Queen).ToList();
+            queens.ForEach(x => TempGameBoard.Add(new Queen(x.PieceColor, x.CurrentPosition)));
+
+            var kings = GameBoard.Where(x => x is King).ToList();
+            kings.ForEach(x => TempGameBoard.Add(new King(x.PieceColor, x.CurrentPosition)));
+
+
+        }
+
     }
 }
