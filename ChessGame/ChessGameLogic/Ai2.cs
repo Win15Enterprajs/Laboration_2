@@ -61,10 +61,10 @@ namespace ChessGameLogic.ChessPieces
         {
             foreach (Pieces E in Enemies)
             {
-                foreach (Move Emove in E.ListOfMoves)
+
+                if (CompareEnemyPositionToMyMove(E.CurrentPosition, move))
                 {
-                    if (CompareMoves(Emove, move))
-                        return true;
+                    return true;
                 }
             }
             return false;
@@ -75,7 +75,7 @@ namespace ChessGameLogic.ChessPieces
         {
             foreach (Pieces enemy in Enemies)
             {
-                if (CompareMoves(enemy.CurrentPosition, move))
+                if (CompareEnemyPositionToMyMove(enemy.CurrentPosition, move))
                 {
                     move.value += enemy.Value;
                 }
@@ -122,8 +122,18 @@ namespace ChessGameLogic.ChessPieces
         }
 
         // är jag hotad här?!
-        private bool AmIThreatened(Pieces piece, List<Pieces> board)
+        private bool AmIThreatened(Pieces piece)
         {
+            foreach (var enemy in Enemies)
+            {
+                foreach (var move in enemy.ListOfMoves)
+                {
+                    if(CompareEnemyMoveWithCurrentPosition(move, piece.CurrentPosition))
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 
@@ -174,7 +184,7 @@ namespace ChessGameLogic.ChessPieces
         }
         // gämnför två Moves och returnerar true eller false beroende på om de innehåller samma koordinater eller inte. 
         #region CompareMoves()...
-        public bool CompareMoves(Move enemyMove, Move move)
+        public bool CompareEnemyMoveToMyMove(Move enemyMove, Move move)
         {
             if (enemyMove.endPositions._PosX == move.endPositions._PosX && enemyMove.endPositions._PosY == move.endPositions._PosY)
             {
@@ -185,9 +195,20 @@ namespace ChessGameLogic.ChessPieces
                 return false;
             }
         }
-        public bool CompareMoves(Point enemyPosition, Move move)
+        public bool CompareEnemyPositionToMyMove(Point enemyPosition, Move move)
         {
             if (enemyPosition._PosX == move.endPositions._PosX && enemyPosition._PosY == move.endPositions._PosY)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool CompareEnemyMoveWithCurrentPosition(Move enemyMove, Point myPosition)
+        {
+            if (enemyMove.endPositions._PosX == myPosition._PosX && enemyMove.endPositions._PosY == myPosition._PosY)
             {
                 return true;
             }

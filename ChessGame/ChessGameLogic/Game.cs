@@ -259,10 +259,6 @@ namespace ChessGameLogic
             }
            
         }
-        private void AmIInChess()
-        {
-
-        }
        
 
 
