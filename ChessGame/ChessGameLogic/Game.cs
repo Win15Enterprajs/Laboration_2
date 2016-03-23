@@ -16,6 +16,7 @@ namespace ChessGameLogic
         Pieces BestPiece;
         AI intelligence;
         MoveLogic movement;
+        Random rnd;
         private GameState state;
         private int noTakeTurns = 0;
 
@@ -71,6 +72,7 @@ namespace ChessGameLogic
             state = GameState.Running;
             intelligence = new AI();
             movement = new MoveLogic();
+            rnd = new Random();
 
 
         }
@@ -108,45 +110,38 @@ namespace ChessGameLogic
         private void GiveBestMoveToPieces() 
         {
 
-            Move bestMove = new Move(-1, -1, -999);
-            List<Move> listOfBestMoves = new List<Move>();
+            double bestMoveValue = -99;
+            List<Move> newListOfBestMoves = new List<Move>();
             foreach (Pieces piece in GameBoard)
             {
                 if ((turncounter % 2) == 1 && piece.PieceColor == Color.White)
                 {
                     foreach (var move in piece.ListOfMoves)
                     {
-                        if (move.value >= bestMove.value)
+                        if (move.value >= bestMoveValue)
                         {
-                            bestMove = move;
-                            var tempMove = move;
-                            listOfBestMoves.Add(move);
+                            bestMoveValue = move.value;
+                            newListOfBestMoves.Add(new Move(move.endPositions, move.value));
                         }
-
                     }
                 }
                 else if ((turncounter % 2) == 0 && piece.PieceColor == Color.Black)
                 {
                     foreach (var move in piece.ListOfMoves)
                     {
-                        if (move.value >= bestMove.value)
+                        if (move.value >= bestMoveValue)
                         {
-                            bestMove = move;
-                            var tempMove = move;
-                            listOfBestMoves.Add(move);
+                            bestMoveValue = move.value;
+                            newListOfBestMoves.Add(new Move(move.endPositions, move.value));
                         }
                     }
                 }
-                var bPosX= bestMove.endPositions._PosX;
-                var bPosY= bestMove.endPositions._PosY;
-                var bVal = bestMove.value;
 
-                if (piece.ListOfMoves.Count != 0 && listOfBestMoves.Count != 0)
+                if (piece.ListOfMoves.Count != 0 && newListOfBestMoves.Count != 0)
                 {
-                    var rnd = new Random();
-                    //piece.BestMove = new Move(bPosX, bPosY, bVal);
+                    var listOfBestMoves = newListOfBestMoves.Where(x => x.value == bestMoveValue).ToList();
                     piece.BestMove = listOfBestMoves.ElementAt(rnd.Next(0, listOfBestMoves.Count));
-                    listOfBestMoves.Clear();
+                    newListOfBestMoves.Clear();
 
                 }
                 //bestMove = new Move(-1, -1, -999);
@@ -211,16 +206,14 @@ namespace ChessGameLogic
         }
         private void InitializePiecesForThisTurn(List<Pieces> gameboard)
         {
-            var Intelligence = new AI();
-            var Movement = new MoveLogic();
             foreach (var item in gameboard)
             {
-                Movement.SetMovementList(item, gameboard, state);
+                movement.SetMovementList(item, gameboard);
             }
 
             foreach (var item in gameboard)
             {
-                Intelligence.GiveValuetoMoves(item,gameboard);
+                intelligence.GiveValuetoMoves(item,gameboard);
             }
 
         }
@@ -229,16 +222,15 @@ namespace ChessGameLogic
 
             var intelligence = new AI();
             var Movement = new MoveLogic();
-            state = GameState.Running;
             for (int i = 0; i < gameboard.Count; i++)
             {
                 if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
                 {
-                    Movement.SetMovementList(gameboard[i], gameboard, state);
+                    Movement.SetMovementList(gameboard[i], gameboard);
                 }
                 else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
                 {
-                    Movement.SetMovementList(gameboard[i], gameboard, state);
+                    Movement.SetMovementList(gameboard[i], gameboard);
                 }
 
 
@@ -269,8 +261,8 @@ namespace ChessGameLogic
         private Pieces GetBestPiece(List<Pieces> gameboard)
         {
 
-            Move bestMove = new Move(-1, -1, -999);
-            var ListOfBestMovesWithSameValue = new List<Pieces>();
+            double bestMoveValue = -99;
+            var listOfMoves = new List<Pieces>();
 
             for (int i = 0; i < gameboard.Count; i++)
             {
@@ -278,34 +270,28 @@ namespace ChessGameLogic
                 {
                     if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
                     {
-                        if (gameboard[i].BestMove.value >= bestMove.value)
+                        if (gameboard[i].BestMove.value >= bestMoveValue)
                         {
-                            bestMove.value = gameboard[i].BestMove.value;
-                            ListOfBestMovesWithSameValue.Add(gameboard[i]);
+                            bestMoveValue = gameboard[i].BestMove.value;
+                            listOfMoves.Add(gameboard[i]);
                         }
                     }
                     else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
                     {
-                        if (gameboard[i].BestMove.value >= bestMove.value)
+                        if (gameboard[i].BestMove.value >= bestMoveValue)
                         {
-                            bestMove.value = gameboard[i].BestMove.value;
-                            ListOfBestMovesWithSameValue.Add(gameboard[i]);
+                            bestMoveValue = gameboard[i].BestMove.value;
+                            listOfMoves.Add(gameboard[i]);
 
                         }
                     } 
                 }
             }
-            var rnd = new Random();
 
-
-
-            var timespan = new TimeSpan(1);
-            Thread.Sleep(timespan);
-            Pieces bestPiece = null;
-
-            if (ListOfBestMovesWithSameValue.Count != 0)
+            if (listOfMoves.Count != 0)
             {
-                bestPiece = ListOfBestMovesWithSameValue.ElementAt(rnd.Next(0, ListOfBestMovesWithSameValue.Count));
+                var listOfBestMoves = listOfMoves.Where(x => x.BestMove.value == bestMoveValue).ToList();
+                var bestPiece = listOfBestMoves.ElementAt(rnd.Next(0, listOfBestMoves.Count));
                 logger.LogPieceToMove(bestPiece);
                 return bestPiece; 
             }
@@ -330,13 +316,12 @@ namespace ChessGameLogic
         private void EvaluateStateOfGame()
         {
             int PiecesLeftThatCanCheckMate = GameBoard.Count(x => (x is Queen || x is Rook));
-            //var NumberOfBishopsWithSameColor = GameBoard.Where(x => x is Bishop).ToList();
-
-            if (BestPiece == null && state != GameState.Check)
+            bool checkThisRound = movement.CheckGamestateForCheck(turncounter, GameBoard);
+            if (BestPiece == null && !checkThisRound)
             {
                 state = GameState.Draw;
             }
-            else if (BestPiece == null && state == GameState.Check)
+            else if (BestPiece == null && checkThisRound)
             {
                 state = GameState.Checkmate;
             }
@@ -352,6 +337,10 @@ namespace ChessGameLogic
             else if (WillThisTurnPutEnemyInCheck())
             {
                 state = GameState.Check;
+            }
+            else
+            {
+                state = GameState.Running;
             }
         }
 

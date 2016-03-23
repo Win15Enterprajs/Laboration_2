@@ -12,17 +12,16 @@ namespace ChessGameLogic
         //List<Pieces> SnapShotOfGameboard;
         private List<Move> templist = new List<Move>();
 
-        public void SetMovementList(Pieces piece, List<Pieces> gameBoard, GameState state)
+        public void SetMovementList(Pieces piece, List<Pieces> gameBoard)
         {
             //SnapShotOfGameboard = new List<Pieces>(gameBoard);
             templist.Clear();
             piece.ListOfMoves = new List<Move>(Returnlistofmoves(piece, gameBoard));
 
-            bool Chess = AmIInChess(piece, gameBoard);
+            bool Chess = AmIInChess(piece.PieceColor, gameBoard);
             if (Chess)
             {
                 GetMovesThatCancelChess(gameBoard, piece);
-                state = GameState.Check;
             }
             else
             {
@@ -585,13 +584,13 @@ namespace ChessGameLogic
 
 
         }
-        private Point FindMeKing(List<Pieces> gameboard, Pieces Piece)
+        private Point FindMeKing(List<Pieces> gameboard, Color Color)
         {
             var point = new Point(0,0);
             foreach (var item in gameboard)
             {
                 if (item.PieceType == ChessPieceSymbol.King)
-                    if (Piece.PieceColor == item.PieceColor)
+                    if (Color == item.PieceColor)
                     {
                         point._PosX = item.CurrentPosition._PosX;
                         point._PosY = item.CurrentPosition._PosY;
@@ -610,15 +609,15 @@ namespace ChessGameLogic
         //    }
         //}
        
-        private bool AmIInChess(Pieces piece, List<Pieces> gameboard)
+        private bool AmIInChess(Color color, List<Pieces> gameboard)
         {
 
-            var move = new Move(FindMeKing(gameboard, piece), 0);
+            var move = new Move(FindMeKing(gameboard, color), 0);
             //var move = new Move(FindMeKing(gameboard, piece)._PosX, FindMeKing(gameboard, piece)._PosY, 0);
             List<Move> tempmovelist = new List<Move>();
             for (int i = 0; i < gameboard.Count; i++)
             {
-                if (piece.PieceColor != gameboard[i].PieceColor)
+                if (color != gameboard[i].PieceColor)
                 {
                     gameboard[i].ListOfMoves.AddRange(Returnlistofmoves(gameboard[i], gameboard));
                 }
@@ -628,7 +627,7 @@ namespace ChessGameLogic
             {
                 for (int j = 0; j < gameboard[i].ListOfMoves.Count; j++)
                 {
-                    if (piece.PieceColor != gameboard[i].PieceColor)
+                    if (color != gameboard[i].PieceColor)
                     {
                         tempmovelist.Add(gameboard[i].ListOfMoves[j]);
                     }
@@ -636,7 +635,7 @@ namespace ChessGameLogic
             }
             for (int i = 0; i < gameboard.Count; i++)
             {
-                if (gameboard[i].PieceColor != piece.PieceColor)
+                if (gameboard[i].PieceColor != color)
                 {
                     gameboard[i].ListOfMoves.Clear();
                 }
@@ -712,7 +711,7 @@ namespace ChessGameLogic
             piece.CurrentPosition._PosX = move.endPositions._PosX;
             piece.CurrentPosition._PosY = move.endPositions._PosY;
 
-            if (AmIInChess(piece, gameboardtest))
+            if (AmIInChess(piece.PieceColor, gameboardtest))
             {
                 piece.CurrentPosition._PosX = savex;
                 piece.CurrentPosition._PosY = savey;
@@ -731,20 +730,33 @@ namespace ChessGameLogic
     }
         public bool IsEnemyInCheck(int turn, List<Pieces> gameboard)
         {
-            var movementCheck = new MoveLogic();
-            Pawn TestPiece = null;
+            Color colorOfNextTurn;           
             var nextTurn = turn + 1;
             if (nextTurn % 2 == 1)
             {
-                TestPiece = new Pawn(Color.White,(new Point(0,0)),true);
+                colorOfNextTurn = Color.White;
             }
-            else if (nextTurn % 2 == 0)
+            else
             {
-                TestPiece = new Pawn(Color.Black, (new Point(0, 0)), true);
+                colorOfNextTurn = Color.Black;
 
             }
-            return movementCheck.AmIInChess(TestPiece, gameboard);
+            return AmIInChess(colorOfNextTurn, gameboard);
 
+        }
+
+        public bool CheckGamestateForCheck(int turn, List<Pieces> gameBoard)
+        {
+            Color ColorThisTurn;
+            if (turn % 2 == 1)
+            {
+               ColorThisTurn = Color.White;
+            }
+            else
+            {
+                ColorThisTurn = Color.Black;
+            }
+            return AmIInChess(ColorThisTurn, gameBoard );
         }
 
     }

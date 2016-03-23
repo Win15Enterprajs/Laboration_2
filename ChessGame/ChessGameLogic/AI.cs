@@ -11,7 +11,8 @@ namespace ChessGameLogic
     class AI
     {
         // templista för att kunna skriva AI
-       
+        Random rnd = new Random();
+
         public /*List<Move>*/ void GiveValuetoMoves(Pieces piece,List<Pieces> tempgameboard)
         {
             for (int i = 0; i < piece.ListOfMoves.Count; i++)
@@ -75,9 +76,6 @@ namespace ChessGameLogic
         }
         private void GiveRandomValueToAMove(Move move)
         {
-            var timespan = new TimeSpan(1);
-            Thread.Sleep(timespan);
-            Random rnd = new Random();
             int nr = rnd.Next(0, 10);
             move.value = nr;
         }
