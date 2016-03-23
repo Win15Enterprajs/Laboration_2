@@ -330,7 +330,7 @@ namespace ChessGameLogic
         private void EvaluateStateOfGame()
         {
             int PiecesLeftThatCanCheckMate = GameBoard.Count(x => (x is Queen || x is Rook));
-            //Två biskopar av samma färg + knug kan teoretiskt också göra schackmatt. 
+            //var NumberOfBishopsWithSameColor = GameBoard.Where(x => x is Bishop).ToList();
 
             if (BestPiece == null && state != GameState.Check)
             {
@@ -341,10 +341,14 @@ namespace ChessGameLogic
                 state = GameState.Checkmate;
             }
 
-            if (GameBoard.Count == 2 || (GameBoard.Count < 4 && (PiecesLeftThatCanCheckMate == 0 )) || noTakeTurns > 50)
+            else if (GameBoard.Count == 2 || (GameBoard.Count < 4 && (PiecesLeftThatCanCheckMate == 0 ) || noTakeTurns > 50))
             {
                 state = GameState.Draw;
             }
+            //else if(GameBoard.Count < 5 && NumberOfBishopsWithSameColor.Count == 2)
+            //{
+            //    state = GameState.Draw;
+            //}
             else if (WillThisTurnPutEnemyInCheck())
             {
                 state = GameState.Check;
