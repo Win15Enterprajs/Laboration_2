@@ -647,7 +647,7 @@ namespace ChessGameLogic
         {
             foreach (var item in piece.ListOfMoves)
             {
-               if (!WillItChessYou(piece, item,gameboard));
+               if (!WillItChessYou(piece, item,gameboard))
                 piece.ListOfMoves.Remove(item);
             }
         }
