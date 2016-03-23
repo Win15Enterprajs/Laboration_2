@@ -25,6 +25,7 @@ namespace ChessGameLogic
                 else
                 {
                     GiveRandomValueToAMove(piece.ListOfMoves[i]);
+                    PawnMoveToPromotion(piece, tempgameboard);
                 }
             }             
         }
@@ -50,6 +51,15 @@ namespace ChessGameLogic
             }
                 
         }
+
+        private void PawnMoveToPromotion(Pieces piece, List<Pieces> gb)
+        {
+            if (piece is Pawn && gb.Count < 10)
+            {
+                piece.ListOfMoves.ForEach(x => x.value += 10);
+            }
+        }
+
         private Move RemoveSelfFromValue(Move move, Pieces piece)
         {
             if (piece.PieceType == ChessPieceSymbol.Bishop)
@@ -61,7 +71,7 @@ namespace ChessGameLogic
             if (piece.PieceType == ChessPieceSymbol.Rook)
                 move.value = move.value - (30 * 0.25);
             if (piece.PieceType == ChessPieceSymbol.Pawn)
-                    move.value = move.value - (10 * 0.5);
+                    move.value = move.value - (10 * 0.25);
             return move;
             
         }

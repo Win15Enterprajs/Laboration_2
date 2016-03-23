@@ -122,8 +122,14 @@ namespace ConsoleGUI
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.SetCursorPosition(3, 10);
+
+            
+
             var turn = game.GetTurn();
-            if((turn % 2) == 0)
+            if (game.State == GameState.Checkmate)
+                turn--;
+
+            if ((turn % 2) == 0)
             {
                 Console.WriteLine("Blacks turn:");
             }

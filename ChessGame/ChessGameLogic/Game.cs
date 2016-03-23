@@ -252,9 +252,8 @@ namespace ChessGameLogic
             RemoveKilledPiece(BestPiece);
             BustAMove(BestPiece);
             logger.LogTurn();
-            ClearPieces();
             EvaluateStateOfGame();
-            
+            ClearPieces();
             turncounter++;
 
         }
@@ -315,25 +314,22 @@ namespace ChessGameLogic
 
         private void EvaluateStateOfGame()
         {
-            int PiecesLeftThatCanCheckMate = GameBoard.Count(x => (x is Queen || x is Rook));
+            int PiecesLeftThatCanCheckMate = GameBoard.Count(x => (x is Queen || x is Rook || x is Pawn));
             bool checkThisRound = movement.CheckGamestateForCheck(turncounter, GameBoard);
-            if (BestPiece == null && !checkThisRound)
+
+            if (BestPiece.BestMove == null && !checkThisRound)
             {
                 state = GameState.Draw;
             }
-            else if (BestPiece == null && checkThisRound)
+            else if (BestPiece.BestMove == null && checkThisRound)
             {
                 state = GameState.Checkmate;
             }
 
-            else if (GameBoard.Count == 2 || (GameBoard.Count < 4 && (PiecesLeftThatCanCheckMate == 0 ) || noTakeTurns > 50))
+            else if (GameBoard.Count == 2 || (GameBoard.Count < 4 && (PiecesLeftThatCanCheckMate == 0 ) || (!GameBoard.Exists(x => (x is Pawn || x is Rook || x is Queen)) && noTakeTurns > 50)))
             {
                 state = GameState.Draw;
             }
-            //else if(GameBoard.Count < 5 && NumberOfBishopsWithSameColor.Count == 2)
-            //{
-            //    state = GameState.Draw;
-            //}
             else if (WillThisTurnPutEnemyInCheck())
             {
                 state = GameState.Check;
