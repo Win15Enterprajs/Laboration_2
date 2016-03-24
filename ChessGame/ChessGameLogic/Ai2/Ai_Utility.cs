@@ -24,10 +24,7 @@ namespace ChessGameLogic
         }
 
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
-        private void RestoreTempGameBoard()
-        {
-            TempGameBoard = new List<Pieces>(GameBoard);
-        }
+     
 
 
         // eftersom ennemy inte har några moves, så får dom de här! 
