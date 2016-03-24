@@ -62,6 +62,11 @@ namespace ChessGameLogic
         private List<Pieces> GetEnemiesThatIThreaten(Pieces piece)
         {
             var ListOfThreatnedEnemies = piece.ListOfMoves.Select(move => GetThretnedEnemyPiece(move)).ToList();
+
+            foreach (Pieces X in ListOfThreatnedEnemies.Where(X => X == null))
+            {
+                ListOfThreatnedEnemies.Remove(X);
+            }
             return ListOfThreatnedEnemies;
         }
 
@@ -69,7 +74,7 @@ namespace ChessGameLogic
         private Pieces GetThretnedEnemyPiece(Move move)
         {
             Pieces tempPiece = TempGameBoard.Find(p => p.CurrentPosition == move.endPositions);
-
+            
             return tempPiece;
 
 

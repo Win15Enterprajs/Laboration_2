@@ -84,7 +84,6 @@ namespace ChessGameLogic
         move.value -= piece.Value;
     }
 
-    // precis som det låter, kollar om movet kommer bli hotat av en motståndare
 
 
 

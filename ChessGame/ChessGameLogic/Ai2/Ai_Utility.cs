@@ -18,6 +18,7 @@ namespace ChessGameLogic
             /////////////////////////////////////////////
             // seperates the allies and enemies into different lists. (for simplicity)
             Allies = GetAllies(color);
+
             Enemies = GetEnemies(color);
             SetMovesForEnemies();
         }
