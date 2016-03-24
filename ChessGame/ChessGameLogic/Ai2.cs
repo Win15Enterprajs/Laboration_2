@@ -20,7 +20,7 @@ namespace ChessGameLogic.ChessPieces
 
         public Ai2(List<Pieces> gameBoard)
         {
-            this.GameBoard = gameBoard;
+            GameBoard = gameBoard;
         }
 
         // initierar AI´n (sepererar allies i enemies m.m)
@@ -79,6 +79,16 @@ namespace ChessGameLogic.ChessPieces
         // precis som det låter, kollar om movet kommer bli hotat av en motståndare
         private bool WillIgetThreatened(Move move)
         {
+            foreach (Pieces enemy in Enemies)
+            {
+                foreach (Move enemyMove in enemy.ListOfMoves)
+                {
+                    if (CompareMoves(enemyMove,move))
+                    {
+                        return true;
+                    }
+                }
+            }
 
             return false;
         }
@@ -92,6 +102,7 @@ namespace ChessGameLogic.ChessPieces
         // kollar om movet kommer hota en annan pjäs
         private bool WillIthreaten(Move move)
         {
+
             return false;
         }
 
