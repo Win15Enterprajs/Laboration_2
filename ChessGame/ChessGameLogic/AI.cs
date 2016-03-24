@@ -54,7 +54,7 @@ namespace ChessGameLogic
 
         private void PawnMoveToPromotion(Pieces piece, List<Pieces> gb)
         {
-            if (piece is Pawn && gb.Count < 10)
+            if (piece is Pawn && gb.Count < 8)
             {
                 piece.ListOfMoves.ForEach(x => x.value += 10);
             }
