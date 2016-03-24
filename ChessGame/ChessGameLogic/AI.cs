@@ -10,6 +10,7 @@ namespace ChessGameLogic
 {
     class AI
     {
+        MoveLogic tempmovelogic = new MoveLogic();
         // templista för att kunna skriva AI
         Random rnd = new Random();
 
@@ -26,6 +27,7 @@ namespace ChessGameLogic
                 {
                     GiveRandomValueToAMove(piece.ListOfMoves[i]);
                     PawnMoveToPromotion(piece, tempgameboard);
+                    CanIThreatenTheKing(piece.ListOfMoves[i], piece, tempgameboard);
                 }
             }             
         }
@@ -91,7 +93,6 @@ namespace ChessGameLogic
         }
         private bool Threatened(List<Pieces> gameboard, Move move, Pieces piece)
         {
-            var tempmovelogic = new MoveLogic();
             List<Move> tempmovelist = new List<Move>();
             for (int i = 0; i < gameboard.Count; i++)
             {
@@ -115,6 +116,29 @@ namespace ChessGameLogic
                 }
             }
             return false;
+        }
+
+        private void CanIThreatenTheKing(Move possibleMove, Pieces Piece, List<Pieces> gameboard)
+        {
+            var saveX = Piece.CurrentPosition._PosX;
+            var saveY = Piece.CurrentPosition._PosY;
+
+            var turn = 1;
+            if (Piece.PieceColor == Color.Black)
+                turn = 2;
+
+            Piece.CurrentPosition._PosX = possibleMove.endPositions._PosX;
+            Piece.CurrentPosition._PosY = possibleMove.endPositions._PosY;
+            
+
+            if(tempmovelogic.IsEnemyInCheck(turn, gameboard))
+            {
+                possibleMove.value += 25;
+            }
+            Piece.CurrentPosition._PosX = saveX;
+            Piece.CurrentPosition._PosY = saveY;
+
+
         }
        
     }

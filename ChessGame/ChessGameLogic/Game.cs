@@ -11,14 +11,15 @@ namespace ChessGameLogic
     public class Game
     {
         int turncounter = 1;
+        private int noTakeTurns = 0;
+        private GameState state;
         List<Pieces> GameBoard;
         GameLogger logger;
         Pieces BestPiece;
         AI intelligence;
         MoveLogic movement;
         Random rnd;
-        private GameState state;
-        private int noTakeTurns = 0;
+        
 
         public GameState State
         {
@@ -259,7 +260,7 @@ namespace ChessGameLogic
         }
         private Pieces GetBestPiece(List<Pieces> gameboard)
         {
-
+            
             double bestMoveValue = -99;
             var listOfMoves = new List<Pieces>();
 

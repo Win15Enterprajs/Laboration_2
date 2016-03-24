@@ -613,7 +613,6 @@ namespace ChessGameLogic
         {
 
             var move = new Move(FindMeKing(gameboard, color), 0);
-            //var move = new Move(FindMeKing(gameboard, piece)._PosX, FindMeKing(gameboard, piece)._PosY, 0);
             List<Move> tempmovelist = new List<Move>();
             for (int i = 0; i < gameboard.Count; i++)
             {
@@ -680,25 +679,8 @@ namespace ChessGameLogic
 
                 }
             }
-            //var z = FindMeKing(gameboardtest, piece)._PosX;
-            //var n = FindMeKing(gameboardtest, piece)._PosY;
 
-            //if (piece is King)
-            //{
-            //    for (int i = 0; i < gameboardtest.Count; i++)
-
-            //    {
-            //        if (gameboardtest[i].CurrentPosition._PosX == z && gameboardtest[i].CurrentPosition._PosY == n)
-            //        {
-            //            gameboardtest[i].CurrentPosition._PosX = move.endPositions._PosX;
-            //            gameboardtest[i].CurrentPosition._PosY = move.endPositions._PosY;
-            //        }
-            //    }
-            //}
-            //var z = FindMeKing(gameboardtest, piece)._PosX;
-            //var n = FindMeKing(gameboardtest, piece)._PosY;
-
-            for (int i = 0; i < gameboardtest.Count; i++) // Jag tror att det här är lösningen på vårat problem. Men jag har inte testkört för att se om kungen kan ta en pjäs och försätta sig i schack. Men nu borde den inte kunna det. 
+            for (int i = 0; i < gameboardtest.Count; i++)
             {
                 if (gameboardtest[i].CurrentPosition._PosX == savex && gameboardtest[i].CurrentPosition._PosY == savey)
                 {
