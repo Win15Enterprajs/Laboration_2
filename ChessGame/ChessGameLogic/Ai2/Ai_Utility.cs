@@ -89,6 +89,14 @@ namespace ChessGameLogic
             return GameBoard.Where(P => P.PieceColor == color).ToList();
         }
         #endregion
+
+        private Point GetPositionOfEnemyKing()
+        {
+            var enemyKing = Enemies.Find(x => x is King);
+            Point enemyKingPosition = new Point(enemyKing.CurrentPosition._PosX, enemyKing.CurrentPosition._PosY);
+            return enemyKingPosition;
+        }
+
         private void MakeCopyOfGameboard()
         {
             TempGameBoard.Clear();
@@ -117,6 +125,13 @@ namespace ChessGameLogic
         {
             int nr = rnd.Next(0, 10);
             move.value = nr;
+        }
+        private void PawnMoveToPromotion(Pieces piece)
+        {
+            if (piece is Pawn && TempGameBoard.Count < 8)
+            {
+                piece.ListOfMoves.ForEach(x => x.value += 10);
+            }
         }
 
     }

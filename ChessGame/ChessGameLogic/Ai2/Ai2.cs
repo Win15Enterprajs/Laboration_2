@@ -58,6 +58,7 @@ namespace ChessGameLogic
                     move.value += 25;
                 }
                 GiveRandomValueToAMove(move);
+                PawnMoveToPromotion(piece);
 
 
                 //RemoveSelfFromValue(move, piece); // funderar på hur denna metoden ska bestämma hur mycket som ska tas bort

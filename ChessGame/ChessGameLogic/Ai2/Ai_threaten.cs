@@ -78,13 +78,6 @@ namespace ChessGameLogic
         // kan jag hota kungen?!
         private bool CanIThreatenTheKing(Move possibleMove, Pieces Piece)
         {
-            var saveX = Piece.CurrentPosition._PosX;
-            var saveY = Piece.CurrentPosition._PosY;
-
-            var turn = 1;
-            if (Piece.PieceColor == Color.Black)
-                turn = 2;
-
             var testPiece = GetPieceFromTempBoard(Piece);
 
             testPiece.CurrentPosition._PosX = possibleMove.endPositions._PosX;
@@ -92,11 +85,13 @@ namespace ChessGameLogic
 
             AiMove.SetMovementList(testPiece, TempGameBoard);
 
-            if (AiMove.IsEnemyInCheck(turn, TempGameBoard))
+            foreach (var move in testPiece.ListOfMoves)
             {
-                MakeCopyOfGameboard();
-                return true;
-                
+                if(CompareEnemyPositionToMyMove(GetPositionOfEnemyKing(), move))
+                {
+                    MakeCopyOfGameboard();
+                    return false;
+                }
             }
             MakeCopyOfGameboard();
             return false;
