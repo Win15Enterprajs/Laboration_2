@@ -68,7 +68,7 @@ namespace ChessGameLogic
 
         private Pieces GetThretnedEnemyPiece(Move move)
         {
-            Pieces tempPiece = TempGameBoard.Find(p => p.CurrentPosition == move.endPositions);
+            Pieces tempPiece = Enemies.Find(p => p.CurrentPosition == move.endPositions);
 
             return tempPiece;
 
@@ -76,9 +76,32 @@ namespace ChessGameLogic
         }
 
         // kan jag hota kungen?!
-        private bool CanIThreatenDaKing()
+        private bool CanIThreatenTheKing(Move possibleMove, Pieces Piece)
         {
+            var saveX = Piece.CurrentPosition._PosX;
+            var saveY = Piece.CurrentPosition._PosY;
+
+            var turn = 1;
+            if (Piece.PieceColor == Color.Black)
+                turn = 2;
+
+            var testPiece = GetPieceFromTempBoard(Piece);
+
+            testPiece.CurrentPosition._PosX = possibleMove.endPositions._PosX;
+            testPiece.CurrentPosition._PosY = possibleMove.endPositions._PosY;
+
+            AiMove.SetMovementList(testPiece, TempGameBoard);
+
+            if (AiMove.IsEnemyInCheck(turn, TempGameBoard))
+            {
+                MakeCopyOfGameboard();
+                return true;
+                
+            }
+            MakeCopyOfGameboard();
             return false;
+
+
         }
 
 

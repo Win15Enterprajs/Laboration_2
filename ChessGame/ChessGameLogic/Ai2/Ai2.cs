@@ -13,6 +13,7 @@ namespace ChessGameLogic
         MoveLogic AiMove = new MoveLogic();
         private List<Pieces> Enemies;
         private List<Pieces> Allies;
+        Random rnd = new Random();
         //////////////////////////////////////////////////////
         private readonly List<Pieces> GameBoard;
         private List<Pieces> TempGameBoard;
@@ -21,6 +22,9 @@ namespace ChessGameLogic
         public Ai2(List<Pieces> gameBoard)
         {
             this.GameBoard = gameBoard;
+            this.TempGameBoard = new List<Pieces>();
+            MakeCopyOfGameboard();
+            
         }
 
 
@@ -39,17 +43,24 @@ namespace ChessGameLogic
 
                 if (WillIthreaten(piece, move))
                 {
-                    //nånting nångting
+                    move.value += 10;
                 }
                 if (WillIgetThreatened(move, piece))
                 {
-                    //nånting nångting annat
+                    move.value -= 10;
                 }
                 if (AmIProtected(move, piece)) //ingen logic här i en.
                 {
                     //nånting
                 }
-                RemoveSelfFromValue(move, piece); // funderar på hur denna metoden ska bestämma hur mycket som ska tas bort
+                if(CanIThreatenTheKing(move, piece))
+                {
+                    move.value += 25;
+                }
+                GiveRandomValueToAMove(move);
+
+
+                //RemoveSelfFromValue(move, piece); // funderar på hur denna metoden ska bestämma hur mycket som ska tas bort
                                                   // tänkte lite på att det kunde finnas en variabel som bestämmer hur många procent som skulle tas bort
             }                                     // som be ändras beronde på om (will i get threatned() protected() osv.. vi får ta en diskuterare
 

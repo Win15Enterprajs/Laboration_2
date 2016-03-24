@@ -12,9 +12,7 @@ namespace ChessGameLogic
         public void InitiateAI(Color color)
         {   //creates the gameboard that the Ai will use as reference. 
             ///////////////////////////////////////////// 
-
-            TempGameBoard = new List<Pieces>(GameBoard);
-
+            MakeCopyOfGameboard();
             /////////////////////////////////////////////
             // seperates the allies and enemies into different lists. (for simplicity)
             Allies = GetAllies(color);
@@ -25,7 +23,7 @@ namespace ChessGameLogic
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
         private void RestoreTempGameBoard()
         {
-            TempGameBoard = new List<Pieces>(GameBoard);
+            MakeCopyOfGameboard();
         }
 
 
@@ -91,12 +89,12 @@ namespace ChessGameLogic
             return GameBoard.Where(P => P.PieceColor == color).ToList();
         }
         #endregion
-        public void MakeCopyOfGameboard()
+        private void MakeCopyOfGameboard()
         {
             TempGameBoard.Clear();
 
             var pawns = GameBoard.Where(x => x is Pawn).ToList();
-            pawns.ForEach(x => TempGameBoard.Add(new Pawn(x.PieceColor, x.CurrentPosition, x.hasBeenMoved)));
+            pawns.ForEach(x => TempGameBoard.Add( new Pawn(x.PieceColor, x.CurrentPosition, x.hasBeenMoved)));
 
             var bishops = GameBoard.Where(x => x is Bishop).ToList();
             bishops.ForEach(x => TempGameBoard.Add(new Bishop(x.PieceColor, x.CurrentPosition)));
@@ -114,6 +112,11 @@ namespace ChessGameLogic
             kings.ForEach(x => TempGameBoard.Add(new King(x.PieceColor, x.CurrentPosition)));
 
 
+        }
+        private void GiveRandomValueToAMove(Move move)
+        {
+            int nr = rnd.Next(0, 10);
+            move.value = nr;
         }
 
     }

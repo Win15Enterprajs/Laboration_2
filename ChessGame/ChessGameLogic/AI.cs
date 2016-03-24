@@ -27,8 +27,8 @@ namespace ChessGameLogic
                 {
                     GiveRandomValueToAMove(piece.ListOfMoves[i]);
                     PawnMoveToPromotion(piece, tempgameboard);
-                    CanIThreatenTheKing(piece.ListOfMoves[i], piece, tempgameboard);
                 }
+                //CanIThreatenTheKing(piece.ListOfMoves[i], piece, tempgameboard);
             }             
         }
         private void GiveInitialTakeValue(Move move, List<Pieces> tempgameboard,Pieces piece)
@@ -120,23 +120,33 @@ namespace ChessGameLogic
 
         private void CanIThreatenTheKing(Move possibleMove, Pieces Piece, List<Pieces> gameboard)
         {
-            var saveX = Piece.CurrentPosition._PosX;
-            var saveY = Piece.CurrentPosition._PosY;
-
-            var turn = 1;
-            if (Piece.PieceColor == Color.Black)
-                turn = 2;
-
-            Piece.CurrentPosition._PosX = possibleMove.endPositions._PosX;
-            Piece.CurrentPosition._PosY = possibleMove.endPositions._PosY;
-            
-
-            if(tempmovelogic.IsEnemyInCheck(turn, gameboard))
+            if (gameboard.Count < 10)
             {
-                possibleMove.value += 25;
+                var saveX = Piece.CurrentPosition._PosX;
+                var saveY = Piece.CurrentPosition._PosY;
+
+                var turn = 1;
+                if (Piece.PieceColor == Color.Black)
+                    turn = 2;
+
+                Piece.CurrentPosition._PosX = possibleMove.endPositions._PosX;
+                Piece.CurrentPosition._PosY = possibleMove.endPositions._PosY;
+
+
+                if (tempmovelogic.IsEnemyInCheck(turn, gameboard))
+                {
+                    possibleMove.value += 50;
+                }
+                Piece.CurrentPosition._PosX = saveX;
+                Piece.CurrentPosition._PosY = saveY;
+
+                foreach (var item in gameboard)
+                {
+                    if(item.PieceColor == Piece.PieceColor)
+                    tempmovelogic.SetMovementList(item, gameboard);
+                }
+
             }
-            Piece.CurrentPosition._PosX = saveX;
-            Piece.CurrentPosition._PosY = saveY;
 
 
         }

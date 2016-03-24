@@ -92,17 +92,6 @@ namespace ChessGameLogic
         {
             return logger.gameLog;
         }
-        public void MakeTurn()
-        {
-            InitializePiecesForThisTurn(GameBoard);
-            GiveBestMoveToPieces();
-            BestPiece = GetBestPiece(GameBoard);
-            RemoveKilledPiece(BestPiece);
-            BustAMove(BestPiece);
-            BestPiece = null;
-            turncounter++;
-
-        }
         public void ThisIsIt()
         {
             PlayAGame(GameBoard);
@@ -203,19 +192,6 @@ namespace ChessGameLogic
                 }
                 piece.hasBeenMoved = true; 
             } 
-            
-        }
-        private void InitializePiecesForThisTurn(List<Pieces> gameboard)
-        {
-            foreach (var item in gameboard)
-            {
-                movement.SetMovementList(item, gameboard);
-            }
-
-            foreach (var item in gameboard)
-            {
-                intelligence.GiveValuetoMoves(item,gameboard);
-            }
 
         }
         public void PlayAGame(List<Pieces> gameboard)
