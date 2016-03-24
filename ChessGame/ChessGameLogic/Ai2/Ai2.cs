@@ -33,21 +33,24 @@ namespace ChessGameLogic
         public void GiveValueToMoves(Pieces piece)
         {
             InitiateAI(piece.PieceColor);
+
+            var valuedListOfMoves = new List<Move>();
             foreach (Move move in piece.ListOfMoves)
             {
+                var valuedMove = new Move(move.endPositions._PosX, move.endPositions._PosY, 0);
                 if (CanItakeSomething(move))
                 {
-                    GiveTakeValue(move);
+                    GiveTakeValue(valuedMove);
                 }
 
 
                 if (WillIthreaten(piece, move))
                 {
-                    move.value += 10;
+                    valuedMove.value += 10;
                 }
                 if (WillIgetThreatened(move, piece))
                 {
-                    move.value -= 10;
+                    valuedMove.value -= 10;
                 }
                 if (AmIProtected(move, piece)) //ingen logic här i en.
                 {
@@ -55,17 +58,17 @@ namespace ChessGameLogic
                 }
                 if(CanIThreatenTheKing(move, piece))
                 {
-                    move.value += 25;
+                    valuedMove.value += 25;
                 }
                 GiveRandomValueToAMove(move);
                 PawnMoveToPromotion(piece);
 
-
+                valuedListOfMoves.Add(valuedMove);
                 //RemoveSelfFromValue(move, piece); // funderar på hur denna metoden ska bestämma hur mycket som ska tas bort
                                                   // tänkte lite på att det kunde finnas en variabel som bestämmer hur många procent som skulle tas bort
             }                                     // som be ändras beronde på om (will i get threatned() protected() osv.. vi får ta en diskuterare
 
-
+            piece.ListOfMoves = valuedListOfMoves;
         }
     
 
