@@ -60,7 +60,7 @@ namespace ChessGameLogic
                 {
                     valuedMove.value += 25;
                 }
-                GiveRandomValueToAMove(move);
+                GiveRandomValueToAMove(valuedMove);
                 PawnMoveToPromotion(piece);
 
                 valuedListOfMoves.Add(valuedMove);
