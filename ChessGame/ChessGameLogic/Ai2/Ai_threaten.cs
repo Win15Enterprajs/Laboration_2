@@ -53,12 +53,19 @@ namespace ChessGameLogic
         {
 
             var tempPiece = GetPieceFromTempBoard(piece);
+
             tempPiece.CurrentPosition = move.endPositions;
 
             if (AmIThreatened(tempPiece))
+            {
+                RestoreTempGameBoard();
                 return true;
+            }
             else
+            {
+                RestoreTempGameBoard();
                 return false;
+            }
         }
 
 

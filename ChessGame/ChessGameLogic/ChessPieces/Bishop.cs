@@ -12,7 +12,7 @@ namespace ChessGameLogic
         public Bishop(Color color, Point CurrentPosition, ChessPieceSymbol type = ChessPieceSymbol.Bishop) 
             : base ( color, CurrentPosition, type)
         {
-            this.Value = 30;
+            this.Value = 40;
         }
 
     }

@@ -41,7 +41,14 @@ namespace ChessGameLogic
 
         private Pieces GetPieceFromTempBoard(Pieces piece)
         {
-            Pieces tempPiece = TempGameBoard.Find(p => (p.CurrentPosition._PosX == piece.CurrentPosition._PosX && p.CurrentPosition._PosY == piece.CurrentPosition._PosY));
+            Pieces tempPiece = null;
+            for (int i = 0; i < TempGameBoard.Count; i++)
+            {
+                if (TempGameBoard[i].CurrentPosition._PosX == piece.CurrentPosition._PosX &&
+                    TempGameBoard[i].CurrentPosition._PosY == piece.CurrentPosition._PosY)
+                    tempPiece = TempGameBoard[i];
+            }
+
             return tempPiece;
         }
         // gämnför två Moves och returnerar true eller false beroende på om de innehåller samma koordinater eller inte. 
@@ -126,7 +133,7 @@ namespace ChessGameLogic
         private void GiveRandomValueToAMove(Move move)
         {
             int nr = rnd.Next(0, 10);
-            move.value = nr;
+            move.value += nr;
         }
         private void PawnMoveToPromotion(Pieces piece)
         {

@@ -37,6 +37,7 @@ namespace ChessGameLogic
             int ProtectCount = 0;
             foreach (Pieces allie in Allies)
             {
+                
                 foreach (Move Amove in allie.ListOfMoves)
                 {
                     if (Amove.endPositions == piece.CurrentPosition)
