@@ -52,7 +52,7 @@ namespace ChessGameLogic
                 {
                     RemoveSelfFromValue(move, piece);
                 }
-                if (AmIProtected(move, piece)) //ingen logic här i en.
+                if (AmIProtected(piece) > 0) //ingen logic här i en.
                 {
                     //nånting
                 }

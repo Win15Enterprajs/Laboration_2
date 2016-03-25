@@ -197,7 +197,7 @@ namespace ChessGameLogic
         public void PlayAGame(List<Pieces> gameboard)
         {
 
-            var intelligence = new AI();
+            var intelligence = new Ai2(gameboard);
             var Movement = new MoveLogic();
             for (int i = 0; i < gameboard.Count; i++)
             {
@@ -216,11 +216,11 @@ namespace ChessGameLogic
             {
                 if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
                 {
-                    intelligence.GiveValuetoMoves(gameboard[i], gameboard);
+                    intelligence.GiveValueToMoves(gameboard[i]);
                 }
                 else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
                 {
-                    intelligence.GiveValuetoMoves(gameboard[i], gameboard);
+                    intelligence.GiveValueToMoves(gameboard[i]);
                 }
 
             }

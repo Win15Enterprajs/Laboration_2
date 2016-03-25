@@ -10,18 +10,38 @@ namespace ChessGameLogic
     partial class Ai2
     {
         // kollar om ett move är skyddat av en annan allie.
-        private bool WillIBeProtected(Pieces piece, List<Pieces> board)
+        private bool WillIBeProtected(Move move, Pieces piece)
         {
-            return false;
+            var tempPiece = GetPieceFromTempBoard(piece);
+            tempPiece.CurrentPosition = move.endPositions;
+
+            if (AmIProtected(tempPiece) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
+
 
         // kollar om movet kommer hota en annan pjäs
 
         // är jag skyddad här?!
-        private bool AmIProtected(Move move, Pieces piece)
+        private int AmIProtected(Pieces piece)
         {
-            
-            return false;
+
+            int ProtectCount = 0;
+            foreach (Pieces allie in Allies)
+            {
+                foreach (Move Amove in allie.ListOfMoves)
+                {
+                    if (Amove.endPositions == piece.CurrentPosition)
+                        ProtectCount++;
+                }
+            }
+            return ProtectCount;
         }
 
 
