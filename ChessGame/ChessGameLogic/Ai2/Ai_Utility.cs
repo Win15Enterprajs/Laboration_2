@@ -139,7 +139,7 @@ namespace ChessGameLogic
         {
             if (piece is Pawn && TempGameBoard.Count < 8)
             {
-                piece.ListOfMoves.ForEach(x => x.value += 10);
+                piece.ListOfMoves.ForEach(x => x.value += 30);
             }
         }
 
