@@ -28,7 +28,9 @@ namespace ChessGameLogic
 
         private bool WillIthreaten(Pieces piece, Move move)
         {
-            var tempPiece = GetPieceFromTempBoard(piece);
+            Pieces tempPiece = GetPieceFromTempBoard(piece);
+
+
 
             tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
             AiMove.SetMovementList(tempPiece, TempGameBoard);
@@ -38,6 +40,7 @@ namespace ChessGameLogic
                 if (CanItakeSomething(tempMove)) 
                 {
                     move.value += GetThretnedEnemyPiece(tempMove).Value / 2;
+                    RestoreTempGameBoard();
                     return true;
                 }
             }
@@ -50,12 +53,19 @@ namespace ChessGameLogic
         {
 
             var tempPiece = GetPieceFromTempBoard(piece);
+
             tempPiece.CurrentPosition = move.endPositions;
 
             if (AmIThreatened(tempPiece))
+            {
+                RestoreTempGameBoard();
                 return true;
+            }
             else
+            {
+                RestoreTempGameBoard();
                 return false;
+            }
         }
 
 

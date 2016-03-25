@@ -17,7 +17,7 @@ namespace ChessGameLogic
             // seperates the allies and enemies into different lists. (for simplicity)
             Allies = GetAllies(color);
             Enemies = GetEnemies(color);
-            SetMovesForEnemies();
+            SetMovesForEnemies(color);
         }
 
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
@@ -28,11 +28,13 @@ namespace ChessGameLogic
 
 
         // eftersom ennemy inte har några moves, så får dom de här! 
-        private void SetMovesForEnemies()
+     
+        private void SetMovesForEnemies(Color color)
         {
-            foreach (Pieces P in Enemies)
+            for (int i = 0; i < TempGameBoard.Count; i++)
             {
-                AiMove.SetMovementList(P, TempGameBoard);
+                if (TempGameBoard[i].PieceColor != color)
+                    AiMove.SetMovementList(TempGameBoard[i], TempGameBoard);
             }
         }
 
@@ -40,13 +42,11 @@ namespace ChessGameLogic
         private Pieces GetPieceFromTempBoard(Pieces piece)
         {
             Pieces tempPiece = null;
-
-            foreach (var Piece in TempGameBoard)
+            for (int i = 0; i < TempGameBoard.Count; i++)
             {
-                if(piece.CurrentPosition._PosX == Piece.CurrentPosition._PosX && piece.CurrentPosition._PosY == Piece.CurrentPosition._PosY)
-                {
-                    tempPiece = Piece;
-                }
+                if (TempGameBoard[i].CurrentPosition._PosX == piece.CurrentPosition._PosX &&
+                    TempGameBoard[i].CurrentPosition._PosY == piece.CurrentPosition._PosY)
+                    tempPiece = TempGameBoard[i];
             }
 
             return tempPiece;
@@ -133,7 +133,7 @@ namespace ChessGameLogic
         private void GiveRandomValueToAMove(Move move)
         {
             int nr = rnd.Next(0, 10);
-            move.value = nr;
+            move.value += nr;
         }
         private void PawnMoveToPromotion(Pieces piece)
         {
