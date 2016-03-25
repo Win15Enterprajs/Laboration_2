@@ -39,7 +39,7 @@ namespace ChessGameLogic
 
         private Pieces GetPieceFromTempBoard(Pieces piece)
         {
-            Pieces tempPiece = TempGameBoard.Find(p => p.CurrentPosition == piece.CurrentPosition);
+            Pieces tempPiece = TempGameBoard.Find(p => (p.CurrentPosition._PosX == piece.CurrentPosition._PosX && p.CurrentPosition._PosY == piece.CurrentPosition._PosY) );
             return tempPiece;
         }
         // gämnför två Moves och returnerar true eller false beroende på om de innehåller samma koordinater eller inte. 
