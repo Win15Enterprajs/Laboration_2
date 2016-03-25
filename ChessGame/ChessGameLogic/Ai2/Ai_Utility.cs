@@ -17,7 +17,7 @@ namespace ChessGameLogic
             // seperates the allies and enemies into different lists. (for simplicity)
             Allies = GetAllies(color);
             Enemies = GetEnemies(color);
-            SetMovesForEnemies();
+            SetMovesForEnemies(color);
         }
 
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
@@ -28,18 +28,20 @@ namespace ChessGameLogic
 
 
         // eftersom ennemy inte har några moves, så får dom de här! 
-        private void SetMovesForEnemies()
+     
+        private void SetMovesForEnemies(Color color)
         {
-            foreach (Pieces P in Enemies)
+            for (int i = 0; i < TempGameBoard.Count; i++)
             {
-                AiMove.SetMovementList(P, TempGameBoard);
+                if (TempGameBoard[i].PieceColor != color)
+                    AiMove.SetMovementList(TempGameBoard[i], TempGameBoard);
             }
         }
 
 
         private Pieces GetPieceFromTempBoard(Pieces piece)
         {
-            Pieces tempPiece = TempGameBoard.Find(p => (p.CurrentPosition._PosX == piece.CurrentPosition._PosX && p.CurrentPosition._PosY == piece.CurrentPosition._PosY) );
+            Pieces tempPiece = TempGameBoard.Find(p => (p.CurrentPosition._PosX == piece.CurrentPosition._PosX && p.CurrentPosition._PosY == piece.CurrentPosition._PosY));
             return tempPiece;
         }
         // gämnför två Moves och returnerar true eller false beroende på om de innehåller samma koordinater eller inte. 
@@ -102,22 +104,22 @@ namespace ChessGameLogic
             TempGameBoard.Clear();
 
             var pawns = GameBoard.Where(x => x is Pawn).ToList();
-            pawns.ForEach(x => TempGameBoard.Add( new Pawn(x.PieceColor, x.CurrentPosition, x.hasBeenMoved)));
+            pawns.ForEach(x => TempGameBoard.Add( new Pawn(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY), x.hasBeenMoved)));
 
             var bishops = GameBoard.Where(x => x is Bishop).ToList();
-            bishops.ForEach(x => TempGameBoard.Add(new Bishop(x.PieceColor, x.CurrentPosition)));
+            bishops.ForEach(x => TempGameBoard.Add(new Bishop(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY))));
 
             var horses = GameBoard.Where(x => x is Horse).ToList();
-            horses.ForEach(x => TempGameBoard.Add(new Horse(x.PieceColor, x.CurrentPosition)));
+            horses.ForEach(x => TempGameBoard.Add(new Horse(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY))));
 
             var rooks = GameBoard.Where(x => x is Rook).ToList();
-            rooks.ForEach(x => TempGameBoard.Add(new Rook(x.PieceColor, x.CurrentPosition, x.hasBeenMoved)));
+            rooks.ForEach(x => TempGameBoard.Add(new Rook(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY), x.hasBeenMoved)));
 
             var queens = GameBoard.Where(x => x is Queen).ToList();
-            queens.ForEach(x => TempGameBoard.Add(new Queen(x.PieceColor, x.CurrentPosition)));
+            queens.ForEach(x => TempGameBoard.Add(new Queen(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY))));
 
             var kings = GameBoard.Where(x => x is King).ToList();
-            kings.ForEach(x => TempGameBoard.Add(new King(x.PieceColor, x.CurrentPosition)));
+            kings.ForEach(x => TempGameBoard.Add(new King(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY))));
 
 
         }

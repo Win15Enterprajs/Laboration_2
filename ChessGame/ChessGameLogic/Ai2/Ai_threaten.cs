@@ -28,20 +28,23 @@ namespace ChessGameLogic
 
         private bool WillIthreaten(Pieces piece, Move move)
         {
-            var tempPiece = GetPieceFromTempBoard(piece);           
+            Pieces tempPiece = GetPieceFromTempBoard(piece);
+
+
 
             tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
             AiMove.SetMovementList(tempPiece, TempGameBoard);
 
             foreach (Move tempMove in tempPiece.ListOfMoves)
             {
-                if (CanItakeSomething(tempMove))
+                if (CanItakeSomething(tempMove)) 
                 {
-                  RestoreTempGameBoard();
+                    move.value += GetThretnedEnemyPiece(tempMove).Value / 2;
+                    RestoreTempGameBoard();
                     return true;
                 }
             }
-         
+
             RestoreTempGameBoard();
             return false;
         }
@@ -50,21 +53,12 @@ namespace ChessGameLogic
         {
 
             var tempPiece = GetPieceFromTempBoard(piece);
-            tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
-        
+            tempPiece.CurrentPosition = move.endPositions;
 
             if (AmIThreatened(tempPiece))
-            {
-
-                RestoreTempGameBoard();
                 return true;
-            }
-
             else
-            {
-                RestoreTempGameBoard();
                 return false;
-            }
         }
 
 
@@ -77,14 +71,7 @@ namespace ChessGameLogic
 
         private Pieces GetThretnedEnemyPiece(Move move)
         {
-            Pieces tempPiece = null;
-            for (int i = 0; i < Enemies.Count; i++)
-            {
-                if (CompareEnemyPositionToMyMove(Enemies[i].CurrentPosition, move))
-                {
-                    tempPiece = Enemies[i];
-                }
-            }
+            Pieces tempPiece = Enemies.Find(p => (p.CurrentPosition._PosX == move.endPositions._PosX && p.CurrentPosition._PosY == move.endPositions._PosY));
 
             return tempPiece;
 

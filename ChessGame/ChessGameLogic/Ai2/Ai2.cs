@@ -50,7 +50,7 @@ namespace ChessGameLogic
                 }
                 if (WillIgetThreatened(move, piece))
                 {
-                    valuedMove.value -= 10;
+                    RemoveSelfFromValue(move, piece);
                 }
                 if (AmIProtected(piece) > 0) //ingen logic här i en.
                 {
@@ -60,7 +60,7 @@ namespace ChessGameLogic
                 //{
                 //    valuedMove.value += 25;
                 //}
-                GiveRandomValueToAMove(move);
+                GiveRandomValueToAMove(valuedMove);
                 PawnMoveToPromotion(piece);
 
                 valuedListOfMoves.Add(valuedMove);
@@ -96,7 +96,7 @@ namespace ChessGameLogic
 
     private void RemoveSelfFromValue(Move move, Pieces piece)
     {
-        move.value -= piece.Value;
+        move.value -= (piece.Value * 0.5);
     }
 
     // precis som det låter, kollar om movet kommer bli hotat av en motståndare
