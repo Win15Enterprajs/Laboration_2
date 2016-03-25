@@ -28,20 +28,20 @@ namespace ChessGameLogic
 
         private bool WillIthreaten(Pieces piece, Move move)
         {
-            var tempPiece = GetPieceFromTempBoard(piece);
+            var tempPiece = GetPieceFromTempBoard(piece);           
 
             tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
             AiMove.SetMovementList(tempPiece, TempGameBoard);
 
             foreach (Move tempMove in tempPiece.ListOfMoves)
             {
-                if (CanItakeSomething(tempMove)) 
+                if (CanItakeSomething(tempMove))
                 {
-                    move.value += GetThretnedEnemyPiece(tempMove).Value / 2;
+                  RestoreTempGameBoard();
                     return true;
                 }
             }
-
+         
             RestoreTempGameBoard();
             return false;
         }
@@ -50,12 +50,21 @@ namespace ChessGameLogic
         {
 
             var tempPiece = GetPieceFromTempBoard(piece);
-            tempPiece.CurrentPosition = move.endPositions;
+            tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
+        
 
             if (AmIThreatened(tempPiece))
+            {
+
+                RestoreTempGameBoard();
                 return true;
+            }
+
             else
+            {
+                RestoreTempGameBoard();
                 return false;
+            }
         }
 
 
@@ -68,7 +77,14 @@ namespace ChessGameLogic
 
         private Pieces GetThretnedEnemyPiece(Move move)
         {
-            Pieces tempPiece = Enemies.Find(p => p.CurrentPosition == move.endPositions);
+            Pieces tempPiece = null;
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                if (CompareEnemyPositionToMyMove(Enemies[i].CurrentPosition, move))
+                {
+                    tempPiece = Enemies[i];
+                }
+            }
 
             return tempPiece;
 

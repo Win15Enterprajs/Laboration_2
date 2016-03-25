@@ -13,14 +13,16 @@ namespace ChessGameLogic
         private bool WillIBeProtected(Move move, Pieces piece)
         {
             var tempPiece = GetPieceFromTempBoard(piece);
-            tempPiece.CurrentPosition = move.endPositions;
+            tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
 
             if (AmIProtected(tempPiece) > 0)
             {
+                RestoreTempGameBoard();
                 return true;
             }
             else
             {
+                RestoreTempGameBoard();
                 return false;
             }
         }
