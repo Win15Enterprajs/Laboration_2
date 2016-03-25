@@ -16,7 +16,7 @@ namespace ChessGameLogic
         List<Pieces> GameBoard;
         GameLogger logger;
         Pieces BestPiece;
-        AI intelligence;
+        Ai2 intelligence;
         MoveLogic movement;
         Random rnd;
         
@@ -71,7 +71,7 @@ namespace ChessGameLogic
             };
             logger = new GameLogger();
             state = GameState.Running;
-            intelligence = new AI();
+            intelligence = new Ai2(this.GameBoard);
             movement = new MoveLogic();
             rnd = new Random();
 
@@ -197,17 +197,15 @@ namespace ChessGameLogic
         public void PlayAGame(List<Pieces> gameboard)
         {
 
-            var intelligence = new Ai2(gameboard);
-            var Movement = new MoveLogic();
             for (int i = 0; i < gameboard.Count; i++)
             {
                 if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
                 {
-                    Movement.SetMovementList(gameboard[i], gameboard);
+                    movement.SetMovementList(gameboard[i], gameboard);
                 }
                 else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
                 {
-                    Movement.SetMovementList(gameboard[i], gameboard);
+                    movement.SetMovementList(gameboard[i], gameboard);
                 }
 
 
