@@ -15,9 +15,11 @@ namespace ChessGameLogic
             MakeCopyOfGameboard();
             /////////////////////////////////////////////
             // seperates the allies and enemies into different lists. (for simplicity)
-            Allies = GetAllies(color);
-            Enemies = GetEnemies(color);
-            SetMovesForEnemies(color);
+            Allies =new List<Pieces>(GetAllies(color));
+            Enemies = new List<Pieces>(GetEnemies(color));
+           SetMovesForEnemiesInList();
+            
+
         }
 
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
@@ -28,7 +30,14 @@ namespace ChessGameLogic
 
 
         // eftersom ennemy inte har några moves, så får dom de här! 
-     
+
+       private void SetMovesForEnemiesInList()
+       {
+           foreach (var enemie in Enemies)
+           {
+               AiMove.SetMovementList(enemie, Enemies);
+           }
+       }
         private void SetMovesForEnemies(Color color)
         {
             for (int i = 0; i < TempGameBoard.Count; i++)
@@ -38,6 +47,16 @@ namespace ChessGameLogic
             }
         }
 
+       private void SetMovesForAllies(Color color)
+        { 
+         
+            for (int i = 0; i < TempGameBoard.Count; i++)
+            {
+                if (TempGameBoard[i].PieceColor == color)
+                    AiMove.SetMovementList(TempGameBoard[i], TempGameBoard);
+            }
+        
+    }
 
         private Pieces GetPieceFromTempBoard(Pieces piece)
         {
@@ -128,12 +147,14 @@ namespace ChessGameLogic
             var kings = GameBoard.Where(x => x is King).ToList();
             kings.ForEach(x => TempGameBoard.Add(new King(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY))));
 
+            SetMovesForEnemies(Color.Black);
+            SetMovesForAllies(Color.White);
 
         }
         private void GiveRandomValueToAMove(Move move)
         {
             int nr = rnd.Next(0, 10);
-            move.value += nr;
+            move.value =+ nr;
         }
         private void PawnMoveToPromotion(Pieces piece)
         {

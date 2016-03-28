@@ -12,7 +12,7 @@ namespace ChessGameLogic
         public Queen(Color color, Point CurrentPosition, ChessPieceSymbol type = ChessPieceSymbol.Queen) 
             : base ( color, CurrentPosition,type)
         {
-            this.Value = 90;
+            this.Value = 100;
         }
     }
 }

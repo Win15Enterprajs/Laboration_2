@@ -88,6 +88,7 @@ namespace ChessGameLogic
 
 
         private Pieces GetThretnedEnemyPiece(Move move)
+
         {
             Pieces tempPiece = Enemies.Find(p => (p.CurrentPosition._PosX == move.endPositions._PosX && p.CurrentPosition._PosY == move.endPositions._PosY));
 

@@ -48,11 +48,11 @@ namespace ChessGameLogic
                 }
                 if (WillIgetThreatened(move, piece))
                 {
-                    RemoveSelfFromValue(move, piece);
+                    valuedMove.value =- piece.Value;
                 }
                 if (WillIBeProtected(move,piece)) 
                 {
-                    valuedMove.value += piece.Value;
+                    valuedMove.value += 20;
                 }
                 if (CanIThreatenTheKing(move, piece))
                 {
@@ -98,7 +98,7 @@ namespace ChessGameLogic
 
     private void RemoveSelfFromValue(Move move, Pieces piece)
     {
-        move.value -= piece.Value;
+        move.value =- piece.Value;
     }
 
    
