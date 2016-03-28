@@ -41,7 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI.cs" />
-    <Compile Include="Ai2.cs" />
+    <Compile Include="Ai2\Ai2.cs" />
+    <Compile Include="Ai2\Ai_threaten.cs" />
+    <Compile Include="Ai2\Ai_Protect.cs" />
+    <Compile Include="Ai2\Ai_Utility.cs" />
     <Compile Include="ChessPieces\Bishop.cs" />
     <Compile Include="Enum\Enum.cs" />
     <Compile Include="Game.cs" />
