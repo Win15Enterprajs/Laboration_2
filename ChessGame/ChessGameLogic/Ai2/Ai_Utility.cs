@@ -15,13 +15,14 @@ namespace ChessGameLogic
             MakeCopyOfGameboard();
             /////////////////////////////////////////////
             // seperates the allies and enemies into different lists. (for simplicity)
-            Allies = GetAllies(color);
-            Enemies = GetEnemies(color);
-            SetMovesForEnemies(color);
+            Allies = new List<Pieces>(GetAllies(color));
+            Enemies = new List<Pieces>(GetEnemies(color));
+           SetMovesForEnemiesInList();
+            
+
         }
 
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
-        // Resets the tempgameboard to the standard gameboard.
         private void RestoreTempGameBoard()
         {
             MakeCopyOfGameboard();
@@ -29,8 +30,15 @@ namespace ChessGameLogic
         }
 
 
-       
-        // Set moves to the enemy.
+        // eftersom ennemy inte har några moves, så får dom de här! 
+
+       private void SetMovesForEnemiesInList()
+       {
+           foreach (var enemie in Enemies)
+           {
+               AiMove.SetMovementList(enemie, Enemies);
+           }
+       }
         private void SetMovesForEnemies(Color color)
         {
             for (int i = 0; i < TempGameBoard.Count; i++)
@@ -38,8 +46,19 @@ namespace ChessGameLogic
                 if (TempGameBoard[i].PieceColor != color)
                     AiMove.SetMovementList(TempGameBoard[i], TempGameBoard);
             }
+            
         }
 
+       private void SetMovesForAllies(Color color)
+        { 
+         
+            for (int i = 0; i < TempGameBoard.Count; i++)
+            {
+                if (TempGameBoard[i].PieceColor == color)
+                    AiMove.SetMovementList(TempGameBoard[i], TempGameBoard);
+            }
+        
+    }
 
         private Pieces GetPieceFromTempBoard(Pieces piece)
         {
@@ -53,8 +72,7 @@ namespace ChessGameLogic
 
             return tempPiece;
         }
-        
-        // Compares two moves and return true or false depending on if it contains the same coordinates.
+        // gämnför två Moves och returnerar true eller false beroende på om de innehåller samma koordinater eller inte. 
         #region CompareMoves()...
         public bool CompareEnemyMoveToMyMove(Move enemyMove, Move move)
         {
@@ -90,8 +108,7 @@ namespace ChessGameLogic
             }
         }
         #endregion
-        
-        // Seperate enemies from allies and puts them in their own lists.
+        // separerar ennemies från allies, lägger dom i egna listor(för enkelhets skull. gör också så att man inte behöver ha fula checkar över allt)
         #region Seperate Enemies and Allies
         private List<Pieces> GetEnemies(Color color)
         {
@@ -103,7 +120,6 @@ namespace ChessGameLogic
         }
         #endregion
 
-        // Check the current position of enemy king and returns the enemy kings position
         private Point GetPositionOfEnemyKing()
         {
             var enemyKing = Enemies.Find(x => x is King);
@@ -111,7 +127,6 @@ namespace ChessGameLogic
             return enemyKingPosition;
         }
 
-        // Makes a complete copy of the current gameboard
         private void MakeCopyOfGameboard()
         {
             TempGameBoard.Clear();
@@ -134,12 +149,14 @@ namespace ChessGameLogic
             var kings = GameBoard.Where(x => x is King).ToList();
             kings.ForEach(x => TempGameBoard.Add(new King(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY))));
 
-
+            SetMovesForEnemies(Color.Black);
+            SetMovesForAllies(Color.White);
+         
         }
         private void GiveRandomValueToAMove(Move move)
         {
             int nr = rnd.Next(0, 10);
-            move.value += nr;
+            move.value =+ nr;
         }
         private void PawnMoveToPromotion(Pieces piece, Move valuedMove)
         {

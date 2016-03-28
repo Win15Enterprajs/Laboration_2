@@ -108,10 +108,11 @@ namespace ChessGameLogic
 
     private void RemoveSelfFromValue(Move move, Pieces piece)
     {
-        move.value -= piece.Value;
+        move.value =- piece.Value;
     }
 
    
+
 
 
 

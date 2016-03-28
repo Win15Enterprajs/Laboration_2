@@ -12,7 +12,7 @@ namespace ChessGameLogic
         
         public Horse(Color color, Point CurrentPosition, ChessPieceSymbol type = ChessPieceSymbol.Horse): base ( color, CurrentPosition, type)
         {
-            this.Value = 30;
+            this.Value = 60;
         }
     }
 }

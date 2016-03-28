@@ -13,10 +13,10 @@ namespace ChessGameLogic
         // Check if current move is protected by allied piece and returns bool depending on true or false
         private bool WillIBeProtected(Move move, Pieces piece)
         {
-            var tempPiece = GetPieceFromTempBoard(piece);
-            tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
+           TempGameBoard.Remove(GetPieceFromTempBoard(piece));
+            
 
-            if (AmIProtected(tempPiece) > 0)
+            if (AmIProtected(move, piece.PieceColor) > 0)
             {
                 RestoreTempGameBoard();
                 return true;
@@ -32,22 +32,23 @@ namespace ChessGameLogic
         // kollar om movet kommer hota en annan pjäs
 
         // är jag skyddad här?!
-        private int AmIProtected(Pieces piece)
+        private int AmIProtected(Move move, Color color)
         {
 
             int ProtectCount = 0;
             foreach (Pieces allie in TempGameBoard)
             {
-                if (allie.PieceColor == piece.PieceColor)
+                if (allie.PieceColor == color)
                 {
 
                     foreach (Move Amove in allie.ListOfMoves)
                     {
-                        if (Amove.endPositions == piece.CurrentPosition)
+                        if (Amove.endPositions == move.endPositions)
                             ProtectCount++;
                     }
                 }
-            }
+            
+}
             return ProtectCount;
         }
 
