@@ -10,8 +10,10 @@ namespace ChessGameLogic
 {
     class AI
     {
+        MoveLogic tempmovelogic = new MoveLogic();
         // templista för att kunna skriva AI
-       
+        Random rnd = new Random();
+
         public /*List<Move>*/ void GiveValuetoMoves(Pieces piece,List<Pieces> tempgameboard)
         {
             for (int i = 0; i < piece.ListOfMoves.Count; i++)
@@ -24,13 +26,15 @@ namespace ChessGameLogic
                 else
                 {
                     GiveRandomValueToAMove(piece.ListOfMoves[i]);
+                    PawnMoveToPromotion(piece, tempgameboard);
                 }
+                //CanIThreatenTheKing(piece.ListOfMoves[i], piece, tempgameboard);
             }             
         }
         private void GiveInitialTakeValue(Move move, List<Pieces> tempgameboard,Pieces piece)
         {
-                foreach (var opponent in tempgameboard)
-                {
+            foreach (var opponent in tempgameboard)
+            {
 
                 if (piece.PieceColor != opponent.PieceColor)
                 {
@@ -46,9 +50,18 @@ namespace ChessGameLogic
                         move.value = 50;
                 }
 
-                }
+            }
                 
         }
+
+        private void PawnMoveToPromotion(Pieces piece, List<Pieces> gb)
+        {
+            if (piece is Pawn && gb.Count < 8)
+            {
+                piece.ListOfMoves.ForEach(x => x.value += 10);
+            }
+        }
+
         private Move RemoveSelfFromValue(Move move, Pieces piece)
         {
             if (piece.PieceType == ChessPieceSymbol.Bishop)
@@ -60,7 +73,7 @@ namespace ChessGameLogic
             if (piece.PieceType == ChessPieceSymbol.Rook)
                 move.value = move.value - (30 * 0.25);
             if (piece.PieceType == ChessPieceSymbol.Pawn)
-                    move.value = move.value - (10 * 0.5);
+                    move.value = move.value - (10 * 0.25);
             return move;
             
         }
@@ -75,14 +88,11 @@ namespace ChessGameLogic
         }
         private void GiveRandomValueToAMove(Move move)
         {
-            Thread.Sleep(1);
-            Random rnd = new Random();
             int nr = rnd.Next(0, 10);
             move.value = nr;
         }
         private bool Threatened(List<Pieces> gameboard, Move move, Pieces piece)
         {
-            var tempmovelogic = new MoveLogic();
             List<Move> tempmovelist = new List<Move>();
             for (int i = 0; i < gameboard.Count; i++)
             {
@@ -108,6 +118,38 @@ namespace ChessGameLogic
             return false;
         }
 
+        private void CanIThreatenTheKing(Move possibleMove, Pieces Piece, List<Pieces> gameboard)
+        {
+            if (gameboard.Count < 10)
+            {
+                var saveX = Piece.CurrentPosition._PosX;
+                var saveY = Piece.CurrentPosition._PosY;
+
+                var turn = 1;
+                if (Piece.PieceColor == Color.Black)
+                    turn = 2;
+
+                Piece.CurrentPosition._PosX = possibleMove.endPositions._PosX;
+                Piece.CurrentPosition._PosY = possibleMove.endPositions._PosY;
+
+
+                if (tempmovelogic.IsEnemyInCheck(turn, gameboard))
+                {
+                    possibleMove.value += 50;
+                }
+                Piece.CurrentPosition._PosX = saveX;
+                Piece.CurrentPosition._PosY = saveY;
+
+                foreach (var item in gameboard)
+                {
+                    if(item.PieceColor == Piece.PieceColor)
+                    tempmovelogic.SetMovementList(item, gameboard);
+                }
+
+            }
+
+
+        }
        
     }
 }

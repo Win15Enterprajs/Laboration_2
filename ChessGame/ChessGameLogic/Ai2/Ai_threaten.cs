@@ -9,40 +9,58 @@ namespace ChessGameLogic
 {
     partial class Ai2
     {
-      
+       
 
+        private bool DoIThreaten(Move move)
+        {
+            foreach (Pieces enemy in Enemies)
+            {
+                if (CompareEnemyPositionToMyMove(enemy.CurrentPosition,move))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+            
         private bool AmIThreatened(Pieces piece)
         {
+            RemovePotentialTakenEnemy(piece);
+            SetMovesForEnemiesInList();
             foreach (var enemy in Enemies)
             {
                 foreach (var move in enemy.ListOfMoves)
                 {
                     if (CompareEnemyMoveWithCurrentPosition(move, piece.CurrentPosition))
                     {
+                        
                         return true;
                     }
                 }
             }
+            
             return false;
         }
 
         private bool WillIthreaten(Pieces piece, Move move)
         {
-            var tempPiece = GetPieceFromTempBoard(piece);
+            Pieces tempPiece = GetPieceFromTempBoard(piece);
+
+
 
             tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
             AiMove.SetMovementList(tempPiece, TempGameBoard);
 
             foreach (Move tempMove in tempPiece.ListOfMoves)
             {
-                if (CanItakeSomething(tempMove))
+                if (CanItakeSomething(tempMove)) 
                 {
-                    move.value += GetThretnedEnemyPiece(tempMove).Value / 2;
+                    RestoreTempGameBoard();
                     return true;
                 }
             }
 
-            MakeCopyOfGameboard();
+            RestoreTempGameBoard();
             return false;
         }
 
@@ -50,43 +68,65 @@ namespace ChessGameLogic
         {
 
             var tempPiece = GetPieceFromTempBoard(piece);
-            tempPiece.CurrentPosition = move.endPositions;
+
+            tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
 
             if (AmIThreatened(tempPiece))
+            {
+                
+                RestoreTempGameBoard();
                 return true;
+            }
             else
+            {
+                RestoreTempGameBoard();
                 return false;
+            }
         }
 
 
         private List<Pieces> GetEnemiesThatIThreaten(Pieces piece)
         {
             var ListOfThreatnedEnemies = piece.ListOfMoves.Select(move => GetThretnedEnemyPiece(move)).ToList();
-
-            foreach (Pieces X in ListOfThreatnedEnemies.Where(X => X == null))
-            {
-                ListOfThreatnedEnemies.Remove(X);
-            }
             return ListOfThreatnedEnemies;
         }
 
 
         private Pieces GetThretnedEnemyPiece(Move move)
+
         {
-            Pieces tempPiece = TempGameBoard.Find(p => p.CurrentPosition == move.endPositions);
+            Pieces tempPiece = Enemies.Find(p => (p.CurrentPosition._PosX == move.endPositions._PosX && p.CurrentPosition._PosY == move.endPositions._PosY));
 
             return tempPiece;
 
 
         }
 
-        // kan jag hota kungen?!
-        private bool CanIThreatenDaKing()
+        private bool CanIThreatenTheKing(Move possibleMove, Pieces piece)
         {
+            var testPiece = GetPieceFromTempBoard(piece);
+
+            testPiece.CurrentPosition._PosX = possibleMove.endPositions._PosX;
+            testPiece.CurrentPosition._PosY = possibleMove.endPositions._PosY;
+
+            AiMove.SetMovementList(testPiece, TempGameBoard);
+
+            foreach (var move in testPiece.ListOfMoves)
+            {
+                if(CompareEnemyPositionToMyMove(GetPositionOfEnemyKing(), move))
+                {
+                    RestoreTempGameBoard();
+                    return false;
+                }
+            }
+            RestoreTempGameBoard();
             return false;
+
+
         }
 
 
 
     }
 }
+    

@@ -13,6 +13,7 @@ namespace ChessGameLogic
         MoveLogic AiMove = new MoveLogic();
         private List<Pieces> Enemies;
         private List<Pieces> Allies;
+        Random rnd = new Random();
         //////////////////////////////////////////////////////
         private readonly List<Pieces> GameBoard;
         private List<Pieces> TempGameBoard;
@@ -21,43 +22,66 @@ namespace ChessGameLogic
         public Ai2(List<Pieces> gameBoard)
         {
             this.GameBoard = gameBoard;
+            this.TempGameBoard = new List<Pieces>();
+            MakeCopyOfGameboard();
+            
         }
 
 
 
-        //bas Metoden.. typish.. 
+        /// <summary>
+        /// Public base method that sets the value to all moves
+        /// </summary>
+        /// <param name="piece"></param>
         public void GiveValueToMoves(Pieces piece)
         {
             InitiateAI(piece.PieceColor);
+
+            var valuedListOfMoves = new List<Move>();
             foreach (Move move in piece.ListOfMoves)
             {
+                var valuedMove = new Move(move.endPositions._PosX, move.endPositions._PosY, 0);
                 if (CanItakeSomething(move))
                 {
-                    GiveTakeValue(move);
-                }
-
-
+                    GiveTakeValue(valuedMove);
+                }             
                 if (WillIthreaten(piece, move))
                 {
-                    //nånting nångting
+                    valuedMove.value += 10;
                 }
                 if (WillIgetThreatened(move, piece))
                 {
-                    //nånting nångting annat
+                    RemoveSelfFromValue(valuedMove, piece);
                 }
-                if (AmIProtected(move, piece)) //ingen logic här i en.
+                if (WillIBeProtected(move,piece)) 
                 {
-                    //nånting
+                    valuedMove.value += piece.Value;
                 }
-                RemoveSelfFromValue(move, piece); // funderar på hur denna metoden ska bestämma hur mycket som ska tas bort
+                //if (CanIThreatenTheKing(move, piece))  /// Doesn't work
+                //{
+                //    if (!WillIgetThreatened(move, piece) || WillIBeProtected(move, piece))
+                //        valuedMove.value += 25;
+                //}
+
+
+                GiveRandomValueToAMove(valuedMove);
+
+                PawnMoveToPromotion(piece, valuedMove);
+
+                valuedListOfMoves.Add(valuedMove);
+                //RemoveSelfFromValue(move, piece); // funderar på hur denna metoden ska bestämma hur mycket som ska tas bort
                                                   // tänkte lite på att det kunde finnas en variabel som bestämmer hur många procent som skulle tas bort
             }                                     // som be ändras beronde på om (will i get threatned() protected() osv.. vi får ta en diskuterare
 
-
+            piece.ListOfMoves = valuedListOfMoves;
         }
     
 
-    //kollar bara om ett moves kan ta något
+    /// <summary>
+    /// Checks if current move can take something
+    /// </summary>
+    /// <param name="move"></param>
+    /// <returns></returns>
     private bool CanItakeSomething(Move move)
     {
         foreach (Pieces E in Enemies)
@@ -71,7 +95,10 @@ namespace ChessGameLogic
         return false;
     }
 
-    // ger movet värde beroende på vad den tar
+    /// <summary>
+    /// Gives  value to move depending on what piece  it is going to take next
+    /// </summary>
+    /// <param name="move"></param>
     private void GiveTakeValue(Move move)
     {
         double enemyValue = GetThretnedEnemyPiece(move).Value;
@@ -83,6 +110,8 @@ namespace ChessGameLogic
     {
         move.value -= piece.Value;
     }
+
+   
 
 
 

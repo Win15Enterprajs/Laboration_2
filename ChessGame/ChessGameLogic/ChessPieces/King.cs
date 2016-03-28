@@ -13,7 +13,7 @@ namespace ChessGameLogic
         public King(Color color, Point CurrentPosition, ChessPieceSymbol type = ChessPieceSymbol.King )
             : base ( color, CurrentPosition, type)
         {
-            this.Value = 100;
+            this.Value = 0;
         }
     }
 }

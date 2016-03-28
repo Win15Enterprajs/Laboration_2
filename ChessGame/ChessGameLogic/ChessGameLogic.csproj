@@ -41,10 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI.cs" />
-    <Compile Include="Ai2\Ai2.cs" />
-    <Compile Include="Ai2\Ai_threaten.cs" />
-    <Compile Include="Ai2\Ai_Protect.cs" />
-    <Compile Include="Ai2\Ai_Utility.cs" />
+    <Compile Include="AI2\Ai2.cs" />
+    <Compile Include="AI2\Ai_Protect.cs" />
+    <Compile Include="AI2\Ai_threaten.cs" />
+    <Compile Include="AI2\Ai_Utility.cs" />
     <Compile Include="ChessPieces\Bishop.cs" />
     <Compile Include="Enum\Enum.cs" />
     <Compile Include="Game.cs" />
@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ChessPieces\Queen.cs" />
     <Compile Include="ChessPieces\Rook.cs" />
+    <Compile Include="TestClasses\TEST_rockpossiblemoves.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
