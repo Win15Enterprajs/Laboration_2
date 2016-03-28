@@ -15,7 +15,7 @@ namespace ChessGameLogic
             MakeCopyOfGameboard();
             /////////////////////////////////////////////
             // seperates the allies and enemies into different lists. (for simplicity)
-            Allies =new List<Pieces>(GetAllies(color));
+            Allies = new List<Pieces>(GetAllies(color));
             Enemies = new List<Pieces>(GetEnemies(color));
            SetMovesForEnemiesInList();
             
@@ -45,6 +45,7 @@ namespace ChessGameLogic
                 if (TempGameBoard[i].PieceColor != color)
                     AiMove.SetMovementList(TempGameBoard[i], TempGameBoard);
             }
+            
         }
 
        private void SetMovesForAllies(Color color)
@@ -149,7 +150,7 @@ namespace ChessGameLogic
 
             SetMovesForEnemies(Color.Black);
             SetMovesForAllies(Color.White);
-
+         
         }
         private void GiveRandomValueToAMove(Move move)
         {

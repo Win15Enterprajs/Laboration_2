@@ -10,6 +10,7 @@ namespace ChessGameLogic
     partial class Ai2
     {
         // kollar om ett move är skyddat av en annan allie.
+        // Check if current move is protected by allied piece and returns bool depending on true or false
         private bool WillIBeProtected(Move move, Pieces piece)
         {
            TempGameBoard.Remove(GetPieceFromTempBoard(piece));

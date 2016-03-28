@@ -29,7 +29,10 @@ namespace ChessGameLogic
 
 
 
-        //bas Metoden.. typish.. 
+        /// <summary>
+        /// Public base method that sets the value to all moves
+        /// </summary>
+        /// <param name="piece"></param>
         public void GiveValueToMoves(Pieces piece)
         {
             InitiateAI(piece.PieceColor);
@@ -48,9 +51,10 @@ namespace ChessGameLogic
                 }
                 if (WillIgetThreatened(move, piece))
                 {
-                    valuedMove.value =- piece.Value;
+                    valuedMove.value -= piece.Value;
+
                 }
-                if (WillIBeProtected(move,piece)) 
+                if (WillIBeProtected(move, piece))
                 {
                     valuedMove.value += 20;
                 }
@@ -74,7 +78,11 @@ namespace ChessGameLogic
         }
     
 
-    //kollar bara om ett moves kan ta något
+    /// <summary>
+    /// Checks if current move can take something
+    /// </summary>
+    /// <param name="move"></param>
+    /// <returns></returns>
     private bool CanItakeSomething(Move move)
     {
         foreach (Pieces E in Enemies)
@@ -88,7 +96,10 @@ namespace ChessGameLogic
         return false;
     }
 
-    // ger movet värde beroende på vad den tar
+    /// <summary>
+    /// Gives  value to move depending on what piece  it is going to take next
+    /// </summary>
+    /// <param name="move"></param>
     private void GiveTakeValue(Move move)
     {
         double enemyValue = GetThretnedEnemyPiece(move).Value;
