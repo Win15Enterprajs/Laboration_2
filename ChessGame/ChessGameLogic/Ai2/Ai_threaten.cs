@@ -9,8 +9,20 @@ namespace ChessGameLogic
 {
     partial class Ai2
     {
-        // är jag hotad här?!
-        // Check if any piece is threatened and returns a bool if its true or false.
+       
+
+        private bool DoIThreaten(Move move)
+        {
+            foreach (Pieces enemy in Enemies)
+            {
+                if (CompareEnemyPositionToMyMove(enemy.CurrentPosition,move))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+            
         private bool AmIThreatened(Pieces piece)
         {
             foreach (var enemy in Enemies)
@@ -25,7 +37,7 @@ namespace ChessGameLogic
             }
             return false;
         }
-        // Check if any move can threaten enemy and returns a bool if its true or false.
+
         private bool WillIthreaten(Pieces piece, Move move)
         {
             Pieces tempPiece = GetPieceFromTempBoard(piece);
@@ -47,13 +59,13 @@ namespace ChessGameLogic
             RestoreTempGameBoard();
             return false;
         }
-        // Check if piece is threatened and returns a bool if its true or false
+
         private bool WillIgetThreatened(Move move, Pieces piece)
         {
 
             var tempPiece = GetPieceFromTempBoard(piece);
 
-            tempPiece.CurrentPosition = move.endPositions;
+            tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
 
             if (AmIThreatened(tempPiece))
             {
@@ -67,7 +79,7 @@ namespace ChessGameLogic
             }
         }
 
-        // Collects all threatned enemies and creates a new list and returns a list of threatned enemies.
+
         private List<Pieces> GetEnemiesThatIThreaten(Pieces piece)
         {
             var ListOfThreatnedEnemies = piece.ListOfMoves.Select(move => GetThretnedEnemyPiece(move)).ToList();
@@ -85,7 +97,6 @@ namespace ChessGameLogic
         }
 
         // kan jag hota kungen?!
-        // Check if current move can threaten king and returns a bool if its true or false.
         private bool CanIThreatenTheKing(Move possibleMove, Pieces Piece)
         {
             var testPiece = GetPieceFromTempBoard(Piece);

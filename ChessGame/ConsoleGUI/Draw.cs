@@ -13,6 +13,8 @@ namespace ConsoleGUI
 
         public Draw()
         {
+            /// A dictionary that converts one of the coordinates from a Digit to a Letter,
+            /// so it matches the names of the positions on a chessboard.
             CoordinateConversionToLetter = new Dictionary<int, char>()
             {
                 [0] = 'A',
@@ -27,8 +29,11 @@ namespace ConsoleGUI
             };
         }
 
-
-        public void PrintGameBoard(Game game)
+        /// <summary>
+        /// Prints the pieces on the gameboard.
+        /// </summary>
+        /// <param name="game"></param>
+        public void PrintPieces(Game game)
         {
             Console.CursorVisible = false;
             PrintBoard(game);
@@ -68,6 +73,10 @@ namespace ConsoleGUI
 
         }
 
+        /// <summary>
+        /// This method prints the gameboard.
+        /// </summary>
+        /// <param name="game"></param>
         private void PrintBoard(Game game)
         {
             for (int i = 3; i < 25; i +=3)
@@ -141,6 +150,10 @@ namespace ConsoleGUI
 
         }
 
+        /// <summary>
+        /// This method prints the gamelog.
+        /// </summary>
+        /// <param name="game"></param>
         public void PrintGameLog(Game game)
         {
             string[] LoggToPrint = new string[game.getGameLog().Count];
@@ -166,6 +179,11 @@ namespace ConsoleGUI
             
             
         }
+
+        /// <summary>
+        /// This method prints the results of the game when it is over.
+        /// </summary>
+        /// <param name="Chess"></param>
         public void PrintResult(Game Chess)
         {
 

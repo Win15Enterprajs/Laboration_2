@@ -36,13 +36,16 @@ namespace ChessGameLogic
         {
 
             int ProtectCount = 0;
-            foreach (Pieces allie in Allies)
+            foreach (Pieces allie in TempGameBoard)
             {
-                
-                foreach (Move Amove in allie.ListOfMoves)
+                if (allie.PieceColor == piece.PieceColor)
                 {
-                    if (Amove.endPositions == piece.CurrentPosition)
-                        ProtectCount++;
+
+                    foreach (Move Amove in allie.ListOfMoves)
+                    {
+                        if (Amove.endPositions == piece.CurrentPosition)
+                            ProtectCount++;
+                    }
                 }
             }
             return ProtectCount;
