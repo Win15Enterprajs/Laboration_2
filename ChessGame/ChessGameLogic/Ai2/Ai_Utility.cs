@@ -18,15 +18,13 @@ namespace ChessGameLogic
             /////////////////////////////////////////////
             // seperates the allies and enemies into different lists. (for simplicity)
             Allies = GetAllies(color);
+
             Enemies = GetEnemies(color);
             SetMovesForEnemies();
         }
 
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
-        private void RestoreTempGameBoard()
-        {
-            TempGameBoard = new List<Pieces>(GameBoard);
-        }
+     
 
 
         // eftersom ennemy inte har några moves, så får dom de här! 

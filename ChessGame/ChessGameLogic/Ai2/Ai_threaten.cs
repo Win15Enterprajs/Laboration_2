@@ -9,7 +9,7 @@ namespace ChessGameLogic
 {
     partial class Ai2
     {
-        // är jag hotad här?!
+      
 
         private bool AmIThreatened(Pieces piece)
         {
@@ -35,14 +35,14 @@ namespace ChessGameLogic
 
             foreach (Move tempMove in tempPiece.ListOfMoves)
             {
-                if (CanItakeSomething(tempMove)) 
+                if (CanItakeSomething(tempMove))
                 {
                     move.value += GetThretnedEnemyPiece(tempMove).Value / 2;
                     return true;
                 }
             }
 
-            RestoreTempGameBoard();
+            MakeCopyOfGameboard();
             return false;
         }
 
@@ -62,6 +62,11 @@ namespace ChessGameLogic
         private List<Pieces> GetEnemiesThatIThreaten(Pieces piece)
         {
             var ListOfThreatnedEnemies = piece.ListOfMoves.Select(move => GetThretnedEnemyPiece(move)).ToList();
+
+            foreach (Pieces X in ListOfThreatnedEnemies.Where(X => X == null))
+            {
+                ListOfThreatnedEnemies.Remove(X);
+            }
             return ListOfThreatnedEnemies;
         }
 
