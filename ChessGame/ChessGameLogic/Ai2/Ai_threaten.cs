@@ -39,7 +39,6 @@ namespace ChessGameLogic
             {
                 if (CanItakeSomething(tempMove)) 
                 {
-                    move.value += GetThretnedEnemyPiece(tempMove).Value / 2;
                     RestoreTempGameBoard();
                     return true;
                 }
@@ -113,3 +112,4 @@ namespace ChessGameLogic
 
     }
 }
+    

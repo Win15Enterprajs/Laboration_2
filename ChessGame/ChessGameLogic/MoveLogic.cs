@@ -12,6 +12,11 @@ namespace ChessGameLogic
         //List<Pieces> SnapShotOfGameboard;
         private List<Move> templist = new List<Move>();
 
+        /// <summary>
+        /// The public method that sets all the available moves for the piece being sent in
+        /// </summary>
+        /// <param name="piece"></param>
+        /// <param name="gameBoard"></param>
         public void SetMovementList(Pieces piece, List<Pieces> gameBoard)
         {
             //SnapShotOfGameboard = new List<Pieces>(gameBoard);
@@ -28,6 +33,11 @@ namespace ChessGameLogic
                 RemoveMovesThatWillChessYou(piece, gameBoard);
             }
         }
+        /// <summary>
+        /// The method that removes all the moves you can make that will put your own king in check
+        /// </summary>
+        /// <param name="piece"></param>
+        /// <param name="gameboard"></param>
         private void RemoveMovesThatWillChessYou(Pieces piece, List<Pieces> gameboard)
         {
             var savex = piece.CurrentPosition._PosX;
@@ -44,6 +54,12 @@ namespace ChessGameLogic
             piece.ListOfMoves.Clear();
             piece.ListOfMoves = new List<Move>(newlistOfValidMoves);
         }
+        /// <summary>
+        /// The exported specific code for deciding what piece it is and contacting the appropriate methods for finding that specific pieces movelogic
+        /// </summary>
+        /// <param name="piece"></param>
+        /// <param name="gameBoard"></param>
+        /// <returns></returns>
         private List<Move> Returnlistofmoves(Pieces piece, List<Pieces> gameBoard)
         {
             templist.Clear();
@@ -69,6 +85,10 @@ namespace ChessGameLogic
            
             return templist;
         }
+        /// <summary>
+        /// The public method that clears the list of moves from a specific piece after we are done with it
+        /// </summary>
+        /// <param name="gameboard"></param>
         public void ClearMovementList(List<Pieces> gameboard)
         {
             foreach (var piece in gameboard)
@@ -76,6 +96,11 @@ namespace ChessGameLogic
                 piece.ListOfMoves.Clear();
             }
         }
+        /// <summary>
+        /// The specific move logic that concerns pawn
+        /// </summary>
+        /// <param name="pawn"></param>
+        /// <param name="gameboard"></param>
         private void PawnMovement(Pieces pawn, List<Pieces> gameboard)
         {
             List<Move> pawnMoveList = new List<Move>();
@@ -154,17 +179,32 @@ namespace ChessGameLogic
                 }
             }
         }
+        /// <summary>
+        /// The specific move logic that concerns Rook
+        /// </summary>
+        /// <param name="rook"></param>
+        /// <param name="gameboard"></param>
 
         private void RookMovement(Pieces rook, List<Pieces> gameboard)
         {
             templist.AddRange(AddHorizontalAndVerticalMoves(rook, gameboard));
         }
+        /// <summary>
+        /// The specific move logic that concerns Queen
+        /// </summary>
+        /// <param name="queen"></param>
+        /// <param name="gameboard"></param>
 
         private void QueenMovement(Pieces queen, List<Pieces> gameboard)
         {
             templist.AddRange(AddHorizontalAndVerticalMoves(queen, gameboard));
             templist.AddRange(AddDiagonalMove(queen, gameboard));
         }
+        /// <summary>
+        /// The specific move logic that concerns King
+        /// </summary>
+        /// <param name="king"></param>
+        /// <param name="gameboard"></param>
 
         private void KingMovement(Pieces king, List<Pieces> gameboard)
         {
@@ -198,6 +238,11 @@ namespace ChessGameLogic
 
           
         }
+        /// <summary>
+        /// The specific move logic that concerns Horse
+        /// </summary>
+        /// <param name="horse"></param>
+        /// <param name="gameboard"></param>
 
         private void HorseMovement(Pieces horse, List<Pieces> gameboard)
         {
@@ -228,11 +273,22 @@ namespace ChessGameLogic
                     
             }
         }
+        /// <summary>
+        /// The specific move logic that concerns Bishop
+        /// </summary>
+        /// <param name="bishop"></param>
+        /// <param name="gameboard"></param>
 
         private void BishopMovement(Pieces bishop, List<Pieces> gameboard)
         {
             templist.AddRange(AddDiagonalMove(bishop, gameboard));
         }
+        /// <summary>
+        /// The method that adds vertical and horizontal available move positions to the movement list.
+        /// </summary>
+        /// <param name="piece"></param>
+        /// <param name="gameboard"></param>
+        /// <returns></returns>
         private List<Move> AddHorizontalAndVerticalMoves(Pieces piece, List<Pieces> gameboard)
         {
             List<Move> horizontalAndVerticalMoves = new List<Move>();
@@ -366,7 +422,13 @@ namespace ChessGameLogic
 
             return horizontalAndVerticalMoves;
         }
-    
+        /// <summary>
+        /// The method that adds all available diagonal move positions to the movement list.
+        /// </summary>
+        /// <param name="piece"></param>
+        /// <param name="gameboard"></param>
+        /// <returns></returns>
+
         private List<Move> AddDiagonalMove(Pieces piece, List<Pieces> gameboard)
         {
             List<Move> diagonalmoves = new List<Move>();
@@ -513,7 +575,14 @@ namespace ChessGameLogic
             } while (withinbounds);
             return diagonalmoves;
         }
-        
+        /// <summary>
+        /// The method for finding out if a tile is occupied by an enemy
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="piece"></param>
+        /// <param name="gameboard"></param>
+        /// <returns></returns>
         private bool EncounterEnemy(int x, int y,Pieces piece, List<Pieces> gameboard)
         {
             foreach (var item in gameboard)
@@ -528,6 +597,14 @@ namespace ChessGameLogic
             }
             return false;
         }
+        /// <summary>
+        /// The method for finding out if a tile is occupied by an ally
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="piece"></param>
+        /// <param name="gameboard"></param>
+        /// <returns></returns>
         private bool EncounterAlly(int x, int y, Pieces piece, List<Pieces> gameboard)
         {
             foreach (var item in gameboard)
@@ -542,48 +619,27 @@ namespace ChessGameLogic
             }
             return false;
         }
+        /// <summary>
+        /// Finds out if one specific move will chess you or not, returns true or false
+        /// </summary>
+        /// <param name="piece"></param>
+        /// <param name="move"></param>
+        /// <param name="gameboard"></param>
+        /// <returns></returns>
         private bool WillItChessYou(Pieces piece, Move move, List<Pieces> gameboard)
         {
            bool letssee = WillThisMoveCancelChess(gameboard, piece, move);
-            //var saveCurrentPos = new Point(0,0);
-            //saveCurrentPos._PosX = piece.CurrentPosition._PosX;
-            //saveCurrentPos._PosY = piece.CurrentPosition._PosY;
-            ////var AmazingKing = new Queen(piece.PieceColor, FindMeKing(gameboard,piece));
-            //piece.CurrentPosition._PosX = move.endPositions._PosX;
-            //piece.CurrentPosition._PosY = move.endPositions._PosY;
-            //var AmazingKing = new Queen(piece.PieceColor, FindMeKing(gameboard, piece));
-
-            //QueenMovement(AmazingKing);
-            //AmazingKing.ListOfMoves = new List<Move>(templist);
-            //templist.Clear();
-
-            //for (int i = 0; i < AmazingKing.ListOfMoves.Count; i++)
-            //{
-            //    for (int j = 0; j < gameboard.Count; j++)
-            //    {
-            //        if (gameboard[j].PieceColor != AmazingKing.PieceColor)
-            //        {
-            //            if (gameboard[j].CurrentPosition._PosX == move.endPositions._PosX && gameboard[j].CurrentPosition._PosY == move.endPositions._PosY)
-            //            {
-            //                if (gameboard[j].PieceType == ChessPieceSymbol.Bishop || gameboard[j].PieceType == ChessPieceSymbol.Queen || gameboard[j].PieceType == ChessPieceSymbol.Rook)
-            //                {
-            //                    piece.CurrentPosition._PosX = saveCurrentPos._PosX;
-            //                    piece.CurrentPosition._PosY = saveCurrentPos._PosY;
-            //                    return true;
-            //                }
-            //            }
-            //        }
-            //    }
-
-            //}
-            //piece.CurrentPosition._PosX = saveCurrentPos._PosX;
-            //piece.CurrentPosition._PosY = saveCurrentPos._PosY;
-            //return false;
             return letssee;
 
 
 
         }
+        /// <summary>
+        /// Finds the x and y co-ordinates for your king
+        /// </summary>
+        /// <param name="gameboard"></param>
+        /// <param name="Color"></param>
+        /// <returns></returns>
         private Point FindMeKing(List<Pieces> gameboard, Color Color)
         {
             var point = new Point(0,0);
@@ -598,17 +654,13 @@ namespace ChessGameLogic
                     }
             }
             return point;
-        }
-        
-        //private void MoveOutOfChess(Pieces piece, List<Pieces> gameboard)
-        //{
-        //    foreach (var item in piece.ListOfMoves)
-        //    {
-        //       if (!WillItChessYou(piece, item,gameboard));
-        //        piece.ListOfMoves.Remove(item);
-        //    }
-        //}
-       
+        }   
+        /// <summary>
+        /// A true or false method if you are currently in check
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="gameboard"></param>
+        /// <returns></returns>
         private bool AmIInChess(Color color, List<Pieces> gameboard)
         {
 
@@ -646,6 +698,11 @@ namespace ChessGameLogic
             }
                 return false;
         }
+        /// <summary>
+        /// Gets the specific moves that will cancle your state of check
+        /// </summary>
+        /// <param name="gameboard"></param>
+        /// <param name="piece"></param>
         private void GetMovesThatCancelChess(List<Pieces> gameboard, Pieces piece)
         {
             var newlistOfValidMoves = new List<Move>();
@@ -662,6 +719,13 @@ namespace ChessGameLogic
             piece.ListOfMoves.Clear();
             piece.ListOfMoves = new List<Move>(newlistOfValidMoves);
         }
+        /// <summary>
+        /// A true or false method if the current move will cancle check or not
+        /// </summary>
+        /// <param name="gameboard"></param>
+        /// <param name="piece"></param>
+        /// <param name="move"></param>
+        /// <returns></returns>
         private bool WillThisMoveCancelChess(List<Pieces> gameboard, Pieces piece, Move move)
         {
             var savex = piece.CurrentPosition._PosX;
@@ -710,6 +774,12 @@ namespace ChessGameLogic
             }
 
     }
+        /// <summary>
+        /// A method that looks if you are putting your opponent in check
+        /// </summary>
+        /// <param name="turn"></param>
+        /// <param name="gameboard"></param>
+        /// <returns></returns>
         public bool IsEnemyInCheck(int turn, List<Pieces> gameboard)
         {
             Color colorOfNextTurn;           
@@ -726,6 +796,12 @@ namespace ChessGameLogic
             return AmIInChess(colorOfNextTurn, gameboard);
 
         }
+        /// <summary>
+        /// A method that checks for the current gamestate
+        /// </summary>
+        /// <param name="turn"></param>
+        /// <param name="gameBoard"></param>
+        /// <returns></returns>
 
         public bool CheckGamestateForCheck(int turn, List<Pieces> gameBoard)
         {
