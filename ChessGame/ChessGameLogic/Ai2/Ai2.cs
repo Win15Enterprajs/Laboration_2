@@ -66,9 +66,8 @@ namespace ChessGameLogic
                 PawnMoveToPromotion(piece, valuedMove);
 
                 valuedListOfMoves.Add(valuedMove);
-                //RemoveSelfFromValue(move, piece); // funderar på hur denna metoden ska bestämma hur mycket som ska tas bort
-                                                  // tänkte lite på att det kunde finnas en variabel som bestämmer hur många procent som skulle tas bort
-            }                                     // som be ändras beronde på om (will i get threatned() protected() osv.. vi får ta en diskuterare
+               
+            }                                     
 
             piece.ListOfMoves = valuedListOfMoves;
         }

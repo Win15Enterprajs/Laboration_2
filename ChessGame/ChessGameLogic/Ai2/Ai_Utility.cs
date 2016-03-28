@@ -17,7 +17,7 @@ namespace ChessGameLogic
             // seperates the allies and enemies into different lists. (for simplicity)
             Allies = new List<Pieces>(GetAllies(color));
             Enemies = new List<Pieces>(GetEnemies(color));
-            SetMovesForEnemiesInList();
+            //SetMovesForEnemiesInList();
             
 
         }
@@ -31,11 +31,14 @@ namespace ChessGameLogic
 
         // eftersom ennemy inte har några moves, så får dom de här! 
 
-       private void SetMovesForEnemiesInList()
+       private void SetMovesForEnemiesInList(Pieces piece)
        {
-           foreach (var enemie in Enemies)
+           foreach (var enemie in TempGameBoard)
            {
-               AiMove.SetMovementList(enemie, TempGameBoard);
+                if (enemie.PieceColor != piece.PieceColor)
+                {
+                    AiMove.SetMovementList(enemie, TempGameBoard); 
+                }
            }
            
        }
@@ -169,7 +172,7 @@ namespace ChessGameLogic
         {
             if (piece is Pawn && TempGameBoard.Count < 8)
             {
-                valuedMove.value += 10;
+                valuedMove.value += 15;
             }
         }
         private void RemovePotentialTakenEnemy(Pieces piece)
