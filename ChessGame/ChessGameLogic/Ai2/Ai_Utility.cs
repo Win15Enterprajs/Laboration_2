@@ -149,14 +149,14 @@ namespace ChessGameLogic
             var kings = GameBoard.Where(x => x is King).ToList();
             kings.ForEach(x => TempGameBoard.Add(new King(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY))));
 
-            SetMovesForEnemies(Color.Black);
-            SetMovesForAllies(Color.White);
+            //SetMovesForEnemies(Color.Black);
+            //SetMovesForAllies(Color.White);
          
         }
         private void GiveRandomValueToAMove(Move move)
         {
             int nr = rnd.Next(0, 10);
-            move.value =+ nr;
+            move.value += nr;
         }
         private void PawnMoveToPromotion(Pieces piece, Move valuedMove)
         {

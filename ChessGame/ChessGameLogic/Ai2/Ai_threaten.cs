@@ -25,6 +25,7 @@ namespace ChessGameLogic
             
         private bool AmIThreatened(Pieces piece)
         {
+            SetMovesForEnemies(piece.PieceColor);
             foreach (var enemy in Enemies)
             {
                 foreach (var move in enemy.ListOfMoves)
