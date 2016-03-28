@@ -9,7 +9,7 @@ namespace ChessGameLogic
 {
     partial class Ai2
     {
-        // kollar om ett move är skyddat av en annan allie.
+        
         // Check if current move is protected by allied piece and returns bool depending on true or false
         private bool WillIBeProtected(Move move, Pieces piece)
         {
@@ -29,9 +29,8 @@ namespace ChessGameLogic
         }
 
 
-        // kollar om movet kommer hota en annan pjäs
-
-        // är jag skyddad här?!
+      
+        // will i be protected here?
         private int AmIProtected(Move move, Color color)
         {
 
@@ -40,7 +39,6 @@ namespace ChessGameLogic
             {
                 if (allie.PieceColor == color)
                 {
-
                     foreach (Move Amove in allie.ListOfMoves)
                     {
                         if (Amove.endPositions == move.endPositions)

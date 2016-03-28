@@ -40,7 +40,7 @@ namespace ChessGameLogic
                 var valuedMove = new Move(move.endPositions._PosX, move.endPositions._PosY, 0);
                 if (CanItakeSomething(move))
                 {
-                    GiveTakeValue(valuedMove);
+                    GiveTakeValue(valuedMove, piece);
                 }             
                 if (WillIthreaten(piece, move))
                 {
@@ -95,10 +95,25 @@ namespace ChessGameLogic
     /// Gives  value to move depending on what piece  it is going to take next
     /// </summary>
     /// <param name="move"></param>
-    private void GiveTakeValue(Move move)
+    private void GiveTakeValue(Move move, Pieces piece)
     {
         double enemyValue = GetThretnedEnemyPiece(move).Value;
+        bool protect = false;
+        var tempenemy = GetThretnedEnemyPiece(move);
+
+        foreach (var pmove in tempenemy.ListOfMoves )
+        {
+            if (AmIProtected(move, tempenemy.PieceColor) > 0)
+            {
+                protect = true;
+            }
+        }
+
         move.value += enemyValue;
+        if (protect)
+        {
+            move.value -= piece.Value;
+        }
     }
 
     private void RemoveSelfFromValue(Move move, Pieces piece)
