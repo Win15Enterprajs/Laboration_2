@@ -12,7 +12,7 @@ namespace ChessGameLogic
         public void InitiateAI(Color color)
         {   //creates the gameboard that the Ai will use as reference. 
             ///////////////////////////////////////////// 
-            MakeCopyOfGameboard();
+            MakeCopyOfGameboard();                      
             /////////////////////////////////////////////
             // seperates the allies and enemies into different lists. (for simplicity)
             Allies = new List<Pieces>(GetAllies(color));

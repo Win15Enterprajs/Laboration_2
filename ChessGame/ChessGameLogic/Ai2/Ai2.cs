@@ -23,11 +23,8 @@ namespace ChessGameLogic
         {
             this.GameBoard = gameBoard;
             this.TempGameBoard = new List<Pieces>();
-            MakeCopyOfGameboard();
-            
+            MakeCopyOfGameboard();           
         }
-
-
 
         /// <summary>
         /// Public base method that sets the value to all moves
@@ -86,7 +83,6 @@ namespace ChessGameLogic
     {
         foreach (Pieces E in Enemies)
         {
-
             if (CompareEnemyPositionToMyMove(E.CurrentPosition, move))
             {
                 return true;
@@ -103,7 +99,6 @@ namespace ChessGameLogic
     {
         double enemyValue = GetThretnedEnemyPiece(move).Value;
         move.value += enemyValue;
-
     }
 
     private void RemoveSelfFromValue(Move move, Pieces piece)
