@@ -20,7 +20,7 @@ namespace ConsoleGUI
                 DrawStuff.PrintGameBoard(Chess);
                 DrawStuff.PrintGameLog(Chess);
                 Console.ReadKey();
-                Chess.ThisIsIt();
+                Chess.PlayGame();
             } while (Chess.State == GameState.Running || Chess.State == GameState.Check);
 
             do

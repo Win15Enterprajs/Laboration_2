@@ -8,6 +8,13 @@ using System.Threading;
 
 namespace ChessGameLogic
 {
+    /// <summary>
+    /// The Game class.
+    /// This Class is where the game is ran.
+    /// The gameboard is also stored here in the form of a list.
+    /// It includes instances of MoveLogic and AI classes which calculates moves, and values of those moves for each piece.
+    /// Then Methods in the gameclass chooses the best move based on values and executes it.    /// 
+    /// </summary>
     public class Game
     {
         int turncounter = 1;
@@ -20,7 +27,9 @@ namespace ChessGameLogic
         MoveLogic movement;
         Random rnd;
         
-
+        /// <summary>
+        /// State of the game.
+        /// </summary>
         public GameState State
         {
             get { return state; }
@@ -78,25 +87,34 @@ namespace ChessGameLogic
 
         }
 
+        /// <summary>
+        /// A method that returns which turn it is for the UI.
+        /// </summary>
+        /// <returns>Turn</returns>
         public int GetTurn()
         {
             return turncounter;
         }
 
-  
+        /// <summary>
+        /// gets the gameboard so that the GUI can print it.
+        /// </summary>
+        /// <returns>List<Pieces> Gameboard</Pieces></returns>
         public List<Pieces> GetGameBoard()
         {
             return GameBoard;
         }
+        /// <summary>
+        /// Gets the Gamelog.
+        /// </summary>
+        /// <returns>List of strings Gamelog</returns>
         public List<string> getGameLog()
         {
             return logger.gameLog;
         }
-        public void ThisIsIt()
-        {
-            PlayAGame(GameBoard);
-        }
-
+        /// <summary>
+        /// Goes through all pieces moves and assign the highest value move to the piece bestmove.
+        /// </summary>
         private void GiveBestMoveToPieces() 
         {
 
@@ -139,7 +157,10 @@ namespace ChessGameLogic
 
         }
 
-
+        /// <summary>
+        /// Removes a piece from the gameboard if another piece has taken it.
+        /// </summary>
+        /// <param name="piece">The piece that potentially can take something.</param>
         private void RemoveKilledPiece(Pieces piece)
         {
             int tempindex = 0;
@@ -169,7 +190,11 @@ namespace ChessGameLogic
             }
         }
 
-        private void BustAMove(Pieces piece)
+        /// <summary>
+        /// Makes the best move this turn.
+        /// </summary>
+        /// <param name="piece">The piece which to move.</param>
+        private void MakeAMove(Pieces piece)
         {
             if (piece.BestMove != null)
             {
@@ -194,44 +219,29 @@ namespace ChessGameLogic
             } 
 
         }
-        public void PlayAGame(List<Pieces> gameboard)
+
+        /// <summary>
+        /// The method which is called from the gui to progress the game one turn.
+        /// </summary>
+        public void PlayGame()
         {
-
-            for (int i = 0; i < gameboard.Count; i++)
-            {
-                if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
-                {
-                    movement.SetMovementList(gameboard[i], gameboard);
-                }
-                else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
-                {
-                    movement.SetMovementList(gameboard[i], gameboard);
-                }
-
-
-            }
-            for (int i = 0; i < gameboard.Count; i++)
-            {
-                if ((turncounter % 2) == 1 && gameboard[i].PieceColor == Color.White)
-                {
-                    intelligence.GiveValueToMoves(gameboard[i]);
-                }
-                else if ((turncounter % 2) == 0 && gameboard[i].PieceColor == Color.Black)
-                {
-                    intelligence.GiveValueToMoves(gameboard[i]);
-                }
-
-            }
+            CalculateMovesAndValues();
             GiveBestMoveToPieces();
-            BestPiece = GetBestPiece(gameboard);
+            BestPiece = GetBestPiece(GameBoard);
             RemoveKilledPiece(BestPiece);
-            BustAMove(BestPiece);
+            MakeAMove(BestPiece);
             logger.LogTurn();
             EvaluateStateOfGame();
             ClearPieces();
             turncounter++;
 
         }
+
+        /// <summary>
+        /// Goes through all pieces bestmoves and selects the one with highest value.
+        /// </summary>
+        /// <param name="gameboard"></param>
+        /// <returns></returns>
         private Pieces GetBestPiece(List<Pieces> gameboard)
         {
             
@@ -271,6 +281,10 @@ namespace ChessGameLogic
             }
             return BestPiece;
         }
+
+        /// <summary>
+        /// Clears all the pieces list of moves so they are ready for the next turn.
+        /// </summary>
         private void ClearPieces()
         {
             for (int i = 0; i < GameBoard.Count; i++)
@@ -282,11 +296,18 @@ namespace ChessGameLogic
            
         }
 
+        /// <summary>
+        /// A method which checks if the enemy is in check next turn.
+        /// </summary>
+        /// <returns></returns>
         private bool WillThisTurnPutEnemyInCheck()
         {
             return movement.IsEnemyInCheck(turncounter, GameBoard);
         }
 
+        /// <summary>
+        /// This method evaluates and sets the state of the game after each round.
+        /// </summary>
         private void EvaluateStateOfGame()
         {
             int PiecesLeftThatCanCheckMate = GameBoard.Count(x => (x is Queen || x is Rook || x is Pawn));
@@ -312,6 +333,38 @@ namespace ChessGameLogic
             else
             {
                 state = GameState.Running;
+            }
+        }
+
+        /// <summary>
+        /// Calculates every pieces possible moves and gives them values by putting each pieced through MoveLogic and the AI
+        /// </summary>
+        private void CalculateMovesAndValues()
+        {
+            for (int i = 0; i < GameBoard.Count; i++)
+            {
+                if ((turncounter % 2) == 1 && GameBoard[i].PieceColor == Color.White)
+                {
+                    movement.SetMovementList(GameBoard[i], GameBoard);
+                }
+                else if ((turncounter % 2) == 0 && GameBoard[i].PieceColor == Color.Black)
+                {
+                    movement.SetMovementList(GameBoard[i], GameBoard);
+                }
+
+
+            }
+            for (int i = 0; i < GameBoard.Count; i++)
+            {
+                if ((turncounter % 2) == 1 && GameBoard[i].PieceColor == Color.White)
+                {
+                    intelligence.GiveValueToMoves(GameBoard[i]);
+                }
+                else if ((turncounter % 2) == 0 && GameBoard[i].PieceColor == Color.Black)
+                {
+                    intelligence.GiveValueToMoves(GameBoard[i]);
+                }
+
             }
         }
 
