@@ -47,16 +47,15 @@ namespace ChessGameLogic
                 }             
                 if (WillIthreaten(piece, move))
                 {
-                    valuedMove.value += 10;
+                    valuedMove.value += 5;
                 }
                 if (WillIgetThreatened(move, piece))
                 {
-                    valuedMove.value -= piece.Value;
-
+                    RemoveSelfFromValue(valuedMove, piece);
                 }
-                if (WillIBeProtected(move, piece))
+                if (WillIBeProtected(move,piece)) 
                 {
-                    valuedMove.value += 20;
+                    valuedMove.value += piece.Value;
                 }
                 if (CanIThreatenTheKing(move, piece))
                 {
@@ -67,7 +66,7 @@ namespace ChessGameLogic
 
                 GiveRandomValueToAMove(valuedMove);
 
-                PawnMoveToPromotion(piece);
+                PawnMoveToPromotion(piece, valuedMove);
 
                 valuedListOfMoves.Add(valuedMove);
                 //RemoveSelfFromValue(move, piece); // funderar på hur denna metoden ska bestämma hur mycket som ska tas bort
@@ -113,6 +112,7 @@ namespace ChessGameLogic
     }
 
    
+
 
 
 
