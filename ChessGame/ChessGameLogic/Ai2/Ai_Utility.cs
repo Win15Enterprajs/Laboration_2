@@ -25,6 +25,7 @@ namespace ChessGameLogic
         private void RestoreTempGameBoard()
         {
             MakeCopyOfGameboard();
+            
         }
 
 
@@ -144,7 +145,7 @@ namespace ChessGameLogic
         {
             if (piece is Pawn && TempGameBoard.Count < 8)
             {
-                valuedMove.value += 30;
+                valuedMove.value += 10;
             }
         }
 

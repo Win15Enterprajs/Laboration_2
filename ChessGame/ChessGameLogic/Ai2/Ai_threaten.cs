@@ -97,9 +97,9 @@ namespace ChessGameLogic
         }
 
         // kan jag hota kungen?!
-        private bool CanIThreatenTheKing(Move possibleMove, Pieces Piece)
+        private bool CanIThreatenTheKing(Move possibleMove, Pieces piece)
         {
-            var testPiece = GetPieceFromTempBoard(Piece);
+            var testPiece = GetPieceFromTempBoard(piece);
 
             testPiece.CurrentPosition._PosX = possibleMove.endPositions._PosX;
             testPiece.CurrentPosition._PosY = possibleMove.endPositions._PosY;
@@ -110,11 +110,11 @@ namespace ChessGameLogic
             {
                 if(CompareEnemyPositionToMyMove(GetPositionOfEnemyKing(), move))
                 {
-                    MakeCopyOfGameboard();
+                    RestoreTempGameBoard();
                     return false;
                 }
             }
-            MakeCopyOfGameboard();
+            RestoreTempGameBoard();
             return false;
 
 

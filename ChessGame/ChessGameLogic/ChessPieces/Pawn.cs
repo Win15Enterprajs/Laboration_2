@@ -13,7 +13,7 @@ namespace ChessGameLogic
         public Pawn(Color color, Point CurrentPosition, bool HasbeenMoved, ChessPieceSymbol type = ChessPieceSymbol.Pawn)
             : base ( CurrentPosition, color, HasbeenMoved, type)
         {
-            this.Value = 10;
+            this.Value = 20;
         }
     }
 }

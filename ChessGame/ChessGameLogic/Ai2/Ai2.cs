@@ -47,7 +47,7 @@ namespace ChessGameLogic
                 }             
                 if (WillIthreaten(piece, move))
                 {
-                    valuedMove.value += 5;
+                    valuedMove.value += 10;
                 }
                 if (WillIgetThreatened(move, piece))
                 {
