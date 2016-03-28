@@ -26,16 +26,19 @@ namespace ChessGameLogic
         private bool AmIThreatened(Pieces piece)
         {
             RemovePotentialTakenEnemy(piece);
-            SetMovesForEnemiesInList();
-            foreach (var enemy in Enemies)
+            SetMovesForEnemiesInList(piece);
+            foreach (var enemy in TempGameBoard)
             {
-                foreach (var move in enemy.ListOfMoves)
+                if (enemy.PieceColor != piece.PieceColor)
                 {
-                    if (CompareEnemyMoveWithCurrentPosition(move, piece.CurrentPosition))
+                    foreach (var move in enemy.ListOfMoves)
                     {
-                        
-                        return true;
-                    }
+                        if (CompareEnemyMoveWithCurrentPosition(move, piece.CurrentPosition))
+                        {
+
+                            return true;
+                        }
+                    } 
                 }
             }
             
