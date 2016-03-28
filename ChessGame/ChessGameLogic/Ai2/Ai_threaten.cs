@@ -9,8 +9,20 @@ namespace ChessGameLogic
 {
     partial class Ai2
     {
-        // är jag hotad här?!
+       
 
+        private bool DoIThreaten(Move move)
+        {
+            foreach (Pieces enemy in Enemies)
+            {
+                if (CompareEnemyPositionToMyMove(enemy.CurrentPosition,move))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+            
         private bool AmIThreatened(Pieces piece)
         {
             foreach (var enemy in Enemies)
@@ -39,7 +51,6 @@ namespace ChessGameLogic
             {
                 if (CanItakeSomething(tempMove)) 
                 {
-                    move.value += GetThretnedEnemyPiece(tempMove).Value / 2;
                     RestoreTempGameBoard();
                     return true;
                 }
@@ -54,7 +65,7 @@ namespace ChessGameLogic
 
             var tempPiece = GetPieceFromTempBoard(piece);
 
-            tempPiece.CurrentPosition = move.endPositions;
+            tempPiece.CurrentPosition = new Point(move.endPositions._PosX, move.endPositions._PosY);
 
             if (AmIThreatened(tempPiece))
             {
@@ -113,3 +124,4 @@ namespace ChessGameLogic
 
     }
 }
+    

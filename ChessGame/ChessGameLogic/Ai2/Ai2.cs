@@ -41,8 +41,7 @@ namespace ChessGameLogic
                 if (CanItakeSomething(move))
                 {
                     GiveTakeValue(valuedMove);
-                }
-
+                }             
                 if (WillIthreaten(piece, move))
                 {
                     valuedMove.value += 10;
