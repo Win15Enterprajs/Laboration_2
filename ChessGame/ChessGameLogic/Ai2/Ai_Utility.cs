@@ -157,11 +157,11 @@ namespace ChessGameLogic
             int nr = rnd.Next(0, 10);
             move.value =+ nr;
         }
-        private void PawnMoveToPromotion(Pieces piece)
+        private void PawnMoveToPromotion(Pieces piece, Move valuedMove)
         {
             if (piece is Pawn && TempGameBoard.Count < 8)
             {
-                piece.ListOfMoves.ForEach(x => x.value += 30);
+                valuedMove.value += 30;
             }
         }
 
