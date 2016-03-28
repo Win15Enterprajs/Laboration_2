@@ -147,33 +147,39 @@ namespace ChessGameLogic
                     {
                         if (x == pawn.CurrentPosition._PosX)
                         {
-                            if (x == (pawn.CurrentPosition._PosX + 2) || x == (pawn.CurrentPosition._PosX - 2))
+                            if (y == (pawn.CurrentPosition._PosY + 2) || y == (pawn.CurrentPosition._PosY - 2))
                             {
                                 if (pawn.PieceColor == Color.White)
                                 {
-                                    if (EncounterAlly(x + 1, y, pawn, gameboard))
+                                    if (EncounterAlly(pawn.CurrentPosition._PosX, pawn.CurrentPosition._PosY + 1 , pawn, gameboard))
                                     {
-
+                                        
                                     }
                                     else
                                     {
                                         templist.Add(pawnMoveList[i]);
+                                        break;
                                     }
                                 }
                                 else if (pawn.PieceColor == Color.Black)
                                 {
-                                    if (EncounterAlly(x - 1,y,pawn, gameboard))
+                                    if (EncounterAlly(pawn.CurrentPosition._PosX, pawn.CurrentPosition._PosY - 1,pawn, gameboard))
                                     {
-
+                                        
                                     }
                                     else
                                     {
                                         templist.Add(pawnMoveList[i]);
+                                        break;
                                     }
                                 }
                                 
                             }
-                            templist.Add(pawnMoveList[i]);
+
+                            if (y == (pawn.CurrentPosition._PosY + 1) || y == (pawn.CurrentPosition._PosY - 1))
+                            {
+                                templist.Add(pawnMoveList[i]); 
+                            }
                         }
                     }
                 }

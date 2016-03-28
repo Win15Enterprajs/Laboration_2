@@ -25,17 +25,20 @@ namespace ChessGameLogic
             
         private bool AmIThreatened(Pieces piece)
         {
-            SetMovesForEnemies(piece.PieceColor);
+            RemovePotentialTakenEnemy(piece);
+            SetMovesForEnemiesInList();
             foreach (var enemy in Enemies)
             {
                 foreach (var move in enemy.ListOfMoves)
                 {
                     if (CompareEnemyMoveWithCurrentPosition(move, piece.CurrentPosition))
                     {
+                        
                         return true;
                     }
                 }
             }
+            
             return false;
         }
 
@@ -70,6 +73,7 @@ namespace ChessGameLogic
 
             if (AmIThreatened(tempPiece))
             {
+                
                 RestoreTempGameBoard();
                 return true;
             }
@@ -98,7 +102,6 @@ namespace ChessGameLogic
 
         }
 
-        // kan jag hota kungen?!
         private bool CanIThreatenTheKing(Move possibleMove, Pieces piece)
         {
             var testPiece = GetPieceFromTempBoard(piece);

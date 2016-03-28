@@ -17,7 +17,7 @@ namespace ChessGameLogic
             // seperates the allies and enemies into different lists. (for simplicity)
             Allies = new List<Pieces>(GetAllies(color));
             Enemies = new List<Pieces>(GetEnemies(color));
-           SetMovesForEnemiesInList();
+            SetMovesForEnemiesInList();
             
 
         }
@@ -25,8 +25,7 @@ namespace ChessGameLogic
         // om man gör ändringar för att kolla olika vilkor, tex (willthis move threaten something) så kan man resetta tempgameboard till "gameBoard"
         private void RestoreTempGameBoard()
         {
-            MakeCopyOfGameboard();
-            
+            MakeCopyOfGameboard();          
         }
 
 
@@ -36,8 +35,9 @@ namespace ChessGameLogic
        {
            foreach (var enemie in Enemies)
            {
-               AiMove.SetMovementList(enemie, Enemies);
+               AiMove.SetMovementList(enemie, TempGameBoard);
            }
+           
        }
         private void SetMovesForEnemies(Color color)
         {
@@ -107,12 +107,21 @@ namespace ChessGameLogic
                 return false;
             }
         }
+        public bool CompareMyPositionWithEnemyPosition(Pieces myPiece, Pieces Enemy)
+        {
+            
+                if (myPiece.CurrentPosition._PosX == Enemy.CurrentPosition._PosX && myPiece.CurrentPosition._PosY == Enemy.CurrentPosition._PosY && Enemy.PieceColor != myPiece.PieceColor)
+                {
+                    return true;
+                }
+                return false;
+        }
         #endregion
         // separerar ennemies från allies, lägger dom i egna listor(för enkelhets skull. gör också så att man inte behöver ha fula checkar över allt)
         #region Seperate Enemies and Allies
         private List<Pieces> GetEnemies(Color color)
         {
-            return GameBoard.Where(P => P.PieceColor != color).ToList();
+            return TempGameBoard.Where(P => P.PieceColor != color).ToList();
         }
         private List<Pieces> GetAllies(Color color)
         {
@@ -149,8 +158,6 @@ namespace ChessGameLogic
             var kings = GameBoard.Where(x => x is King).ToList();
             kings.ForEach(x => TempGameBoard.Add(new King(x.PieceColor, new Point(x.CurrentPosition._PosX, x.CurrentPosition._PosY))));
 
-            //SetMovesForEnemies(Color.Black);
-            //SetMovesForAllies(Color.White);
          
         }
         private void GiveRandomValueToAMove(Move move)
@@ -164,6 +171,37 @@ namespace ChessGameLogic
             {
                 valuedMove.value += 10;
             }
+        }
+        private void RemovePotentialTakenEnemy(Pieces piece)
+        {
+            Pieces tempPiece = null;
+            foreach (var EnemyPiece in TempGameBoard)
+            {
+                if (CompareMyPositionWithEnemyPosition(piece, EnemyPiece))
+                {
+
+                    tempPiece = EnemyPiece;
+                    break;
+                }
+
+            }
+            TempGameBoard.Remove(tempPiece);
+
+            tempPiece = null;
+            foreach (var EnemyPiece in Enemies)
+            {
+                if (CompareMyPositionWithEnemyPosition(piece, EnemyPiece))
+                {
+
+                    tempPiece = EnemyPiece;
+                    break;
+                }
+
+            }
+            Enemies.Remove(tempPiece);
+
+
+
         }
 
     }

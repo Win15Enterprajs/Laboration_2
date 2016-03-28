@@ -57,11 +57,11 @@ namespace ChessGameLogic
                 {
                     valuedMove.value += piece.Value;
                 }
-                if (CanIThreatenTheKing(move, piece))
-                {
-                    if(!WillIgetThreatened(move,piece) || WillIBeProtected(move,piece))
-                    valuedMove.value += 25;
-                }
+                //if (CanIThreatenTheKing(move, piece))  /// Doesn't work
+                //{
+                //    if (!WillIgetThreatened(move, piece) || WillIBeProtected(move, piece))
+                //        valuedMove.value += 25;
+                //}
 
 
                 GiveRandomValueToAMove(valuedMove);
